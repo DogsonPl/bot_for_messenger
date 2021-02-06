@@ -19,7 +19,7 @@ class BotCore:
             with open("data\\cookies.json", "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
-            self.cookies = ""
+            self.cookies = None
             print("Don`t find cookies.json")
 
         self.mail = ""

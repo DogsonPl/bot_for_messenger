@@ -1,6 +1,5 @@
 import fbchat
 import feedparser
-import requests
 import aiohttp
 from bs4 import BeautifulSoup
 import json
@@ -143,38 +142,42 @@ async def utrudnienia_wawa(event):
     feed = feedparser.parse('https://www.wtp.waw.pl/feed/?post_type=impediment')
     message = ""
     for entry in feed['entries']:
-        message += str(entry.title).upper() + "\n"
-        message += entry.published[:-9] + "\n"
-        message += entry.summary + "\n"
-        message += "\n"
-    if message == "":
-        await event.thread.send_text("Brak utrudnień w Warszawie :)")
+        message += entry.title
+        async with aiohttp.ClientSession() as session:
+            async with session.get(entry.link) as response:
+                soup = BeautifulSoup(await response.text(), "html.parser")
+                for i in soup.find_all("div", class_="impediment-content"):
+                    message += i.text
+            message += "\n"
+
+    if len(message) == 0:
+        await event.thread.send_text("Brak utrudnień w Warszawie :) Więcej informacji na https://www.wtp.waw.pl")
     else:
-        await event.thread.send_text(f"{message}Więcej informacji na https://www.wtp.waw.pl/utrudnienia/")
+        await event.thread.send_text(f"{message}Więcej informacji na https://www.wtp.waw.pl")
 
 
 async def utrudnienia_wroclaw(event):
-    data = requests.get("https://www.facebook.com/mpkwroc/")
-    soup = BeautifulSoup(data.text, "html.parser")
+    async with aiohttp.ClientSession() as session:
+        async with session.get("https://www.facebook.com/mpkwroc/") as response:
+            soup = BeautifulSoup(await response.text(), "html.parser")
     sformatowane_dane = ""
     for i in soup.find_all("p"):
-        sformatowane_dane += str(i) + "\n"
-    sformatowane_dane = BeautifulSoup(sformatowane_dane, "html.parser").text
+        sformatowane_dane += str(i.text) + "\n"
     await event.thread.send_text(sformatowane_dane)
 
 
 async def utrudnienia_lodz(event):
-    data = requests.get("http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp")
-    soup = BeautifulSoup(data.text, "html.parser")
+    async with aiohttp.ClientSession() as session:
+        async with session.get("http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp") as response:
+            soup = BeautifulSoup(await response.text(), "html.parser")
     sformatowane_dane = ""
     for i in soup.find_all("p"):
-        if "MPK na facebook".lower() in str(i).lower():
+        if "MPK na facebook".lower() in str(i.text).lower():
             sformatowane_dane += "\n"
-        elif "Zamknij" in str(i):
+        elif "Zamknij" in str(i.text):
             break
         else:
-            sformatowane_dane += str(i) + "\n"
-    sformatowane_dane = BeautifulSoup(sformatowane_dane, "html.parser").text
+            sformatowane_dane += str(i.text) + "\n"
     await event.thread.send_text(f"Właścicielami danych jest http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp\n{sformatowane_dane}")
 
 
@@ -340,7 +343,7 @@ async def wsparcie(event):
 
 
 async def wersja(event):
-    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.0 + 7.0.2 pro\nOstatnio do bota dodano:\nZmienienie wersji technoloii na której działa bot")
+    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.1 + 7.0.2 pro\nOstatnio do bota dodano:\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
 
 
 async def test(event, mutelist):
