@@ -6,6 +6,7 @@ import json
 from aiogtts import aiogTTS
 import random as rd
 import os
+from PIL import Image, ImageDraw, ImageFont
 
 help_commends = """Komendy:\n
 !help - wysyła komendy\n
@@ -31,6 +32,7 @@ help_commends = """Komendy:\n
 !unmute - odcisza bota\n
 DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO:
 !film - wysyła losowy śmieszny film\n
+!tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
 !disco - robi dyskoteke (czasami występują błędy)\n
 !emotka x - zmienia emotke na x (np emotka 😎)\n
 !powitanie 'treść' - ustawia powitanie na grupie nowego członka\n
@@ -325,6 +327,26 @@ async def change_nick(event):
     #    await event.thread.send_text("Linux nie moze odczytać polskiej litery, albo wpisałes za długi nick")
 
 
+async def tvpis(event, client):
+    image = Image.open("data\\img.png")
+    draw = ImageDraw.Draw(image)
+    text = event.message.text[6:].upper()
+    font = ImageFont.truetype("arial", 15)
+    if len(text) > 40:
+        await event.thread.send_text("Może być maksymalnie 40 znaków")
+    elif len(text) == 0:
+        await event.thread.send_text("Napisz coś po !tvpis, np !tvpis jebać pis")
+    else:
+        draw.text((75, 180), text, (255, 255, 255), font)
+        save_path = f"data\\{text}_pasek_tvpis.png"
+        image.save(save_path)
+        image.close()
+        with open(save_path, "rb") as file:
+            files = await client.upload([(save_path, file, "image/png")])
+        await event.thread.send_files(files)
+        os.remove(save_path)
+
+
 async def losuj(event):
     try:
         numbers = str(event.message.text).split()
@@ -343,7 +365,7 @@ async def wsparcie(event):
 
 
 async def wersja(event):
-    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.1 + 7.0.2 pro\nOstatnio do bota dodano:\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
+    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.1 + 7.0.3 pro\nOstatnio do bota dodano:\nKomenda !tvpis\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
 
 
 async def test(event, mutelist):

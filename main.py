@@ -104,6 +104,8 @@ class BotCore:
                                 self.loop.create_task(commends.zmiana_emoji(event))
                             elif event.message.text == "!disco":
                                 self.loop.create_task(commends.disco(event))
+                            elif "!tvpis" in event.message.text:
+                                self.loop.create_task(commends.tvpis(event, self.client))
                             elif "!nick" in event.message.text:
                                 self.loop.create_task(commends.change_nick(event))
                             elif "!losuj" in event.message.text:
@@ -132,8 +134,10 @@ class BotCore:
                                     self.loop.create_task(stupid_answers.chuj(event))
                                 elif "fortnite" in event.message.text:
                                     self.loop.create_task(stupid_answers.fortnite(event))
-                                elif "kutas" in event.message.text or "69" in event.message.text or "cipa" in event.message.text or "dupa" in event.message.text:
+                                elif "seks" in event.message.text or "69" in event.message.text:
                                     self.loop.create_task(stupid_answers.seks(event))
+                                elif "pis" in event.message.text or "konfederacja" in event.message.text:
+                                    self.loop.create_task(stupid_answers.pis_konfederacja(event))
             elif isinstance(event, fbchat.PeopleAdded):
                 await loop.create_task(added_and_removed_reply.added(event, self.mutelist))
             elif isinstance(event, fbchat.PersonRemoved):

@@ -34,6 +34,11 @@ async def fortnite(event):
     answer = fortnite_answers[rd.randint(0, len(fortnite_answers) - 1)]
     await event.thread.send_text(answer)
 
+async def pis_konfederacja(event):
+    pis_answers = ["Na górze róże\nNa dole akacje\nJebać pis\nI konfederacje", "JEBAĆ PIS", "***** ***", "Ziobro ty kurwo jebana"]
+    answer = pis_answers[rd.randint(0, len(pis_answers)-1)]
+    await event.thread.send_text(answer)
+
 
 async def seks(event):
     await event.message.react("❤")
