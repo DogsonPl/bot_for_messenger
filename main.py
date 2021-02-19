@@ -150,4 +150,4 @@ if __name__ == '__main__':
     loop.create_task(BotCore(loop).start())
     loop.run_forever()
 
-# dziala tylko na linuxie
+# works only on linux

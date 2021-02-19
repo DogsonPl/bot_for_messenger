@@ -3,7 +3,7 @@ import feedparser
 import aiohttp
 from bs4 import BeautifulSoup
 import json
-from aiogtts import aiogTTS
+from gtts import gTTS
 import random as rd
 import os
 from PIL import Image, ImageDraw, ImageFont
@@ -82,9 +82,10 @@ async def say(event, client):
     elif event.message.text == "!say":
         await event.thread.send_text("Po !say napisz coś co ma powiedzieć bot, np !say elo")
     else:
-        aiogtts = aiogTTS()
-        await aiogtts.save(event.message.text[4:], f"data\\voice_messages{event.message.id}.mp3", lang="pl")
-        with open(f"data\\voice_messages{event.message.id}.mp3", "rb") as f:
+        tts = gTTS(event.message.text[4:], lang="pl")
+        save_path = f"data\\voice_messages{event.message.id}.mp3"
+        tts.save(save_path)
+        with open(save_path, "rb") as f:
             files = await client.upload([(f"{event.message.id}.mp3", f, "audio/mp3")], voice_clip=True)
         await event.thread.send_files(files)
         os.remove(f"data\\voice_messages{event.message.id}.mp3")
@@ -330,13 +331,13 @@ async def change_nick(event):
 async def tvpis(event, client):
     image = Image.open("data\\img.png")
     draw = ImageDraw.Draw(image)
-    text = event.message.text[6:].upper()
-    font = ImageFont.truetype("arial", 15)
-    if len(text) > 40:
-        await event.thread.send_text("Może być maksymalnie 40 znaków")
-    elif len(text) == 0:
+    if event.message.text == "!tvpis":
         await event.thread.send_text("Napisz coś po !tvpis, np !tvpis jebać pis")
+    if len(event.message.text) > 50:
+        await event.thread.send_text("Może być maksymalnie 45 znaków")
     else:
+        text = event.message.text[6:].upper()
+        font = ImageFont.truetype("arial", 15)
         draw.text((75, 180), text, (255, 255, 255), font)
         save_path = f"data\\{text}_pasek_tvpis.png"
         image.save(save_path)

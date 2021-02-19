@@ -2,15 +2,14 @@ import random as rd
 
 
 async def kurwa(event):
-    kurwa_answers = ("to twoja stara", "to cie robila", "gdzie", "spierdalaj kurwo", "to twoj stary", "kurwy poszukaj u siebie w domu","kurwa to twoje imie")
-    answer = kurwa_answers[rd.randint(0, len(kurwa_answers) - 1)]
-    await event.thread.send_text(answer)
+    kurwa_answers = ("to twoja stara", "to cie robila", "gdzie", "spierdalaj kurwo", "to twoj stary",
+                     "kurwy poszukaj u siebie w domu", "kurwa to twoje imie")
+    await event.thread.send_text(rd.choice(kurwa_answers))
 
 
 async def co(event):
     co_answers = ("jajco", "gówno w zoo")
-    answer = co_answers[rd.randint(0, len(co_answers) - 1)]
-    await event.thread.send_text(answer)
+    await event.thread.send_text(rd.choice(co_answers))
 
 
 async def Xd(event):
@@ -18,26 +17,27 @@ async def Xd(event):
 
 
 async def jd(event):
-    jd_answers = ("jebanie disa powiększa penisa", "jebać disa", "jd", "jebać disa syna diabła", "sram na disa", "dis to kurwa", "odpierdol sie od niego", "jest dobrze")
-    answer = jd_answers[rd.randint(0, len(jd_answers) - 1)]
-    await event.thread.send_text(answer)
+    jd_answers = ("jebanie disa powiększa penisa", "jebać disa", "jd", "jebać disa syna diabła", "sram na disa",
+                  "dis to kurwa", "odpierdol sie od niego", "jest dobrze")
+    await event.thread.send_text(rd.choice(jd_answers))
 
 
 async def chuj(event):
-    chuj_answers = ("chuja to masz małego", "chuja to ci stary do dupy wsadza", "chuja to ma twoja stara", "chuja to ci stara w cipe wsadza", "chuja mam tak dużego że twojej starej cipę rozwaliłem")
-    answer = chuj_answers[rd.randint(0, len(chuj_answers) - 1)]
-    await event.thread.send_text(answer)
+    chuj_answers = ("chuja to masz małego", "chuja to ci stary do dupy wsadza", "chuja to ma twoja stara",
+                    "chuja to ci stara w cipe wsadza", "chuja mam tak dużego że twojej starej cipę rozwaliłem")
+    await event.thread.send_text(rd.choice(chuj_answers))
 
 
 async def fortnite(event):
-    fortnite_answers = ("fortnite to gówno", "wypierdalaj z tą grą dla downów")
-    answer = fortnite_answers[rd.randint(0, len(fortnite_answers) - 1)]
-    await event.thread.send_text(answer)
+    fortnite_answers = ("fortnite to gówno", "wypierdalaj z tą grą dla debili")
+    await event.thread.send_text(rd.choice(fortnite_answers))
+
 
 async def pis_konfederacja(event):
-    pis_answers = ["Na górze róże\nNa dole akacje\nJebać pis\nI konfederacje", "JEBAĆ PIS", "***** ***", "Ziobro ty kurwo jebana"]
-    answer = pis_answers[rd.randint(0, len(pis_answers)-1)]
-    await event.thread.send_text(answer)
+    pis_answers = ["Na górze róże\nNa dole akacje\nJebać pis\nI konfederacje", "JEBAĆ PIS", "***** ***",
+                   "ziobro ty kurwo jebana", "szkoda że kaczyński nie poleciał z bratem",
+                   "sasin przejebał na wybory 70000mln i nie poniósł za to żadnych konsekwencji"]
+    await event.thread.send_text(rd.choice(pis_answers))
 
 
 async def seks(event):
