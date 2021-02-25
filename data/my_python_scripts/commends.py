@@ -47,7 +47,7 @@ async def help_(event):
 
 async def mem(event, client):
     drawing_mem = str(rd.randint(1, 199))
-    mem_name = f"data\\memes\\mem{drawing_mem}.png"
+    mem_name = f"data//memes//mem{drawing_mem}.png"
     with open(mem_name, "rb") as f:
         files = await client.upload([(mem_name, f, "image/png")])
     await event.thread.send_files(files)
@@ -55,7 +55,7 @@ async def mem(event, client):
 
 async def mem2(event, client):
     drawing_mem = str(rd.randint(200, 356))
-    mem_name = f"data\\memes\\mem{drawing_mem}.png"
+    mem_name = f"data//memes//mem{drawing_mem}.png"
     with open(mem_name, "rb") as f:
         files = await client.upload([(mem_name, f, "image/png")])
     await event.thread.send_files(files)
@@ -63,14 +63,14 @@ async def mem2(event, client):
 
 async def film(event, client):
     drawing_film = str(rd.randint(1, 63))
-    film_name = f"data\\films\\film{drawing_film}.mp4"
+    film_name = f"data//films//film{drawing_film}.mp4"
     with open(film_name, "rb") as f:
         files = await client.upload([(film_name, f, "video/mp4")])
     await event.thread.send_files(files)
 
 
 async def moneta(event, client):
-    choosen = rd.choice(["data\\orzel_reszka\\orzel", "data\\orzel_reszka\\reszka"])
+    choosen = rd.choice(["data//orzel_reszka//orzel", "data//orzel_reszka//reszka"])
     with open(f"{choosen}.png", "rb") as file:
         files = await client.upload([(f"{choosen}.png", file, "image/png")])
     await event.thread.send_files(files)
@@ -83,12 +83,12 @@ async def say(event, client):
         await event.thread.send_text("Po !say napisz coś co ma powiedzieć bot, np !say elo")
     else:
         tts = gTTS(event.message.text[4:], lang="pl")
-        save_path = f"data\\voice_messages{event.message.id}.mp3"
+        save_path = f"data//voice_messages{event.message.id}.mp3"
         tts.save(save_path)
         with open(save_path, "rb") as f:
-            files = await client.upload([(f"{event.message.id}.mp3", f, "audio/mp3")], voice_clip=True)
+            files = await client.upload([(save_path, f, "audio/mp3")], voice_clip=True)
         await event.thread.send_files(files)
-        os.remove(f"data\\voice_messages{event.message.id}.mp3")
+        os.remove(save_path)
 
 
 async def weather_function(event):
@@ -197,7 +197,7 @@ async def mute(event, client, mutelist):
             else:
                 await event.thread.send_text("Zostalem zmutowany. Aby mnie odmutowac napisz !unmute")
                 mutelist.append(event.thread.id)
-                with open("../mutelist.json", "w") as write_file:
+                with open("data//mutelist.json", "w") as write_file:
                     json.dump(mutelist, write_file)
 
 
@@ -214,7 +214,7 @@ async def unmute(event, client, mutelist):
             else:
                 await event.thread.send_text("Nie jestem już zmutowany :)")
                 mutelist.remove(event.thread.id)
-                with open("../mutelist.json", "w") as write_file:
+                with open("data//mutelist.json", "w") as write_file:
                     json.dump(mutelist, write_file)
 
 
@@ -277,14 +277,14 @@ async def nowy_regulamin(event, client):
     if event.author.id not in group.admins:
         await event.thread.send_text("To komenda tylko dla adminów")
     else:
-        with open(f"data\\group_regulations\\regulation{event.thread.id}.json", "w") as write_file:
+        with open(f"data//group_regulations//regulamin{event.thread.id}.json", "w") as write_file:
             json.dump(event.message.text[14:], write_file)
         await event.thread.send_text("Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć")
 
 
 async def wyslij_regulamin(event):
     try:
-        with open(f"data\\group_regulations\\regulamin{event.thread.id}.json", "r") as read_file:
+        with open(f"data//group_regulations//regulamin{event.thread.id}.json", "r") as read_file:
             regulamin = json.load(read_file)
         await event.thread.send_text(regulamin)
     except FileNotFoundError:
@@ -299,16 +299,17 @@ async def powitanie(event, client):
         if event.message.text == "!powitanie":
             await event.thread.send_text("Po !powitanie ustaw treść powitania")
         else:
-            with open(f"data\\welcome_messages\\welcome_message{event.thread.id}.json", "w") as write_file:
+            with open(f"data//welcome_messages//welcome_message{event.thread.id}.json", "w") as write_file:
                 json.dump(event.message.text[10:], write_file)
             await event.thread.send_text("Powitanie zostało zmienione :)")
 
 
 async def zmiana_emoji(event):
-    try:
-        await event.thread.set_emoji(emoji=event.message.text[8])
-    except:
-        await event.thread.set_emoji(emoji=event.message.text[7])
+    await event.thread.send_text("Fb czasowo usunął możliwość zmieniania emoji przez API. Opcja zostanie dodana wtedy kiedy fb znowu doda te funckcje")
+    #try:
+    #    await event.thread.set_emoji(emoji=event.message.text[8])
+    #except:
+    #    await event.thread.set_emoji(emoji=event.message.text[7])
 
 
 async def disco(event):
@@ -329,17 +330,17 @@ async def change_nick(event):
 
 
 async def tvpis(event, client):
-    image = Image.open("data\\img.png")
-    draw = ImageDraw.Draw(image)
     if event.message.text == "!tvpis":
         await event.thread.send_text("Napisz coś po !tvpis, np !tvpis jebać pis")
-    if len(event.message.text) > 50:
+    elif len(event.message.text) > 50:
         await event.thread.send_text("Może być maksymalnie 45 znaków")
     else:
+        image = Image.open("data//tvpis//img.png")
+        draw = ImageDraw.Draw(image)
         text = event.message.text[6:].upper()
-        font = ImageFont.truetype("arial", 15)
-        draw.text((75, 180), text, (255, 255, 255), font)
-        save_path = f"data\\{text}_pasek_tvpis.png"
+        save_path = f"data//tvpis//{text}.png"
+        font = ImageFont.truetype("data//fonts/FallingSkySemibold-Bn7B.otf", 15)
+        draw.text((72, 176), text, (255, 255, 255), font)
         image.save(save_path)
         image.close()
         with open(save_path, "rb") as file:
@@ -362,11 +363,14 @@ async def tworca(event):
 
 
 async def wsparcie(event):
-    await event.thread.send_text("Jeśli chcesz wspomóc prace nad botem, możesz wysłac donejta. Za kazdą pomoc wielkie dzieki!\n-Paypal: paypal.me/DogsonPL\n-Konto bankowe: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski\n-Psc: wyslij kod na pv do !tworca")
+    await event.thread.send_text("""Jeśli chcesz wspomóc prace nad botem, możesz wysłac donejta. Za kazdą pomoc wielkie dzieki!
+Paypal: paypal.me/DogsonPL
+Konto bankowe: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
+Psc: wyslij kod na pv do !tworca""")
 
 
 async def wersja(event):
-    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.1 + 7.0.3 pro\nOstatnio do bota dodano:\nKomenda !tvpis\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
+    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.2 + 7.1 pro\nOstatnio do bota dodano:\nNaprawa błędów\nKomenda !tvpis\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
 
 
 async def test(event, mutelist):

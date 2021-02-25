@@ -6,7 +6,7 @@ async def added(event, mutelist):
         pass
     else:
         try:
-            with open(f"data\\welcome_messages\\welcome_message{event.thread.id}.json", "r") as read_file:
+            with open(f"data//welcome_messages//welcome_message{event.thread.id}.json", "r") as read_file:
                 welcome_message = json.load(read_file)
             await event.thread.send_text(welcome_message)
         except FileNotFoundError:

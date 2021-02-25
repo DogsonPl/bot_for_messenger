@@ -3,6 +3,7 @@ import fbchat
 import asyncio
 import json
 import logging
+import time
 
 
 class BotCore:
@@ -10,13 +11,13 @@ class BotCore:
         self.loop = loop
 
         try:
-            with open("data\\mutelist.json", "r") as read_file:
+            with open("data//mutelist.json", "r") as read_file:
                 self.mutelist = json.load(read_file)
         except FileNotFoundError:
             self.mutelist = []
             print("Don't find mutelist.json")
         try:
-            with open("data\\cookies.json", "r") as cookies_file:
+            with open("data//cookies.json", "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
             self.cookies = None
@@ -37,7 +38,13 @@ class BotCore:
             logging.getLogger("fbchat").setLevel(logging.DEBUG)
             print("Zalogowano uzuwajac maila i hasla")
 
-        await self.listening()
+        try:
+            await self.listening()
+        except fbchat.NotConnected:
+            print("Restarting...")
+            await self.session.logout()
+            time.sleep(20)
+            self.loop.create_task(BotCore(loop).start())
 
     async def _fetch_sequence_id(self):
         self.client.sequence_id_callback = self.listener.set_sequence_id
@@ -49,7 +56,7 @@ class BotCore:
         self.loop.create_task(self._fetch_sequence_id())
         print("Listening...")
         cookies = self.session.get_cookies()
-        with open("data\\cookies.json", "w") as cookies_file:
+        with open("data//cookies.json", "w") as cookies_file:
             json.dump(cookies, cookies_file)
         async for event in self.listener.listen():
             if isinstance(event, fbchat.MessageEvent):
@@ -119,24 +126,25 @@ class BotCore:
                             elif event.message.text == "!":
                                 self.loop.create_task(commends.test(event, self.mutelist))
                         else:
+                            message = event.message.text.split()
                             if event.thread.id in self.mutelist:
                                 pass
                             else:
-                                if "kurwa" in event.message.text.lower():
+                                if "kurwa" in message:
                                     self.loop.create_task(stupid_answers.kurwa(event))
-                                elif "co" in event.message.text:
+                                elif "co" in message:
                                     self.loop.create_task(stupid_answers.co(event))
-                                elif "Xd" in event.message.text:
+                                elif "Xd" in message:
                                     self.loop.create_task(stupid_answers.Xd(event))
-                                elif "jd" in event.message.text.lower():
+                                elif "jd" in message:
                                     self.loop.create_task(stupid_answers.jd(event))
-                                elif "chuj" in event.message.text:
+                                elif "chuj" in message:
                                     self.loop.create_task(stupid_answers.chuj(event))
-                                elif "fortnite" in event.message.text:
+                                elif "fortnite" in message:
                                     self.loop.create_task(stupid_answers.fortnite(event))
-                                elif "seks" in event.message.text or "69" in event.message.text:
+                                elif "seks" in message or "69" in message:
                                     self.loop.create_task(stupid_answers.seks(event))
-                                elif "pis" in event.message.text or "konfederacja" in event.message.text:
+                                elif "pis" in message or "konfederacja" in message:
                                     self.loop.create_task(stupid_answers.pis_konfederacja(event))
             elif isinstance(event, fbchat.PeopleAdded):
                 await loop.create_task(added_and_removed_reply.added(event, self.mutelist))
