@@ -28,8 +28,8 @@ help_commends = """Komendy:\n
 !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi\n
 !losuj x y= losuje losowa liczbe (od x do y, np !losuj 10 20)\n
 !moneta - bot rzuca monete (orzeł lub reszka)\n
-!mute - wycisza głupie odzywki bota na np 'co' + wyłącza komendę !everyone\n
-!unmute - odcisza bota\n
+!mute - wycisza głupie odzywki bota na np 'co'\n
+!off - wyłącza komendy bota (głupie odzywki ciągle działają)\n
 DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO:
 !film - wysyła losowy śmieszny film\n
 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
@@ -41,8 +41,11 @@ DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO:
 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n """
 
 
-async def help_(event):
-    await event.thread.send_text(help_commends)
+async def help_(event, offlist):
+    if event.thread.id in offlist:
+        event.thread.send_text("Bot jest wyłączony. Aby go włączyć napisz !off")
+    else:
+        await event.thread.send_text(help_commends)
 
 
 async def mem(event, client):
@@ -184,7 +187,7 @@ async def utrudnienia_lodz(event):
     await event.thread.send_text(f"Właścicielami danych jest http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp\n{sformatowane_dane}")
 
 
-async def mute(event, client, mutelist):
+async def mute_and_off(event, client, list_, type_):
     if not isinstance(event.thread, fbchat.Group):
         await event.thread.send_text("To komenda tylko dla grup")
     else:
@@ -192,30 +195,32 @@ async def mute(event, client, mutelist):
         if event.author.id not in participants.admins:
             await event.thread.send_text("Tylko administartor grupy może używać tej funkcji")
         else:
-            if event.thread.id in mutelist:
-                await event.thread.send_text("Jestem zmutowany. Aby mnie odmutować napisz !unmute")
+            if event.thread.id in list_:
+                await unmute_and_on(event, list_, type_)
             else:
-                await event.thread.send_text("Zostalem zmutowany. Aby mnie odmutowac napisz !unmute")
-                mutelist.append(event.thread.id)
-                with open("data//mutelist.json", "w") as write_file:
-                    json.dump(mutelist, write_file)
+                if type_ == "mute":
+                    await event.thread.send_text("Zostalem zmutowany. Aby mnie odmutowac napisz znowu !mute")
+                    list_.append(event.thread.id)
+                    with open("data//mutelist.json", "w") as write_file:
+                        json.dump(list_, write_file)
+                elif type_ == "off":
+                    await event.thread.send_text("Zostalem wyłączony. Aby mnie włączyć napisz znowu !off. Jeśli chcesz wyłączyć też głupie odzywki napisz !mute")
+                    list_.append(event.thread.id)
+                    with open("data//offlist.json", "w") as write_file:
+                        json.dump(list_, write_file)
 
 
-async def unmute(event, client, mutelist):
-    if not isinstance(event.thread, fbchat.Group):
-        await event.thread.send_text("To komenda tylko dla grup")
-    else:
-        participants = await client.fetch_thread_info([event.thread.id]).__anext__()
-        if event.author.id not in participants.admins:
-            await event.thread.send_text("Tylko administartor grupy może używać tej funkcji")
-        else:
-            if event.thread.id not in mutelist:
-                await event.thread.send_text("Nie jestem zmutowany")
-            else:
-                await event.thread.send_text("Nie jestem już zmutowany :)")
-                mutelist.remove(event.thread.id)
-                with open("data//mutelist.json", "w") as write_file:
-                    json.dump(mutelist, write_file)
+async def unmute_and_on(event, list_, type_):
+    if type_ == "mute":
+        await event.thread.send_text("Zostalem odmutowany :)")
+        list_.append(event.thread.id)
+        with open("data//mutelist.json", "w") as write_file:
+            json.dump(list_, write_file)
+    elif type_ == "off":
+        await event.thread.send_text("Zostalem włączony :)")
+        list_.append(event.thread.id)
+        with open("data//offlist.json", "w") as write_file:
+            json.dump(list_, write_file)
 
 
 async def luckymember(event, client):
@@ -243,16 +248,18 @@ async def para(event, client):
         await event.thread.send_text(text="Żona", mentions=mention2)
 
 
-async def everyone(event, client, mutelist):
+async def everyone(event, client):
     if not isinstance(event.thread, fbchat.Group):
         await event.thread.send_text("To komenda tylko dla grup")
-    elif event.thread.id in mutelist:
-        await event.thread.send_text("Zły admin wyłączył te funkcję mutująć mnie :(")
     else:
         group = await client.fetch_thread_info([event.thread.id]).__anext__()
-        mentions = [fbchat.Mention(thread_id=participant.id, offset=0, length=9)
-        for participant in group.participants]
-        await event.thread.send_text(text="ELUWA ALL", mentions=mentions)
+        if event.author.id not in group.admins:
+            await event.thread.send_text("To komenda tylko dla adminów")
+        else:
+            group = await client.fetch_thread_info([event.thread.id]).__anext__()
+            mentions = [fbchat.Mention(thread_id=participant.id, offset=0, length=9)
+            for participant in group.participants]
+            await event.thread.send_text(text="ELUWA ALL", mentions=mentions)
 
 
 async def ruletka(event, client, user_id):
@@ -370,11 +377,13 @@ Psc: wyslij kod na pv do !tworca""")
 
 
 async def wersja(event):
-    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.2 + 7.1 pro\nOstatnio do bota dodano:\nNaprawa błędów\nKomenda !tvpis\nDostosowanie bota do nowegp API facebooka\nSzybsze parsowanie stron www")
+    await event.thread.send_text("DZIĘKUJĘ ZA ZAKUP WERSJI PRO!\nWersja bota: 3.3 + 7.1 pro\nOstatnio do bota dodano:\n!everyone jest dostępne tylko dla adminów\nDodano komende !off\nUsunieto funkcje !unmute i została zastąpiona komendą !mute (teraz ta komenda odmutowuje i mutuje)\nKomenda !tvpis")
 
 
-async def test(event, mutelist):
-    if event.thread.id in mutelist:
-        await event.thread.send_text("Bot jest zmutowany. Wersja pro")
+async def test(event, mutelist, offlist):
+    if event.thread.id in offlist:
+        event.thread.send_text("Bo jest wyłączony. Aby go włączyć napisz !off. Wersja pro")
+    elif event.thread.id in mutelist:
+        await event.thread.send_text("Bot jest zmutowany. Aby go odmutować napisz !mute. Wersja pro")
     else:
         await event.thread.send_text("Test passed! Wersja pro")

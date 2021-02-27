@@ -38,7 +38,3 @@ async def pis_konfederacja(event):
                    "ziobro ty kurwo jebana", "szkoda że kaczyński nie poleciał z bratem",
                    "sasin przejebał na wybory 70000mln i nie poniósł za to żadnych konsekwencji"]
     await event.thread.send_text(rd.choice(pis_answers))
-
-
-async def seks(event):
-    await event.message.react("❤")
