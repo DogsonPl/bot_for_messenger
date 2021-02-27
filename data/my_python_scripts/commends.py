@@ -43,7 +43,7 @@ DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO:
 
 async def help_(event, offlist):
     if event.thread.id in offlist:
-        event.thread.send_text("Bot jest wyłączony. Aby go włączyć napisz !off")
+        await event.thread.send_text("Bot jest wyłączony. Aby go włączyć napisz !off")
     else:
         await event.thread.send_text(help_commends)
 
@@ -213,12 +213,12 @@ async def mute_and_off(event, client, list_, type_):
 async def unmute_and_on(event, list_, type_):
     if type_ == "mute":
         await event.thread.send_text("Zostalem odmutowany :)")
-        list_.append(event.thread.id)
+        list_.remove(event.thread.id)
         with open("data//mutelist.json", "w") as write_file:
             json.dump(list_, write_file)
     elif type_ == "off":
         await event.thread.send_text("Zostalem włączony :)")
-        list_.append(event.thread.id)
+        list_.remove(event.thread.id)
         with open("data//offlist.json", "w") as write_file:
             json.dump(list_, write_file)
 
