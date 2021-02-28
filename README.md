@@ -1,7 +1,7 @@
 # Bot for messenger
 
 <h1>Important Note: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger</h1><br>
-<h6>All available commands and their description:</h6><br>
+<h3>All available commands and their description:</h3><br>
 <b>!help</b> - sends all available commands<br>
 <b>!wersja</b> - (wersja = version) sends info about bot version and news which be released in last update<br>
 <b>!wsparcie</b> - (wsparcie = support) sends link to paypal and bank account for people who want support bot<br>
