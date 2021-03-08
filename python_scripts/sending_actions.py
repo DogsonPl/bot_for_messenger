@@ -1,8 +1,5 @@
 import aiofiles
 from fbchat import Group
-from functools import wraps
-
-# todo zobacz czy warto dodawać wraps w dekoratorach
 
 
 def send_text_message(function):
