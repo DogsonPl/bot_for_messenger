@@ -1,27 +1,13 @@
-from data.my_python_scripts import commends, added_and_removed_reply, stupid_answers
 import fbchat
 import asyncio
 import json
-import logging
 import time
+from python_scripts import commends, stupid_answers, added_and_removed_reply, sql_actions, casino
 
 
 class BotCore:
-    def __init__(self, loop):
-        self.loop = loop
+    def __init__(self):
 
-        try:
-            with open("data//mutelist.json", "r") as read_file:
-                self.mutelist = json.load(read_file)
-        except FileNotFoundError:
-            self.mutelist = []
-            print("Don't find mutelist.json")
-        try:
-            with open("data//offlist.json", "r") as read_file:
-                self.offlist = json.load(read_file)
-        except FileNotFoundError:
-            self.offlist = []
-            print("Don't find offlist.json")
         try:
             with open("data//cookies.json", "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
@@ -32,16 +18,15 @@ class BotCore:
         self.mail = ""
         self.password = ""
 
-    async def start(self):
+    async def login_and_start(self):
         print("Login in...")
         try:
             self.session = await fbchat.Session.from_cookies(self.cookies)
             self.client = fbchat.Client(session=self.session)
             print("Logged using cookies")
-        except:
+        except fbchat.NotLoggedIn:
             self.session = await fbchat.Session.login(self.mail, self.password)
             self.client = fbchat.Client(session=self.session)
-            logging.getLogger("fbchat").setLevel(logging.DEBUG)
             print("Logged using mail and password")
 
         try:
@@ -49,119 +34,113 @@ class BotCore:
         except fbchat.NotConnected:
             print("\nRestarting...\n")
             await self.session.logout()
-            time.sleep(20)
-            self.loop.create_task(BotCore(loop).start())
+            time.sleep(15)
+            MAIN_LOOP.create_task(BotCore().login_and_start())
 
-    async def _fetch_sequence_id(self):
-        self.client.sequence_id_callback = self.listener.set_sequence_id
-        await asyncio.sleep(5)
+    async def set_sequence_id(self, listener):
+        self.client.sequence_id_callback = listener.set_sequence_id
         await self.client.fetch_threads(limit=1).__anext__()
 
     async def listening(self):
-        self.listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
-        self.loop.create_task(self._fetch_sequence_id())
-        print("Listening...")
+        listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
+        MAIN_LOOP.create_task(self.set_sequence_id(listener))
         cookies = self.session.get_cookies()
         with open("data//cookies.json", "w") as cookies_file:
             json.dump(cookies, cookies_file)
-        async for event in self.listener.listen():
+        print("Listening...")
+        bot_id = self.session.user.id
+        async for event in listener.listen():
             if isinstance(event, fbchat.MessageEvent):
-                if event.author.id != self.session.user.id:
-                    if event.message.text is None:
-                        pass
-                    else:
+                if event.author.id != bot_id:
+                    try:
                         if event.message.text.startswith("!"):
-                            if event.message.text == "!help" or event.message.text == "!pomoc" or event.message.text == "!komendy":
-                                self.loop.create_task(commends.help_(event, self.offlist))
-                            elif event.message.text == "!mute":
-                                self.loop.create_task(commends.mute_and_off(event, self.client, self.mutelist, "mute"))
-                            elif event.message.text == "!off":
-                                self.loop.create_task(commends.mute_and_off(event, self.client, self.offlist, "off"))
-                            elif event.message.text == "!":
-                                self.loop.create_task(commends.test(event, self.mutelist, self.offlist))
-                            if event.thread.id not in self.offlist:
-                                if event.message.text == "!mem":
-                                    self.loop.create_task(commends.mem(event, self.client))
-                                elif event.message.text == "!mem2":
-                                    self.loop.create_task(commends.mem2(event, self.client))
-                                elif event.message.text == "!film":
-                                    self.loop.create_task(commends.film(event, self.client))
-                                elif event.message.text == "!moneta":
-                                    self.loop.create_task(commends.moneta(event, self.client))
-                                elif "!say" in event.message.text:
-                                    self.loop.create_task(commends.say(event, self.client))
-                                elif "!pogoda" in event.message.text:
-                                    self.loop.create_task(commends.weather_function(event))
-                                elif event.message.text == "!koronawirus":
-                                    self.loop.create_task(commends.coronavirus(event))
-                                elif event.message.text == "!koronawiruspl":
-                                    self.loop.create_task(commends.coronavirus_pl(event))
-                                elif event.message.text == "!utrudnieniawawa":
-                                    self.loop.create_task(commends.utrudnienia_wawa(event))
-                                elif event.message.text == "!utrudnieniawroclaw":
-                                    self.loop.create_task(commends.utrudnienia_wroclaw(event))
-                                elif event.message.text == "!utrudnienialodz":
-                                    self.loop.create_task(commends.utrudnienia_lodz(event))
-                                elif event.message.text == "!luckymember":
-                                    self.loop.create_task(commends.luckymember(event, self.client))
-                                elif event.message.text == "!para":
-                                    self.loop.create_task(commends.para(event, self.client))
-                                elif event.message.text == "!everyone":
-                                    self.loop.create_task(commends.everyone(event, self.client))
-                                elif event.message.text == "!ruletka":
-                                    self.loop.create_task(commends.ruletka(event, self.client, self.session.user.id))
-                                elif "!nowyregulamin" in event.message.text:
-                                    self.loop.create_task(commends.nowy_regulamin(event, self.client))
-                                elif event.message.text == "!regulamin":
-                                    self.loop.create_task(commends.wyslij_regulamin(event))
-                                elif "!powitanie" in event.message.text:
-                                    self.loop.create_task(commends.powitanie(event, self.client))
-                                elif "!emotka" in event.message.text:
-                                    self.loop.create_task(commends.zmiana_emoji(event))
-                                elif event.message.text == "!disco":
-                                    self.loop.create_task(commends.disco(event))
-                                elif "!tvpis" in event.message.text:
-                                    self.loop.create_task(commends.tvpis(event, self.client))
-                                elif "!nick" in event.message.text:
-                                    self.loop.create_task(commends.change_nick(event))
-                                elif "!losuj" in event.message.text:
-                                    self.loop.create_task(commends.losuj(event))
-                                elif event.message.text == "!tworca":
-                                    self.loop.create_task(commends.tworca(event))
-                                elif event.message.text == "!wsparcie":
-                                    self.loop.create_task(commends.wsparcie(event))
-                                elif event.message.text == "!wersja":
-                                    self.loop.create_task(commends.wersja(event))
+                            if event.message.text == "!help":
+                                MAIN_LOOP.create_task(commends.get_help_message(event))
+                            elif event.message.text == "!mem":
+                                MAIN_LOOP.create_task(commends.get_meme(event, self.client))
+                            elif event.message.text == "!film":
+                                MAIN_LOOP.create_task(commends.get_film(event, self.client))
+                            elif "!say" in event.message.text:
+                                MAIN_LOOP.create_task(commends.get_tts(event, self.client))
+                            elif "!tvpis" in event.message.text:
+                                MAIN_LOOP.create_task(commends.get_tvpis_image(event, self.client))
+                            elif "!pogoda" in event.message.text:
+                                MAIN_LOOP.create_task(commends.get_weather(event))
+                            elif "!bet" in event.message.text:
+                                MAIN_LOOP.create_task(casino.bet(event))
+                            elif event.message.text == "!daily":
+                                MAIN_LOOP.create_task(casino.give_user_daily_money(event))
+                            elif event.message.text == "!bal":
+                                MAIN_LOOP.create_task(casino.send_user_money(event))
+                            elif event.message.text == "!top":
+                                MAIN_LOOP.create_task(casino.get_top_players(event, self.client))
+                            elif "!tip" in event.message.text:
+                                MAIN_LOOP.create_task(casino.tip(event))
+                            elif event.message.text == "!koronawirus":
+                                MAIN_LOOP.create_task(commends.get_coronavirus_info(event))
+                            elif event.message.text == "!koronawiruspl":
+                                MAIN_LOOP.create_task(commends.get_coronavirus_pl_info(event))
+                            elif event.message.text == "!utrudnieniawawa":
+                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_warsaw(event))
+                            elif event.message.text == "!utrudnieniawroclaw":
+                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_wroclaw(event))
+                            elif event.message.text == "!utrudnienialodz":
+                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_lodz(event))
+                            elif event.message.text == "!luckymember":
+                                MAIN_LOOP.create_task(commends.get_and_mention_random_member(event, self.client))
+                            elif event.message.text == "!everyone":
+                                MAIN_LOOP.create_task(commends.mention_everyone(event, self.client, True))
+                            elif event.message.text == "!ruletka":
+                                MAIN_LOOP.create_task(commends.delete_random_person(event, self.client, True, bot_id))
+                            elif "!nowyregulamin" in event.message.text:
+                                MAIN_LOOP.create_task(commends.set_new_group_regulations(event, self.client, True))
+                            elif event.message.text == "!regulamin":
+                                MAIN_LOOP.create_task(commends.get_group_regulations(event, self.client, False))
+                            elif "!powitanie" in event.message.text:
+                                MAIN_LOOP.create_task(commends.set_welcome_message(event, self.client, True))
+                            elif "!emotka" in event.message.text:
+                                MAIN_LOOP.create_task(commends.change_emoji(event))
+                            elif event.message.text == "!disco":
+                                MAIN_LOOP.create_task(commends.make_disco(event))
+                            elif event.message.text == "!moneta":
+                                MAIN_LOOP.create_task(commends.make_coin_flip(event, self.client))
+                            elif "!nick" in event.message.text:
+                                MAIN_LOOP.create_task(commends.change_nick(event))
+                            elif event.message.text == "!tworca":
+                                MAIN_LOOP.create_task(commends.get_link_to_creator_account(event))
+                            elif event.message.text == "!wsparcie":
+                                MAIN_LOOP.create_task(commends.get_support_info(event))
+                            elif event.message.text == "!wersja":
+                                MAIN_LOOP.create_task(commends.get_bot_version(event))
 
                         else:
-                            if event.thread.id in self.mutelist:
-                                pass
-                            else:
-                                message = event.message.text.split()
-                                if "kurwa" in message:
-                                    self.loop.create_task(stupid_answers.kurwa(event))
-                                elif "co" in message:
-                                    self.loop.create_task(stupid_answers.co(event))
-                                elif "Xd" in message:
-                                    self.loop.create_task(stupid_answers.Xd(event))
-                                elif "jd" in message:
-                                    self.loop.create_task(stupid_answers.jd(event))
-                                elif "chuj" in message:
-                                    self.loop.create_task(stupid_answers.chuj(event))
-                                elif "fortnite" in message:
-                                    self.loop.create_task(stupid_answers.fortnite(event))
-                                elif "pis" in message or "konfederacja" in message:
-                                    self.loop.create_task(stupid_answers.pis_konfederacja(event))
+                            message = event.message.text.split()
+                            if "kurwa" in message:
+                                MAIN_LOOP.create_task(stupid_answers.kurwa(event))
+                            elif "co" in message:
+                                MAIN_LOOP.create_task(stupid_answers.co(event))
+                            elif "jd" in message:
+                                MAIN_LOOP.create_task(stupid_answers.jd(event))
+                            elif "chuj" in message:
+                                MAIN_LOOP.create_task(stupid_answers.chuj(event))
+                            elif "fortnite" in message:
+                                MAIN_LOOP.create_task(stupid_answers.fortnite(event))
+                            elif "pis" in message:
+                                MAIN_LOOP.create_task(stupid_answers.pis_konfederacja(event))
+                    except AttributeError:
+                        # attribute error happens when someone sends photo and message don't have text
+                        pass
             elif isinstance(event, fbchat.PeopleAdded):
-                await loop.create_task(added_and_removed_reply.added(event, self.mutelist))
+                MAIN_LOOP.create_task(added_and_removed_reply.added(event))
             elif isinstance(event, fbchat.PersonRemoved):
-                if self.session.user.id != event.removed.id:
-                    await loop.create_task(added_and_removed_reply.removed(event, self.mutelist))
+                if bot_id != event.removed.id:
+                    MAIN_LOOP.create_task(added_and_removed_reply.removed(event))
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.create_task(BotCore(loop).start())
-    loop.run_forever()
+    MAIN_LOOP = asyncio.get_event_loop()
+    MAIN_LOOP.create_task(sql_actions.init(MAIN_LOOP))
+    MAIN_LOOP.create_task(BotCore().login_and_start())
+    MAIN_LOOP.run_forever()
 
 # works only on linux
