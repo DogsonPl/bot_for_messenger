@@ -66,7 +66,7 @@ async def tip(event):
     try:
         mention = event.message.mentions[0]
         money_to_give = float(event.message.text.split()[1])
-    except (IndexError, TypeError):
+    except (IndexError, ValueError, TypeError):
         return "Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
 
     sender_money = await get_user_money(event.author.id)
