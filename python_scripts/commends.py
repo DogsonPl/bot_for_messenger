@@ -241,7 +241,7 @@ async def get_tvpis_image(event):
 
 
 @send_bytes_audio_file
-def get_tts(event):
+async def get_tts(event):
     # todo run this in executor and try async tts
     if len(event.message.text) > 2004:
         return "Wiadomość może mieć maksymalnie 2000 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
