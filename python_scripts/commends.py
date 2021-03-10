@@ -325,7 +325,7 @@ They should be available soon
 
 
 @send_text_message
-async def change_emoji(event, client):
+async def change_emoji(event):
     return """Fb czasowo usunął możliwość zmieniania emoji przez API. 
 Opcja zostanie dodana wtedy kiedy fb znowu doda te funkcje"""
 
@@ -337,7 +337,7 @@ Opcja zostanie dodana wtedy kiedy fb znowu doda te funkcje"""
 
 
 @send_text_message
-async def change_nick(event, client):
+async def change_nick(event):
     return """Fb czasowo usunął nicki.
 Opcja zostanie dodana wtedy kiedy fb znowu doda te funkcje"""
 
