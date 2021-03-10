@@ -241,7 +241,7 @@ async def get_tvpis_image(event):
 
 
 @send_bytes_audio_file
-async def get_tts(event):
+def get_tts(event):
     # todo run this in executor and try async tts
     if len(event.message.text) > 2004:
         return "Wiadomość może mieć maksymalnie 2000 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
@@ -309,7 +309,7 @@ async def mention_everyone(event, group_info):
     return "ELUWA ALL", mentions
 
 
-async def make_disco(event):
+async def make_disco(event, client):
     # todo zrób ograniczenie
     for i in range(5):
         color = rd.choice(SETABLE_COLORS)

@@ -2,7 +2,10 @@ import fbchat
 import asyncio
 import json
 import time
-from python_scripts import commends, stupid_answers, added_and_removed_reply, sql_actions, casino
+import python_scripts.commends
+import python_scripts.casino
+import python_scripts.sql_actions
+import python_scripts.added_and_removed_reply
 
 
 class BotCore:
@@ -54,92 +57,48 @@ class BotCore:
                 if event.author.id != bot_id:
                     try:
                         if event.message.text.startswith("!"):
-                            if event.message.text == "!help":
-                                MAIN_LOOP.create_task(commends.get_help_message(event))
-                            elif event.message.text == "!mem":
-                                MAIN_LOOP.create_task(commends.get_meme(event, self.client))
-                            elif event.message.text == "!film":
-                                MAIN_LOOP.create_task(commends.get_film(event, self.client))
-                            elif "!say" in event.message.text:
-                                MAIN_LOOP.create_task(commends.get_tts(event, self.client))
-                            elif "!tvpis" in event.message.text:
-                                MAIN_LOOP.create_task(commends.get_tvpis_image(event, self.client))
-                            elif "!pogoda" in event.message.text:
-                                MAIN_LOOP.create_task(commends.get_weather(event))
-                            elif "!bet" in event.message.text:
-                                MAIN_LOOP.create_task(casino.bet(event))
-                            elif event.message.text == "!daily":
-                                MAIN_LOOP.create_task(casino.give_user_daily_money(event))
-                            elif event.message.text == "!bal":
-                                MAIN_LOOP.create_task(casino.send_user_money(event))
-                            elif event.message.text == "!top":
-                                MAIN_LOOP.create_task(casino.get_top_players(event, self.client))
-                            elif "!tip" in event.message.text:
-                                MAIN_LOOP.create_task(casino.tip(event))
-                            elif event.message.text == "!koronawirus":
-                                MAIN_LOOP.create_task(commends.get_coronavirus_info(event))
-                            elif event.message.text == "!koronawiruspl":
-                                MAIN_LOOP.create_task(commends.get_coronavirus_pl_info(event))
-                            elif event.message.text == "!utrudnieniawawa":
-                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_warsaw(event))
-                            elif event.message.text == "!utrudnieniawroclaw":
-                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_wroclaw(event))
-                            elif event.message.text == "!utrudnienialodz":
-                                MAIN_LOOP.create_task(commends.get_public_transport_difficulties_in_lodz(event))
-                            elif event.message.text == "!luckymember":
-                                MAIN_LOOP.create_task(commends.get_and_mention_random_member(event, self.client))
-                            elif event.message.text == "!everyone":
-                                MAIN_LOOP.create_task(commends.mention_everyone(event, self.client, True))
-                            elif event.message.text == "!ruletka":
-                                MAIN_LOOP.create_task(commends.delete_random_person(event, self.client, True, bot_id))
-                            elif "!nowyregulamin" in event.message.text:
-                                MAIN_LOOP.create_task(commends.set_new_group_regulations(event, self.client, True))
-                            elif event.message.text == "!regulamin":
-                                MAIN_LOOP.create_task(commends.get_group_regulations(event, self.client, False))
-                            elif "!powitanie" in event.message.text:
-                                MAIN_LOOP.create_task(commends.set_welcome_message(event, self.client, True))
-                            elif "!emotka" in event.message.text:
-                                MAIN_LOOP.create_task(commends.change_emoji(event))
-                            elif event.message.text == "!disco":
-                                MAIN_LOOP.create_task(commends.make_disco(event))
-                            elif event.message.text == "!moneta":
-                                MAIN_LOOP.create_task(commends.make_coin_flip(event, self.client))
-                            elif "!nick" in event.message.text:
-                                MAIN_LOOP.create_task(commends.change_nick(event))
-                            elif event.message.text == "!tworca":
-                                MAIN_LOOP.create_task(commends.get_link_to_creator_account(event))
-                            elif event.message.text == "!wsparcie":
-                                MAIN_LOOP.create_task(commends.get_support_info(event))
-                            elif event.message.text == "!wersja":
-                                MAIN_LOOP.create_task(commends.get_bot_version(event))
-
-                        else:
-                            message = event.message.text.split()
-                            if "kurwa" in message:
-                                MAIN_LOOP.create_task(stupid_answers.kurwa(event))
-                            elif "co" in message:
-                                MAIN_LOOP.create_task(stupid_answers.co(event))
-                            elif "jd" in message:
-                                MAIN_LOOP.create_task(stupid_answers.jd(event))
-                            elif "chuj" in message:
-                                MAIN_LOOP.create_task(stupid_answers.chuj(event))
-                            elif "fortnite" in message:
-                                MAIN_LOOP.create_task(stupid_answers.fortnite(event))
-                            elif "pis" in message:
-                                MAIN_LOOP.create_task(stupid_answers.pis_konfederacja(event))
-                    except AttributeError:
+                            MAIN_LOOP.create_task(COMMENDS[event.message.text.split()[0]](event, self.client))
+                    except (AttributeError, KeyError):
                         # attribute error happens when someone sends photo and message don't have text
                         pass
             elif isinstance(event, fbchat.PeopleAdded):
-                MAIN_LOOP.create_task(added_and_removed_reply.added(event))
+                MAIN_LOOP.create_task(python_scripts.added_and_removed_reply.added(event, self.client))
             elif isinstance(event, fbchat.PersonRemoved):
                 if bot_id != event.removed.id:
-                    MAIN_LOOP.create_task(added_and_removed_reply.removed(event))
+                    MAIN_LOOP.create_task(python_scripts.added_and_removed_reply.removed(event, self.client))
 
 
 if __name__ == '__main__':
+    COMMENDS = {"!help": python_scripts.commends.get_help_message,
+                "!mem": python_scripts.commends.get_meme,
+                "!film": python_scripts.commends.get_film,
+                "!say": python_scripts.commends.get_tts,
+                "!tvpis": python_scripts.commends.get_tvpis_image,
+                "!pogoda": python_scripts.commends.get_weather,
+                "!bet": python_scripts.casino.bet,
+                "!daily": python_scripts.casino.give_user_daily_money,
+                "!bal": python_scripts.casino.send_user_money,
+                "!top": python_scripts.casino.get_top_players,
+                "!tip": python_scripts.casino.tip,
+                "!koronawirus": python_scripts.commends.get_coronavirus_info,
+                "!koronawiruspl": python_scripts.commends.get_coronavirus_pl_info,
+                "!utrudnieniawawa": python_scripts.commends.get_public_transport_difficulties_in_warsaw,
+                "!utrudnieniawroclaw": python_scripts.commends.get_public_transport_difficulties_in_wroclaw,
+                "!utrudnienialodz": python_scripts.commends.get_public_transport_difficulties_in_lodz,
+                "!luckymember": python_scripts.commends.get_and_mention_random_member,
+                "!everyone": python_scripts.commends.get_and_mention_random_member,
+                "!ruletka": python_scripts.commends.delete_random_person,
+                "!nowyregulamin": python_scripts.commends.set_new_group_regulations,
+                "!regulamin": python_scripts.commends.get_group_regulations,
+                "!powitanie": python_scripts.commends.set_welcome_message,
+                "!disco": python_scripts.commends.make_disco,
+                "!moneta": python_scripts.commends.make_coin_flip,
+                "!nick": python_scripts.commends.change_nick,
+                "!tworca": python_scripts.commends.get_link_to_creator_account,
+                "!wsparcie": python_scripts.commends.get_support_info,
+                "!wersja": python_scripts.commends.get_bot_version}
     MAIN_LOOP = asyncio.get_event_loop()
-    MAIN_LOOP.create_task(sql_actions.init(MAIN_LOOP))
+    MAIN_LOOP.create_task(python_scripts.sql_actions.init(MAIN_LOOP))
     MAIN_LOOP.create_task(BotCore().login_and_start())
     MAIN_LOOP.run_forever()
 

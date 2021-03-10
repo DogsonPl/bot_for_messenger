@@ -3,22 +3,22 @@ from fbchat import Group
 
 
 def send_text_message(function):
-    async def decorator(event, *args):
-        message = await function(event, *args)
+    async def decorator(event, client):
+        message = await function(event)
         await event.thread.send_text(message)
     return decorator
 
 
 def send_text_message_with_mentions(function):
-    async def decorator(event, *args):
-        message, mentions = await function(event, *args)
+    async def decorator(event, client):
+        message, mentions = await function(event)
         await event.thread.send_text(message, mentions=mentions)
     return decorator
 
 
 def send_text_message_with_reply(function):
-    async def decorator(event, *args):
-        message = await function(event, *args)
+    async def decorator(event, client):
+        message = await function(event)
         await event.thread.send_text(message, reply_to_id=event.message.id)
     return decorator
 
@@ -58,7 +58,7 @@ def send_bytes_audio_file(function):
 
 
 def group_actions(function):
-    async def decorator(event, client, admin_required, *args):
+    async def decorator(event, client, admin_required=True, *args):
         if not isinstance(event.thread, Group):
             return await event.thread.send_text("To komenda tylko dla grup")
         group_info = await client.fetch_thread_info([event.thread.id]).__anext__()
@@ -67,3 +67,9 @@ def group_actions(function):
                 return await event.thread.send_text("Tylko administartor grupy może używać tej funkcji")
         return await function(event, group_info, *args)
     return decorator
+
+
+def run_in_executor(function):
+    # todo pomysl czy lepsze jest to czy dekoratory
+    async def decorator(event, client, loop, *args):
+        return await loop.run_in_executor(None, function, *event)
