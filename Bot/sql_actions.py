@@ -5,7 +5,7 @@ import asyncio
 
 async def init(loop):
     global CONNECTION
-    CONNECTION = await aiosqlite.connect("Bot//data//database.db", check_same_thread=False)
+    CONNECTION = await aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None)
     await CreateTablesIfNotExists()
     aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
     while True:
@@ -19,7 +19,7 @@ class InsertIntoDatabase:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        await CONNECTION.commit()
+        pass
 
     def __await__(self):
         return self.__aenter__().__await__()
