@@ -1,0 +1,9 @@
+fbchat-asyncio
+aiofiles
+gtts
+pillow
+feedparser
+bs4
+aiohttp
+aiosqlite
+aioschedule
