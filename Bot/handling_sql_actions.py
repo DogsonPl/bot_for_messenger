@@ -49,3 +49,34 @@ async def get_top_three_players():
         return top_users
     except IndexError:
         return []
+
+
+async def set_welcome_message(event):
+    async with INSERT_INTO as db:
+        await db.insert_welcome_messages(event.thread.id, event.message.text[10:])
+
+
+async def set_group_regulations(event):
+    async with INSERT_INTO as db:
+        await db.insert_welcome_messages(event.thread.id, event.message.text[10:])
+
+
+async def get_group_regulations(event):
+    try:
+        async with GET_FROM_DB as db:
+            data = await db.fetch_group_regulations(event.thread.id)
+            group_regulations = data[0]
+    except IndexError:
+        group_regulations = "Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
+    return group_regulations
+
+
+async def get_group_welcome_message(event):
+    try:
+        async with GET_FROM_DB as db:
+            data = await db.fetch_welcome_message(event.thread.id)
+            message = data[0]
+    except IndexError:
+        message = """Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
+    Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
+    return message

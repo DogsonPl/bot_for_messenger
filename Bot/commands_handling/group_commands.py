@@ -1,10 +1,7 @@
 import fbchat
 import random as rd
 from Bot.bot_actions import BotActions
-from Bot import sql_actions
-
-INSERT_INTO = sql_actions.InsertIntoDatabase()
-GET_FROM_DB = sql_actions.GetInfoFromDatabase()
+from Bot import handling_sql_actions
 
 
 def check_group_admin_permission(function):
@@ -40,25 +37,18 @@ class GroupCommands(BotActions):
         if event.message.text == "!powitanie":
             message = "Po !powitanie ustaw treść powitania"
         else:
-            async with sql_actions.InsertIntoDatabase() as db:
-                await db.insert_welcome_messages(event.thread.id, event.message.text[10:])
+            await handling_sql_actions.set_welcome_message(event)
             message = "Powitanie zostało zmienione :)"
         await self.send_text_message(event, message)
 
     @check_group_admin_permission
     async def set_new_group_regulations(self, event, group_info):
-        async with sql_actions.InsertIntoDatabase() as db:
-            await db.insert_group_regulations(event.thread.id, event.message.text[14:])
+        await handling_sql_actions.set_group_regulations(event)
         await self.send_text_message(event, "Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć")
 
     @check_group_admin_permission
     async def get_group_regulations(self, event, group_info):
-        try:
-            async with sql_actions.GetInfoFromDatabase() as db:
-                await db.fetch_group_regulations(event.thread.id)
-                group_regulations = db.data[0]
-        except IndexError:
-            group_regulations = "Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
+        group_regulations = await handling_sql_actions.get_group_regulations(event)
         await self.send_text_message(event, group_regulations)
 
     @check_group_admin_permission
@@ -67,13 +57,7 @@ class GroupCommands(BotActions):
         await self.send_text_message_with_mentions(event, "ELUWA ALL", mentions)
 
     async def reply_on_person_added(self, event):
-        try:
-            async with GetInfoFromDatabase() as db:
-                await db.fetch_welcome_message(event.thread.id)
-                message = db.data[0]
-        except IndexError:
-            message = """Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
-Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
+        message = await handling_sql_actions.get_group_welcome_message(event)
         await self.send_text_message(event, message)
 
     async def reply_on_person_removed(self, event):
