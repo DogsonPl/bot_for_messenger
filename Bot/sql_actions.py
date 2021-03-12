@@ -5,7 +5,7 @@ import asyncio
 
 async def init(loop):
     global CONNECTION
-    CONNECTION = await aiosqlite.connect("data//database.db", check_same_thread=False)
+    CONNECTION = await aiosqlite.connect("Bot//data//database.db", check_same_thread=False)
     await CreateTablesIfNotExists()
     aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
     while True:
@@ -80,34 +80,39 @@ class GetInfoFromDatabase:
         return self.__aenter__().__await__()
 
     async def fetch_group_regulations(self, group_id):
-        data = await CONNECTION.execute("""SELECT regulations FROM groups_information
+        cursor = await CONNECTION.execute("""SELECT regulations FROM groups_information
                             WHERE group_id = ?;""", (group_id, ))
-        self.data = await data.fetchall()
-        await data.close()
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
 
     async def fetch_welcome_message(self, group_id):
-        data = await CONNECTION.execute("""SELECT welcome_message FROM groups_information
+        cursor = await CONNECTION.execute("""SELECT welcome_message FROM groups_information
                             WHERE group_id = ?;""", (group_id, ))
-        self.data = await data.fetchall()
-        await data.close()
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
 
     async def fetch_info_if_user_got_today_daily(self, user_id):
-        data = await CONNECTION.execute("""SELECT take_daily, daily_strike FROM casino_players
+        cursor = await CONNECTION.execute("""SELECT take_daily, daily_strike FROM casino_players
                             WHERE user_id = ?;""", (user_id, ))
-        self.data = await data.fetchall()
-        await data.close()
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
 
     async def fetch_top_three_players(self):
-        data = await CONNECTION.execute("""SELECT user_id, money FROM casino_players
+        cursor = await CONNECTION.execute("""SELECT user_id, money FROM casino_players
                             ORDER BY money DESC LIMIT 3;""")
-        self.data = await data.fetchall()
-        await data.close()
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
 
     async def fetch_user_money(self, user_id):
-        data = await CONNECTION.execute("""SELECT money FROM casino_players
+        cursor = await CONNECTION.execute("""SELECT money FROM casino_players
                             WHERE user_id = ?;""", (user_id, ))
-        self.data = await data.fetchall()
-        await data.close()
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
 
 
 class CreateTablesIfNotExists:
