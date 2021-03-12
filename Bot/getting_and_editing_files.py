@@ -25,7 +25,6 @@ async def make_coin_flip():
 
 
 def edit_tvpis_image(text):
-    # todo run in executor and try async
     if text == "!tvpis":
         return "Napisz coś po !tvpis, np !tvpis jebać pis", None
 
@@ -43,7 +42,6 @@ def edit_tvpis_image(text):
 
 
 def get_tts(text):
-    # todo run this in executor and try async tts
     if len(text) > 1500:
         return "Wiadomość może mieć maksymalnie 1500 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
     if text == "!say":

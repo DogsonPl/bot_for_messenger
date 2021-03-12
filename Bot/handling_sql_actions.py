@@ -2,7 +2,6 @@ from Bot import sql_actions
 
 INSERT_INTO = sql_actions.InsertIntoDatabase()
 GET_FROM_DB = sql_actions.GetInfoFromDatabase()
-print("placek") # todo po tescie usun
 
 
 async def get_user_money(person_id):

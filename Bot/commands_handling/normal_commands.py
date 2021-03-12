@@ -4,8 +4,6 @@ from Bot import getting_and_editing_files, page_parsing
 from Bot.bot_actions import BotActions
 
 
-# todo MAKE BS4 AND FEEDPARSER ASYNCHRONOUS
-
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
 
 
