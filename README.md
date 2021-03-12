@@ -26,8 +26,8 @@
 <b>!nowyregulamin x</b> - (nowyregulamin = new regulations) sets group regulations to x (for example !nowyregulamin be cool change group regulations to be cool)<br>
 <b>!regulamin</b> - (regulamin = regulations) sends group regulations<br>
 <b>!say x</b> - sends voice message (for example !say hello sends voice message where bot says hello)<br>
-<b>!daily</b> - give you daily free virtual money
-<b>!top</b> - sends tree persons which have the biggest amount of money
-<b>!bal</b> - sends your balance
-<b>!bet x y</b> - you can bet virtual value (x is how many money you bet and y is how many % to win you have, for example !bet 10 80)
-<b>!tip x @mention</b> - you can send money virtual to your friend (for example !tip 10 @nick)
+<b>!daily</b> - give you daily free virtual money<br>
+<b>!top</b> - sends tree persons which have the biggest amount of money<br>
+<b>!bal</b> - sends your balance<br>
+<b>!bet x y</b> - you can bet virtual value (x is how many money you bet and y is how many % to win you have, for example !bet 10 80)<br>
+<b>!tip x @mention</b> - you can send money virtual to your friend (for example !tip 10 @nick)<br>
