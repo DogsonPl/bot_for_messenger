@@ -16,13 +16,11 @@ async def make_bet(event):
     message_values = event.message.text.split()
     try:
         percent_to_win = float(message_values[2])
-        bet_money = float(message_values[1])
+        bet_money = abs(float(message_values[1]))
     except (ValueError, IndexError):
         return "Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
     if percent_to_win < 1 or percent_to_win > 90:
         return "Możesz mieć od 1% do 90% na wygraną"
-    if bet_money < 0:
-        return "Nie możesz obstawiać dogecoinów na minusie"
 
     current_money = await get_user_money(event.author.id)
     if current_money < bet_money:
@@ -43,7 +41,7 @@ async def make_bet(event):
 async def make_tip(event):
     try:
         mention = event.message.mentions[0]
-        money_to_give = float(event.message.text.split()[1])
+        money_to_give = abs(float(event.message.text.split()[1]))
     except (IndexError, ValueError, TypeError):
         return "Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
 
