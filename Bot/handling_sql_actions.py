@@ -57,7 +57,7 @@ async def set_welcome_message(event):
 
 async def set_group_regulations(event):
     async with INSERT_INTO as db:
-        await db.insert_group_regulations(event.thread.id, event.message.text[10:])
+        await db.insert_group_regulations(event.thread.id, event.message.text[15:])
 
 
 async def get_group_regulations(event):
