@@ -1,6 +1,14 @@
 <h1>Asynchronous Bot for messenger</h1>
 <h2>Important note 1: Bot works only on Linux</h2>
 <h2>Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger</h2>
+Clone the repo:
+   ```sh
+   git clone https://github.com/DogsonPl/bot_for_messenger.git
+   ```
+Install required packages:
+   ```sh
+   pip3 install -r requirements.txt
+   ```
 <h3>All available commands and their description:</h3>
 <b>!help</b> - sends all available commands and their description<br>
 <b>!wersja</b> - (wersja = version) sends info about bot version and news from the last update<br>
