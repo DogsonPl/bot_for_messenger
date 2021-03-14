@@ -1,15 +1,15 @@
-#Asynchronous Bot for messenger
-##Important note 1: Bot works only on Linux
-##Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
-###Clone the repo:
+# Asynchronous Bot for messenger
+## Important note 1: Bot works only on Linux 
+## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
+### Clone the repo:
    ```
    git clone https://github.com/DogsonPl/bot_for_messenger.git
    ```
-###Install required packages:
+### Install required packages:
    ```
    pip3 install -r requirements.txt
    ```
-##All available commands and their description:</h3>
+## All available commands and their description:</h3>
 **!help** - sends all available commands and their description\
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
 **!wsparcie** - (wsparcie = support) sends link to paypal and bank account for people who want support bot\
