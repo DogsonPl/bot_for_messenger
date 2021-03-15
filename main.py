@@ -26,7 +26,7 @@ class BotCore:
             self.session = await fbchat.Session.from_cookies(self.cookies)
             self.client = fbchat.Client(session=self.session)
             print("Logged using cookies")
-        except fbchat.NotLoggedIn:
+        except (fbchat.NotLoggedIn, AttributeError):
             self.session = await fbchat.Session.login(self.mail_and_password["mail"], self.mail_and_password["password"])
             self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
