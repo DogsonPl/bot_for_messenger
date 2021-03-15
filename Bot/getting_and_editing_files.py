@@ -7,6 +7,7 @@ import os
 MEMES_FILES = os.listdir("Bot//media//memes")
 FILMS_FILES = os.listdir("Bot//media//films")
 FONT = ImageFont.truetype("Bot//media//fonts/FallingSkySemibold-Bn7B.otf", 15)
+COIN_FLIP_FILES = ["Bot//media//orzel_reszka//orzel.png", "Bot//media//orzel_reszka//reszka.png"]
 
 
 async def get_random_meme():
@@ -20,7 +21,7 @@ async def get_random_film():
 
 
 async def make_coin_flip():
-    selected = rd.choice(["Bot//media//orzel_reszka//orzel.png", "Bot//media//orzel_reszka//reszka.png"])
+    selected = rd.choice(COIN_FLIP_FILES)
     return selected, "image/png"
 
 

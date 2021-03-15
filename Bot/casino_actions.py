@@ -29,11 +29,11 @@ async def make_bet(event):
     lucky_number = rd.SystemRandom().random() * 100
     if lucky_number >= percent_to_win:
         current_money = current_money - bet_money
-        message = f"Przegrałeś {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
+        message = f"Przegrano {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
     else:
         won_money = ((bet_money / (percent_to_win / 100)) - bet_money)*0.99
         current_money += won_money
-        message = f"Wygrałeś {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
+        message = f"Wygrano {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
     await insert_into_user_money(event.author.id, current_money)
     return message
 
@@ -54,4 +54,4 @@ async def make_tip(event):
     sender_money -= money_to_give
     await insert_into_user_money(event.author.id, sender_money)
     await insert_into_user_money(int(mention.thread_id), receiver_money)
-    return f"Wysłaleś {money_to_give} do drugiej osoby :)"
+    return f"Wysłano {money_to_give} do drugiej osoby :)"

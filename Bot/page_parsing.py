@@ -2,12 +2,17 @@ import feedparser
 import aiohttp
 from bs4 import BeautifulSoup
 
-WEATHER_API_ADDRESS = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&q="
+WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&q="
+COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
+COVID_IN_POLAND_URL = "https://coronavirus-19-api.herokuapp.com/countries/poland"
+DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
+DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
+DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
 
 
 async def get_weather(city):
     async with aiohttp.ClientSession() as session:
-        html = await session.get(WEATHER_API_ADDRESS + city)
+        html = await session.get(WEATHER_API_URL + city)
     json_data = await html.json()
     try:
         temperature = json_data["main"]["temp"]
@@ -31,7 +36,7 @@ Prędkość wiatru: {wind_speed} m/s"""
 
 async def get_coronavirus_info():
     async with aiohttp.ClientSession() as session:
-        html = await session.get("https://coronavirus-19-api.herokuapp.com/all")
+        html = await session.get(COVID_IN_WORLD_URL)
     data = await html.json()
 
     try:
@@ -46,7 +51,7 @@ Chore osoby w tej chwili: {data['cases'] - data['deaths'] - data['recovered']}""
 
 async def get_coronavirus_pl_info():
     async with aiohttp.ClientSession() as session:
-        html = await session.get("https://coronavirus-19-api.herokuapp.com/countries/poland")
+        html = await session.get(COVID_IN_POLAND_URL)
     data = await html.json()
 
     try:
@@ -65,9 +70,8 @@ Liczba testów na milion osób: {data['testsPerOneMillion']}"""
 
 
 async def get_public_transport_difficulties_in_warsaw():
-    feed = feedparser.parse('https://www.wtp.waw.pl/feed/?post_type=impediment')
+    feed = feedparser.parse(DIFFICULTIES_IN_WARSAW_URL)
     message = ""
-    # todo make asynchronous
     for entry in feed['entries']:
         message += entry.title
         async with aiohttp.ClientSession() as session:
@@ -82,11 +86,10 @@ async def get_public_transport_difficulties_in_warsaw():
 
 async def get_public_transport_difficulties_in_wroclaw():
     async with aiohttp.ClientSession() as session:
-        html = await session.get("https://www.facebook.com/mpkwroc/")
+        html = await session.get(DIFFICULTIES_IN_WROCLAW_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
 
     message = "Dane z fb MPK Wrocław\n"
-    # todo make asynchronous
     for i in soup.find_all("p"):
         message += i.text + "\n"
     return message
@@ -94,11 +97,10 @@ async def get_public_transport_difficulties_in_wroclaw():
 
 async def get_public_transport_difficulties_in_lodz():
     async with aiohttp.ClientSession() as session:
-        html = await session.get("http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp")
+        html = await session.get(DIFFICULTIES_IN_LODZ_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
 
     message = "Właścicielami danych jest http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp\n"
-    # todo make asynchronous
     for i in soup.find_all("p"):
         if "mpk na facebook" in i.text.lower():
             message += "\n"
