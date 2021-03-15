@@ -11,14 +11,14 @@ from Bot import sql_actions
 class BotCore:
     def __init__(self):
         try:
-            with open("Bot/data//cookies.json", "r") as cookies_file:
+            with open("Bot//data//cookies.json", "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
             self.cookies = None
             print("Cannot find cookies.json")
 
-        self.mail = ""
-        self.password = ""
+        with open("Bot//data//mail_and_password.json") as login_data_file:
+            self.mail_and_password = json.load(login_data_file)
 
     async def login(self):
         print("Login in...")
@@ -27,7 +27,7 @@ class BotCore:
             self.client = fbchat.Client(session=self.session)
             print("Logged using cookies")
         except fbchat.NotLoggedIn:
-            self.session = await fbchat.Session.login(self.mail, self.password)
+            self.session = await fbchat.Session.login(self.mail_and_password["mail"], self.mail_and_password["password"])
             self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
 
