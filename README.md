@@ -9,6 +9,10 @@
    ```
    pip3 install -r requirements.txt
    ```
+## First configuration
+In file Bot//data//mail_and_password.json write your mail and password to your Facebook account.\
+**I recommend run bot on your second FB account, because Fb can ban your account**
+
 ## All available commands and their description:</h3>
 **!help** - sends all available commands and their description\
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
@@ -38,4 +42,4 @@
 **!top** - sends tree persons which have the biggest amount of money\
 **!bal** - sends your balance\
 **!bet x y** - you can bet virtual value (x is how many money you bet and y is how many % to win you have, for example !bet 10 80)\
-**!tip x @mention** - you can send money virtual to your friend (for example !tip 10 @nick)\
+**!tip x @mention** - you can send virtual money to your friend (for example !tip 10 @nick)
