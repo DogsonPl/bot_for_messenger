@@ -10,8 +10,8 @@
    pip3 install -r requirements.txt
    ```
 ## First configuration
-In a file _Bot/data/mail_and_password.json_ write your mail and password to your Facebook account.\
-**I recommend run bot on your second FB account, because Fb can ban your account**
+In a file _Bot/data/mail_and_password.json_ write your mail and password to your Facebook account\
+**I recommend run bot on your second FB account, because FB can ban your account**
 
 ## All available commands and their description:</h3>
 **!help** - sends all available commands and their description\

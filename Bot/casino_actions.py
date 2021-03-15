@@ -7,7 +7,11 @@ async def take_daily(event):
     if got_daily == 1:
         return "Odebrałeś już dzisiaj daily"
 
-    coins_to_give = 10 + strike
+    try:
+        coins_to_give = 10 + strike
+    except TypeError:
+        coins_to_give = 11
+        strike = 0
     await insert_into_daily(event.author.id, strike + 1, coins_to_give)
     return f"Dostałeś właśnie darmowe {coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
 
