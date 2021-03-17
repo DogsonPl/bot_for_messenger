@@ -152,6 +152,6 @@ async def restarting_daily_in_db():
 
 
 loop = asyncio.get_event_loop()
-CONNECTION = await loop.create_task(aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None))
+CONNECTION = loop.run_until_complete(get_connection())
 loop.create_task(CreateTablesIfNotExists().async_init())
 loop.create_task(restarting_daily_in_db())
