@@ -140,6 +140,10 @@ class CreateTablesIfNotExists:
                                     );""")
 
 
+async def get_connection():
+    return await aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None)
+
+
 async def restarting_daily_in_db():
     aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
     while True:
@@ -148,6 +152,6 @@ async def restarting_daily_in_db():
 
 
 loop = asyncio.get_event_loop()
-CONNECTION = loop.run_until_complete(aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None))
+CONNECTION = await loop.create_task(aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None))
 loop.create_task(CreateTablesIfNotExists().async_init())
 loop.create_task(restarting_daily_in_db())
