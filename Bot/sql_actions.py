@@ -3,16 +3,6 @@ import aioschedule
 import asyncio
 
 
-async def init(loop):
-    global CONNECTION
-    CONNECTION = await aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None)
-    await CreateTablesIfNotExists()
-    aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
-    while True:
-        loop.create_task(aioschedule.run_pending())
-        await asyncio.sleep(60)
-
-
 class InsertIntoDatabase:
 
     async def __aenter__(self):
@@ -121,12 +111,12 @@ class GetInfoFromDatabase:
 
 
 class CreateTablesIfNotExists:
-    async def _async_init(self):
+    async def async_init(self):
         await self.create_group_info_database()
         await self.create_casino_players_database()
 
     def __await__(self):
-        return self._async_init().__await__()
+        return self.async_init().__await__()
 
     @staticmethod
     async def create_group_info_database():
@@ -148,3 +138,16 @@ class CreateTablesIfNotExists:
                                     take_daily BIT,
                                     daily_strike INTEGER
                                     );""")
+
+
+async def restarting_daily_in_db():
+    aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
+    while True:
+        loop.create_task(aioschedule.run_pending())
+        await asyncio.sleep(60)
+
+
+loop = asyncio.get_event_loop()
+CONNECTION = loop.run_until_complete(aiosqlite.connect("Bot//data//database.db", check_same_thread=False, isolation_level=None))
+loop.create_task(CreateTablesIfNotExists().async_init())
+loop.create_task(restarting_daily_in_db())

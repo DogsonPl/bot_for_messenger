@@ -5,7 +5,6 @@ import time
 from Bot.commands_handling.normal_commands import Commands
 from Bot.commands_handling.casino_commands import CasinoCommands
 from Bot.commands_handling.group_commands import GroupCommands
-from Bot import sql_actions
 
 
 class BotCore:
@@ -111,7 +110,6 @@ class Listener:
 
 if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
-    MAIN_LOOP.create_task(sql_actions.init(MAIN_LOOP))
     MAIN_LOOP.create_task(BotCore().login())
     MAIN_LOOP.run_forever()
 
