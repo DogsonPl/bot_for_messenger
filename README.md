@@ -23,8 +23,8 @@ In a file _Bot/data/mail_and_password.json_ write your mail and password to your
 **!mem** - sends random meme\
 **!luckymember** - draws and mention a random group member\
 **!ruletka** - (ruletka = roulette) removes random person from group (bot must be an admin)\
-**!pogoda x** - (pogoda = weather) sends weather from x place (for example !pogoda London)\
-**!nick x** - changes your nick in group to x (for example !nick friend change your nick in group to friend)\  
+**!pogoda x** - (pogoda = weather) sends weather from x (for example !pogoda London)\
+**!nick x** - changes your nick in group to x (for example !nick friend change your nick in group to friend)\
 **!everyone** - mentions everyone on group\
 **!utrudnieniawroclaw** - sends difficulties in public transport in Wroclaw (Wrocław is polish city)\
 **!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is polish city)\
