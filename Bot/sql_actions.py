@@ -57,7 +57,7 @@ class InsertIntoDatabase:
         await CONNECTION.execute("""INSERT INTO casino_players(user_id, take_daily)
                                     VALUES(?, 1)
                                     ON CONFLICT (user_id) DO
-                                    UPDATE SET take_daily = excluded.take_daily;""", (user_id, ))
+                                    UPDATE SET take_daily = excluded.take_daily;""", (user_id,))
 
     @staticmethod
     async def reset_daily():
@@ -72,7 +72,7 @@ class InsertIntoDatabase:
 class GetInfoFromDatabase:
     async def __aenter__(self):
         return self
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         pass
 
@@ -82,7 +82,7 @@ class GetInfoFromDatabase:
     @staticmethod
     async def fetch_group_regulations(group_id):
         cursor = await CONNECTION.execute("""SELECT regulations FROM groups_information
-                                             WHERE group_id = ?;""", (group_id, ))
+                                             WHERE group_id = ?;""", (group_id,))
         data = await cursor.fetchall()
         await cursor.close()
         return data
@@ -90,7 +90,7 @@ class GetInfoFromDatabase:
     @staticmethod
     async def fetch_welcome_message(group_id):
         cursor = await CONNECTION.execute("""SELECT welcome_message FROM groups_information
-                                             WHERE group_id = ?;""", (group_id, ))
+                                             WHERE group_id = ?;""", (group_id,))
         data = await cursor.fetchall()
         await cursor.close()
         return data
@@ -98,7 +98,7 @@ class GetInfoFromDatabase:
     @staticmethod
     async def fetch_info_if_user_got_today_daily(user_id):
         cursor = await CONNECTION.execute("""SELECT take_daily, daily_strike FROM casino_players
-                                             WHERE user_id = ?;""", (user_id, ))
+                                             WHERE user_id = ?;""", (user_id,))
         data = await cursor.fetchall()
         await cursor.close()
         return data
@@ -114,7 +114,7 @@ class GetInfoFromDatabase:
     @staticmethod
     async def fetch_user_money(user_id):
         cursor = await CONNECTION.execute("""SELECT money FROM casino_players
-                                             WHERE user_id = ?;""", (user_id, ))
+                                             WHERE user_id = ?;""", (user_id,))
         data = await cursor.fetchall()
         await cursor.close()
         return data

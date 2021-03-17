@@ -8,12 +8,12 @@ async def take_daily(event):
         return "Odebrałeś już dzisiaj daily"
 
     try:
-        coins_to_give = 10 + strike
+        coins_to_give = 10 + (strike/10)
     except TypeError:
         coins_to_give = 11
         strike = 0
     await insert_into_daily(event.author.id, strike + 1, coins_to_give)
-    return f"Dostałeś właśnie darmowe {coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
+    return f"Otrzymano właśnie darmowe {coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
 
 
 async def make_bet(event):
