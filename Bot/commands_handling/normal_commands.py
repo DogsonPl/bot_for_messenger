@@ -42,10 +42,10 @@ HELP_MESSAGE = """🎉Komendy🎉
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
 
-SUPPORT_INFO_MESSAGE = """Jeśli chcesz wspomóc prace nad botem, możesz wysłac donejta. Za kazdą pomoc wielkie dzieki!
-Paypal: paypal.me/DogsonPL
-Konto bankowe: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
-Psc: wyslij kod na pv do !tworca"""
+SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, możesz wysłac donejta. Za każdą pomoc wielkie dzieki 💎💰🧧!
+💴 Paypal: paypal.me/DogsonPL
+💴 Konto bankowe: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
+💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 🤖 Wersja bota: 5.1 + 8.0 pro 🤖

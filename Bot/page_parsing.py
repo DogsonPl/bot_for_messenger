@@ -41,6 +41,7 @@ class GetWeather:
             temperature_emoji = await self.check_temperature_emoji(temperature)
             perceptible_temperature_emoji = await self.check_temperature_emoji(perceptible_temperature)
             return f"""🌐 Pogoda w {city.title()} 🌐
+
 🔰 Temperatura: {temperature_emoji} {int(temperature)}C 
 🔰 Odczuwalna: {perceptible_temperature_emoji} {int(perceptible_temperature)}C
 🔰 Atmosfera: {weather_emoji} {weather_description} 
@@ -66,11 +67,12 @@ async def get_coronavirus_info():
     data = await html.json()
 
     try:
-        return f"""Koronawirus na świecie
-Potwierdzonych: {data['cases']}
-Śmierci: {data['deaths']}
-Uleczonych: {data['recovered']}
-Chore osoby w tej chwili: {data['cases'] - data['deaths'] - data['recovered']}"""
+        return f"""🦠 Koronawirus na świecie 🦠
+
+🤒 Potwierdzonych: {data['cases']}
+☠ Śmierci: {data['deaths']}
+🩺 Uleczonych: {data['recovered']}
+😷 Chore osoby w tej chwili: {data['cases'] - data['deaths'] - data['recovered']}"""
     except KeyError:
         return "Błąd API. Spróbuj ponownie za kilka minut"
 
@@ -81,16 +83,17 @@ async def get_coronavirus_pl_info():
     data = await html.json()
 
     try:
-        return f"""Koronawirus w Polsce
-Potwierdzonych: {data['cases']}
-Dzisiaj potwierdzono: {data['todayCases']}
-Śmierci: {data['deaths']}
-Uleczonych: {data['recovered']}
-Chore osoby w tej chwili: {data['active']}
-Liczba chorych na milion osób: {data['casesPerOneMillion']}
-Śmiertelne przypadki na milion osób: {data['deathsPerOneMillion']}
-Liczba zrobionych testów: {data['totalTests']}
-Liczba testów na milion osób: {data['testsPerOneMillion']}"""
+        return f"""🦠 Koronawirus w Polsce 🦠
+
+🤒 Potwierdzonych: {data['cases']}
+🤒 Dzisiaj potwierdzono: {data['todayCases']}
+☠ Śmierci: {data['deaths']}
+🩺 Uleczonych: {data['recovered']}
+😷 Chore osoby w tej chwili: {data['active']}
+😷 Liczba chorych na milion osób: {data['casesPerOneMillion']}
+☠ Śmiertelne przypadki na milion osób: {data['deathsPerOneMillion']}
+🧬 Liczba zrobionych testów: {data['totalTests']}
+🧬 Liczba testów na milion osób: {data['testsPerOneMillion']}"""
     except KeyError:
         return "Błąd API. Spróbuj ponownie za kilka minut"
 
@@ -99,14 +102,14 @@ async def get_public_transport_difficulties_in_warsaw():
     feed = feedparser.parse(DIFFICULTIES_IN_WARSAW_URL)
     message = ""
     for entry in feed['entries']:
-        message += entry.title
+        message += "🚇 " + entry.title
         async with aiohttp.ClientSession() as session:
             html = await session.get(entry.link)
             soup = BeautifulSoup(await html.text(), "html.parser")
         for i in soup.find_all("div", class_="impediment-content"):
             message += i.text + "\n"
     if message == "":
-        return "Brak utrudnień w Warszawie :) Więcej informacji na https://www.wtp.waw.pl"
+        return "🎉🎉 Brak utrudnień w Warszawie :) Więcej informacji na https://www.wtp.waw.pl"
     return message
 
 
@@ -115,7 +118,7 @@ async def get_public_transport_difficulties_in_wroclaw():
         html = await session.get(DIFFICULTIES_IN_WROCLAW_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
 
-    message = "Dane z fb MPK Wrocław\n"
+    message = "🚋 Dane z fb MPK Wrocław\n"
     for i in soup.find_all("p"):
         message += i.text + "\n"
     return message
@@ -126,7 +129,7 @@ async def get_public_transport_difficulties_in_lodz():
         html = await session.get(DIFFICULTIES_IN_LODZ_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
 
-    message = "Właścicielami danych jest http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp\n"
+    message = "🚌 Właścicielami danych jest http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp\n"
     for i in soup.find_all("p"):
         if "mpk na facebook" in i.text.lower():
             message += "\n"
