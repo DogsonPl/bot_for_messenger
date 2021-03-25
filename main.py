@@ -38,11 +38,14 @@ class BotCore:
     async def init_listening(self):
         try:
             await Listener(self.session, self.client).listening()
-        except fbchat.NotConnected:
+        except (fbchat.NotConnected, OSError):
             print("\nRestarting...\n")
             await self.session.logout()
             time.sleep(15)
             MAIN_LOOP.create_task(BotCore().login())
+        except NotImplementedError:
+            await self.session.logout()
+            raise Exception("Bot works only on Linux")
 
 
 class Listener:
