@@ -27,7 +27,7 @@ async def make_coin_flip():
 
 def edit_tvpis_image(text):
     if text == "":
-        return "Napisz coś po !tvpis, np !tvpis jebać pis", None
+        return "🚫 Napisz coś po !tvpis, np !tvpis jebać pis", None
 
     if len(text) > 46:
         text = text[0:46].upper()
@@ -44,14 +44,14 @@ def edit_tvpis_image(text):
 
 def get_tts(text):
     if len(text) > 1500:
-        return "Wiadomość może mieć maksymalnie 1500 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
+        return "🚫 Wiadomość może mieć maksymalnie 1500 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
     if text == "":
-        return "Po !say napisz coś co ma powiedzieć bot, np !say elo"
+        return "🚫 Po !say napisz coś co ma powiedzieć bot, np !say elo"
 
     tts = gTTS(text, lang="pl")
     bytes_object = BytesIO()
     try:
         tts.write_to_fp(bytes_object)
     except AssertionError:
-        return "Podano niepoprawne znaki"
+        return "🚫 Podano niepoprawne znaki"
     return bytes_object

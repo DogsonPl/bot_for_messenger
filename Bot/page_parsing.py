@@ -10,28 +10,54 @@ DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
 
 
-async def get_weather(city):
-    async with aiohttp.ClientSession() as session:
-        html = await session.get(WEATHER_API_URL + city)
-    json_data = await html.json()
-    try:
-        temperature = json_data["main"]["temp"]
-        temperature -= 273  # convert to Celsius
-        perceptible_temperature = json_data["main"]["feels_like"]
-        perceptible_temperature -= 273  # convert to Celsius
-        weather_description = json_data["weather"][0]["description"]
-        pressure = json_data["main"]["pressure"]
-        humidity = json_data["main"]["humidity"]
-        wind_speed = json_data["wind"]["speed"]
-        return f"""Pogoda w {city.title()}
-Temperatura: {int(temperature)}C 
-Odczuwalna: {int(perceptible_temperature)}C
-Atmosfera: {weather_description} 
-Ciśnienie: {pressure} hPa
-Wilgotność: {humidity} %
-Prędkość wiatru: {wind_speed} m/s"""
-    except KeyError:
-        return "Nie znaleziono takiej miejscowości"
+class GetWeather:
+    def __init__(self):
+        self.icons = {"01d": "☀", "01n": "🌙",
+                      "02d": "🌤", "02n": "☁",
+                      "03d": "🌥", "03n": "☁",
+                      "04d": "☁", "04n": "☁",
+                      "09d": "🌦", "09n": "🌧",
+                      "10d": "🌧", "10n": "🌧",
+                      "11d": "⛈", "11n": "⛈",
+                      "13d": "🌨", "13n": "🌨",
+                      "50d": "🌫", "50n": "🌫"}
+
+    async def get_weather(self, city):
+        async with aiohttp.ClientSession() as session:
+            html = await session.get(WEATHER_API_URL + city)
+        json_data = await html.json()
+        try:
+            temperature = json_data["main"]["temp"]
+            temperature -= 273  # convert to Celsius
+            perceptible_temperature = json_data["main"]["feels_like"]
+            perceptible_temperature -= 273  # convert to Celsius
+            weather_description = json_data["weather"][0]["description"]
+            pressure = json_data["main"]["pressure"]
+            humidity = json_data["main"]["humidity"]
+            wind_speed = json_data["wind"]["speed"]
+            icon = json_data["weather"][0]["icon"]
+
+            weather_emoji = self.icons[icon]
+            temperature_emoji = await self.check_temperature_emoji(temperature)
+            perceptible_temperature_emoji = await self.check_temperature_emoji(perceptible_temperature)
+            return f"""🌐 Pogoda w {city.title()} 🌐
+🔰 Temperatura: {temperature_emoji} {int(temperature)}C 
+🔰 Odczuwalna: {perceptible_temperature_emoji} {int(perceptible_temperature)}C
+🔰 Atmosfera: {weather_emoji} {weather_description} 
+🔰 Ciśnienie: {pressure} hPa
+🔰 Wilgotność: {humidity} %
+🔰 Prędkość wiatru: {wind_speed} m/s"""
+        except KeyError:
+            return "🚫 Nie znaleziono takiej miejscowości"
+
+    @staticmethod
+    async def check_temperature_emoji(temperature):
+        if temperature <= 0:
+            return "🥶"
+        elif temperature > 20:
+            return "🥵"
+        else:
+            return "🌡"
 
 
 async def get_coronavirus_info():

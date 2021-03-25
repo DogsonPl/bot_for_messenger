@@ -66,7 +66,7 @@ async def get_group_regulations(event):
             data = await db.fetch_group_regulations(event.thread.id)
             group_regulations = data[0]
     except IndexError:
-        group_regulations = "Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
+        group_regulations = "📜 Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
     return group_regulations
 
 
@@ -76,6 +76,6 @@ async def get_group_welcome_message(event):
             data = await db.fetch_welcome_message(event.thread.id)
             message = data[0]
     except IndexError:
-        message = """Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
-    Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
+        message = """🥂 Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
+Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
     return message
