@@ -37,7 +37,7 @@ async def insert_into_daily(person_id, strike, coins_to_give):
     money = await get_user_money(person_id)
     async with INSERT_INTO as db:
         await db.insert_into_daily(person_id)
-        await db.insert_into_daily_strike(person_id, strike + 1)
+        await db.insert_into_daily_strike(person_id, strike)
     await insert_into_user_money(person_id, coins_to_give + money)
 
 
