@@ -118,6 +118,11 @@ class Commands(BotActions):
         tts = await self.loop.run_in_executor(None, getting_and_editing_files.get_tts, text)
         await self.send_bytes_audio_file(event, tts)
 
+    async def send_yt_video(self, event):
+        link = event.message.text.split()[0]
+        video, filetype = await self.loop.run_in_executor(None, page_parsing.download_yt_video, link)
+        await self.send_bytes_file(event, video, filetype)
+
     @staticmethod
     async def make_disco(event):
         for i in range(5):

@@ -1,6 +1,9 @@
 import feedparser
 import aiohttp
 from bs4 import BeautifulSoup
+from io import BytesIO
+import pytube
+
 
 WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&q="
 COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
@@ -138,3 +141,16 @@ async def get_public_transport_difficulties_in_lodz():
         else:
             message += i.text + "\n"
     return message
+
+
+def download_yt_video(link):
+    video = pytube.YouTube(link)
+    try:
+        if video.length > 130:
+            return "🚫 Wideo jest za długie i nie mogę go pobrać, ponieważ by to zbyt obciążyło serwery", None
+    except TypeError:
+        return "🚫 Nie mogę znaleźć video", None
+    bytes_object = BytesIO()
+    video = video.streams.first()
+    video.stream_to_buffer(bytes_object)
+    return bytes_object, "video/mp4"

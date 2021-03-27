@@ -101,6 +101,8 @@ class Listener:
                     try:
                         if event.message.text.startswith("!"):
                             MAIN_LOOP.create_task(self.commands[event.message.text.split()[0]](event))
+                        elif event.message.text.startswith("https://youtu.be/"):
+                            MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event))
                     except (AttributeError, KeyError):
                         # attribute error happens when someone sends photo and message don't have text
                         pass
