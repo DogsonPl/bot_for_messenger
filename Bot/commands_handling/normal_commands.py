@@ -57,6 +57,7 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 class Commands(BotActions):
     def __init__(self, loop, bot_id, client):
         self.get_weather = page_parsing.GetWeather().get_weather
+        self.downloading_videos = 0
         super().__init__(loop, bot_id, client)
 
     async def send_help_message(self, event):
@@ -119,9 +120,14 @@ class Commands(BotActions):
         await self.send_bytes_audio_file(event, tts)
 
     async def send_yt_video(self, event):
-        link = event.message.text.split()[0]
-        video, filetype = await self.loop.run_in_executor(None, page_parsing.download_yt_video, link)
-        await self.send_bytes_file(event, video, filetype)
+        if self.downloading_videos > 10:
+            await self.send_text_message(event, "Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
+        else:
+            self.downloading_videos += 1
+            link = event.message.text.split()[0]
+            video, filetype = await self.loop.run_in_executor(None, page_parsing.download_yt_video, link)
+            await self.send_bytes_file(event, video, filetype)
+            self.downloading_videos -= 1
 
     @staticmethod
     async def make_disco(event):
