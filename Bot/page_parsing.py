@@ -151,6 +151,12 @@ def download_yt_video(link):
     except TypeError:
         return "🚫 Nie mogę znaleźć video", None
     bytes_object = BytesIO()
-    video = video.streams.first()
-    video.stream_to_buffer(bytes_object)
+    try:
+        video = video.streams.first()
+    except pytube.exceptions.VideoUnavailable:
+        return "Bot nie może pobrać video, ponieważ jest nieobecne w danym ragionie", None
+    try:
+        video.stream_to_buffer(bytes_object)
+    except KeyError:
+        return "Nie można pobrać streamu na żywo", None
     return bytes_object, "video/mp4"
