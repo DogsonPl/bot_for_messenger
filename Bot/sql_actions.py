@@ -145,7 +145,7 @@ async def get_connection():
 
 
 async def restarting_daily_in_db():
-    aioschedule.every().day.at("23:00").do(InsertIntoDatabase().reset_daily)
+    aioschedule.every().day.at("00:00").do(InsertIntoDatabase().reset_daily)
     while True:
         loop.create_task(aioschedule.run_pending())
         await asyncio.sleep(60)

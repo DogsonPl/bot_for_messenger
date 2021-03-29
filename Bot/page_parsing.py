@@ -146,7 +146,7 @@ async def get_public_transport_difficulties_in_lodz():
 def download_yt_video(link):
     video = pytube.YouTube(link)
     try:
-        if video.length > 130:
+        if video.length > 260:
             return "🚫 Wideo jest za długie i nie mogę go pobrać, ponieważ by to zbyt obciążyło serwery", None
     except TypeError:
         return "🚫 Nie mogę znaleźć video", None
