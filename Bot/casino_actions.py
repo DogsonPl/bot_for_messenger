@@ -1,11 +1,11 @@
 from Bot.handling_sql_actions import *
-import random as rd
+import secrets
 
 
 async def take_daily(event):
     got_daily, strike = await check_daily(event.author.id)
     if got_daily == 1:
-        return "🚫 Odebrałeś już dzisiaj daily"
+        return "🚫 Odebrano już dzisiaj daily"
 
     try:
         coins_to_give = 10 + (strike/10)
@@ -30,14 +30,14 @@ async def make_bet(event):
     if current_money < bet_money:
         return "🚫 Nie masz wystarczająco dogecoinów"
 
-    lucky_number = rd.SystemRandom().random() * 100
+    lucky_number = secrets.randbelow(101)
     if lucky_number >= percent_to_win:
         current_money = current_money - bet_money
-        message = f"📉 Przegrano {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
+        message = f"📉 Przegrano {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
     else:
         won_money = ((bet_money / (percent_to_win / 100)) - bet_money)*0.99
         current_money += won_money
-        message = f"📈 Wygrano {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {'%.1f' % lucky_number}"
+        message = f"📈 Wygrano {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
     await insert_into_user_money(event.author.id, current_money)
     return message
 
