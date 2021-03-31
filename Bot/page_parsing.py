@@ -56,9 +56,9 @@ class GetWeather:
 
     @staticmethod
     async def check_temperature_emoji(temperature):
-        if temperature <= 0:
+        if temperature < 0:
             return "🥶"
-        elif temperature > 20:
+        elif temperature > 25:
             return "🥵"
         else:
             return "🌡"
