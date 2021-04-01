@@ -72,10 +72,10 @@ async def get_coronavirus_info():
     try:
         return f"""🦠 Koronawirus na świecie 🦠
 
-🤒 Potwierdzonych: {data['cases']}
-☠ Śmierci: {data['deaths']}
+🤒 Potwierdzonych: {format(data['cases'], ',d')}
+☠ Śmierci: {format(data['deaths'], ',d')}
 🩺 Uleczonych: {data['recovered']}
-😷 Chore osoby w tej chwili: {data['cases'] - data['deaths'] - data['recovered']}"""
+😷 Chore osoby w tej chwili: {format(data['cases'] - data['deaths'] - data['recovered'], ',d')}"""
     except KeyError:
         return "Błąd API. Spróbuj ponownie za kilka minut"
 
@@ -88,15 +88,15 @@ async def get_coronavirus_pl_info():
     try:
         return f"""🦠 Koronawirus w Polsce 🦠
 
-🤒 Potwierdzonych: {data['cases']}
-🤒 Dzisiaj potwierdzono: {data['todayCases']}
-☠ Śmierci: {data['deaths']}
-🩺 Uleczonych: {data['recovered']}
-😷 Chore osoby w tej chwili: {data['active']}
-😷 Liczba chorych na milion osób: {data['casesPerOneMillion']}
-☠ Śmiertelne przypadki na milion osób: {data['deathsPerOneMillion']}
-🧬 Liczba zrobionych testów: {data['totalTests']}
-🧬 Liczba testów na milion osób: {data['testsPerOneMillion']}"""
+🤒 Potwierdzonych: {format(data['cases'], ',d')}
+🤒 Dzisiaj potwierdzono: {format(data['todayCases'], ',d')}
+☠ Śmierci: {format(data['deaths'], ',d')}
+🩺 Uleczonych: {format(data['recovered'], ',d')}
+😷 Chore osoby w tej chwili: {format(data['active'], ',d')}
+😷 Liczba chorych na milion osób: {format(data['casesPerOneMillion'], ',d')}
+☠ Śmiertelne przypadki na milion osób: {format(data['deathsPerOneMillion'], ',d')}
+🧬 Liczba zrobionych testów: {format(data['totalTests'], ',d')}
+🧬 Liczba testów na milion osób: {format(data['testsPerOneMillion'], ',d')}"""
     except KeyError:
         return "Błąd API. Spróbuj ponownie za kilka minut"
 
