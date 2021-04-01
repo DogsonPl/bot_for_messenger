@@ -135,20 +135,8 @@ class Commands(BotActions):
             color = rd.choice(SETABLE_COLORS)
             await event.thread.set_color(color)
 
-    async def change_emoji(self, event):
-        await self.send_text_message(event, """❗❗ Fb czasowo usunął możliwość zmieniania emoji przez API. 
-Opcja zostanie dodana wtedy kiedy fb znowu doda te funkcje""")
-        # todo try to fix this function
-        # try:
-        #    await event.thread.set_emoji(emoji=event.message.text[8])
-        # except:
-        #    await event.thread.set_emoji(emoji=event.message.text[7])
-
     async def change_nick(self, event):
-        await self.send_text_message(event, """❗❗ Fb czasowo usunął nicki.
-Opcja zostanie dodana wtedy kiedy fb znowu doda te funkcje""")
-        # todo add commented part of code in this function when nicknames in messenger come back
-        # try:
-        #    await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[5:])
-        # except:
-        #    await event.thread.send_text("Linux nie moze odczytać polskiej litery, albo wpisałes za długi nick")
+        try:
+            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[5:])
+        except fbchat.InvalidParameters:
+            await self.send_text_message(event, "Linux nie moze odczytać polskiej litery, albo wpisałes za długi nick")

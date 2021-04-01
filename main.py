@@ -62,7 +62,6 @@ class Listener:
                          "!say": self.normal_commands.send_tts,
                          "!tvpis": self.normal_commands.send_tvpis_image,
                          "!pogoda": self.normal_commands.send_weather,
-                         "!emotka": self.normal_commands.change_emoji,
                          "!nick": self.normal_commands.change_nick,
                          "!koronawirus": self.normal_commands.send_covid_info,
                          "!koronawiruspl": self.normal_commands.send_covid_pl_info,
