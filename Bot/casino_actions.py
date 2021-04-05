@@ -97,27 +97,36 @@ Zasady:
 -na końcu dnia jest losowanie, osoba której bilet zostanie wylosowany wygrywa dogecoiny (każdy kupiony bilet zwiększa pule nagród o jeden dogecoin)"""
 
 
-async def draw_jackpot_winner():
-    users, tickets = zip(*await handling_casino_sql.fetch_all_jackpot_data_to_make_draw())
-    total = 0
-    try:
-        weights = [total := total + i for i in tickets]
-    except SyntaxError:
-        raise Exception("To run this function, you have to update your python version to 3.8+")
-    random = rd.random()*total
-    winner_index = bisect.bisect(weights, random)
-    winner_id = users[winner_index]
-    await save_jackpot_results({"last_winner": winner_id, "last_prize": total})
-    user_money = await handling_casino_sql.fetch_user_money(winner_id)
-    await handling_casino_sql.insert_into_user_money(winner_id, user_money+total)
+class DrawJackpotWinner:
+    @staticmethod
+    async def draw_jackpot_winner():
+        users, tickets = zip(*await handling_casino_sql.fetch_all_jackpot_data_to_make_draw())
+        total = 0
+        try:
+            weights = [total := total + i for i in tickets]
+        except SyntaxError:
+            raise Exception("To run this function, you have to update your python version to 3.8+")
+        random = rd.random()*total
+        winner_index = bisect.bisect(weights, random)
+        winner_id = users[winner_index]
+        await save_jackpot_results({"last_winner": winner_id, "last_prize": total})
+        user_money = await handling_casino_sql.fetch_user_money(winner_id)
+        await handling_casino_sql.insert_into_user_money(winner_id, user_money+total)
+
+    @staticmethod
+    async def reset_table():
+        await handling_casino_sql.reset_jackpot_label()
+
+
+LAST_RESULTS_FILE_PATH = "Bot//data//last_jackpot_results.json"
 
 
 async def save_jackpot_results(data):
-    async with aiofiles.open("Bot//data//last_jackpot_results.json", "w") as file:
+    async with aiofiles.open(LAST_RESULTS_FILE_PATH, "w") as file:
         await file.write(json.dumps(data))
 
 
 async def get_last_jackpot_results():
-    async with aiofiles.open("Bot//data//last_jackpot_results.json", "r") as file:
+    async with aiofiles.open(LAST_RESULTS_FILE_PATH, "r") as file:
         data = json.loads(await file.read())
         return data

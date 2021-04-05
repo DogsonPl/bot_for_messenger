@@ -23,6 +23,10 @@ async def add_jackpot_tickets(user_id, tickets):
                               UPDATE SET tickets = excluded.tickets;""", (user_id, tickets))
 
 
+async def reset_jackpot_label():
+    await database.execute("""DELETE FROM jackpot;""")
+
+
 async def fetch_info_if_user_got_today_daily(user_id):
     try:
         data = await database.fetch_data("""SELECT take_daily, daily_strike FROM casino_players
