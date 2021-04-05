@@ -19,7 +19,7 @@ async def get_connection():
 
 loop = asyncio.get_event_loop()
 CONNECTION = loop.run_until_complete(get_connection())
-loop.create_task(create_database.CreateTablesIfNotExists().async_init())
-loop.create_task(daily_actions.restarting_daily_in_db())
 
 database = Database()
+loop.create_task(create_database.CreateTablesIfNotExists(database).async_init())
+loop.create_task(daily_actions.restarting_daily_in_db(loop, database))
