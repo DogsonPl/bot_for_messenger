@@ -1,7 +1,7 @@
 import fbchat
 import random as rd
 from Bot.bot_actions import BotActions
-from Bot import handling_sql
+from Bot.sql import handling_group_sql
 
 
 def check_admin_permission(function):
@@ -45,19 +45,19 @@ class GroupCommands(BotActions):
         if event.message.text == "!powitanie":
             message = "🚫 Po !powitanie ustaw treść powitania"
         else:
-            await handling_sql.set_welcome_message(event)
+            await handling_group_sql.set_welcome_message(event)
             message = "✅ Powitanie zostało zmienione :)"
         await self.send_text_message(event, message)
 
     @check_group_instance
     @check_admin_permission
     async def set_new_group_regulations(self, event, group_info):
-        await handling_sql.set_group_regulations(event)
+        await handling_group_sql.set_group_regulations(event)
         await self.send_text_message(event, "✅ Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć")
 
     @check_group_instance
     async def get_group_regulations(self, event, group_info):
-        group_regulations = await handling_sql.get_group_regulations(event)
+        group_regulations = await handling_group_sql.fetch_group_regulations(event)
         await self.send_text_message(event, group_regulations)
 
     @check_group_instance
@@ -73,7 +73,7 @@ class GroupCommands(BotActions):
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
     async def reply_on_person_added(self, event):
-        message = await handling_sql.get_group_welcome_message(event)
+        message = await handling_group_sql.fetch_welcome_message(event)
         await self.send_text_message(event, message)
 
     async def reply_on_person_removed(self, event):
