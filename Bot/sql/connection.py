@@ -10,7 +10,7 @@ class Database:
         await cursor.close()
         return data
 
-    async def execute(self, query, *args):
+    async def execute(self, query, args=None):
         await CONNECTION.execute(query, args)
 
 
