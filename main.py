@@ -78,6 +78,8 @@ class Listener:
                          "!bal": self.casino_commands.send_user_money,
                          "!top": self.casino_commands.send_top_players,
                          "!tip": self.casino_commands.send_tip_message,
+                         "!jackpot": self.casino_commands.send_jackpot_info,
+                         "!jackpotbuy": self.casino_commands.send_jackpot_ticket_bought_message,
                          "!ruletka": self.group_commands.delete_random_person,
                          "!luckymember": self.group_commands.send_message_with_random_mention,
                          "!nowyregulamin": self.group_commands.set_new_group_regulations,

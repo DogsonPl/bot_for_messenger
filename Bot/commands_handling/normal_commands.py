@@ -38,7 +38,9 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !top - wysyła 3 graczy którzy mają najwięcej monet
 💸 !bal - wysyła twoją liczbe dogecoinów
 💸 !bet x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
-💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie"""
+💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
+💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
+💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)"""
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
 
@@ -48,10 +50,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 5.1 + 8.0 pro 🤖
+🤖 Wersja bota: 5.1 + 8.1 pro 🤖
 
 🧾 Ostatnio do bota dodano:
-🆕 ładniejszy wygląd komend"""
+🆕 !jackpot
+🆕 !jackpotbuy"""
 
 
 class Commands(BotActions):

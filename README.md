@@ -41,5 +41,7 @@ In a file _Bot/data/mail_and_password.json_ write your mail and password to your
 **!daily** - give you daily free virtual money\
 **!top** - sends tree persons which have the biggest amount of money\
 **!bal** - sends your balance\
-**!bet x y** - you can bet virtual value (x is how many money you bet and y is how many % to win you have, for example !bet 10 80)\
+**!bet x y** - you can bet virtual value (x is how much money you bet and y is how many % to win you have, for example !bet 10 80)\
 **!tip x @mention** - you can send virtual money to your friend (for example !tip 10 @nick)
+**!jackpot** - sends info about jackpot rules, total tickets and user tickets
+**!jackpotbuy x** - user buys x tickets to jackpot

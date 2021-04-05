@@ -50,6 +50,13 @@ class InsertIntoDatabase:
                                     UPDATE SET take_daily = excluded.take_daily;""", (user_id,))
 
     @staticmethod
+    async def insert_into_user_ticket(user_id, tickets):
+        await CONNECTION.execute("""INSERT INTO jackpot(user_id, tickets)
+                                    VALUES(?, ?)
+                                    ON CONFLICT (user_id) DO
+                                    UPDATE SET tickets = excluded.tickets;""", (user_id, tickets))
+
+    @staticmethod
     async def reset_daily():
         print("Daily has been reset...")
         await CONNECTION.execute("""UPDATE casino_players
@@ -109,18 +116,34 @@ class GetInfoFromDatabase:
         await cursor.close()
         return data
 
+    @staticmethod
+    async def fetch_tickets_number():
+        cursor = await CONNECTION.execute("""SELECT SUM(tickets) FROM jackpot""")
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
+
+    @staticmethod
+    async def fetch_user_tickets(user_id):
+        cursor = await CONNECTION.execute("""SELECT tickets FROM jackpot
+                                             WHERE user_id = ?;""", (user_id,))
+        data = await cursor.fetchall()
+        await cursor.close()
+        return data
+
 
 class CreateTablesIfNotExists:
     async def async_init(self):
-        await self.create_group_info_database()
-        await self.create_casino_players_database()
+        await self.create_group_info_table()
+        await self.create_casino_players_table()
+        await self.create_jackpot_table()
 
     def __await__(self):
         return self.async_init().__await__()
 
     @staticmethod
-    async def create_group_info_database():
-        print("Creating group info database if not exists...")
+    async def create_group_info_table():
+        print("Creating group info table if not exists...")
         await CONNECTION.execute("""CREATE TABLE IF NOT EXISTS groups_information(
                                     id INTEGER PRIMARY KEY,
                                     group_id INTEGER NOT NULL UNIQUE,
@@ -129,14 +152,24 @@ class CreateTablesIfNotExists:
                                     );""")
 
     @staticmethod
-    async def create_casino_players_database():
-        print("Creating casino_players if not exists...")
+    async def create_casino_players_table():
+        print("Creating casino players table if not exists...")
         await CONNECTION.execute("""CREATE TABLE IF NOT EXISTS casino_players(
                                     id INTEGER PRIMARY KEY,
                                     user_id INTEGER NOT NULL UNIQUE,
                                     money FLOAT,
                                     take_daily BIT,
                                     daily_strike INTEGER
+                                    );""")
+
+    @staticmethod
+    async def create_jackpot_table():
+        print("Creating jackpot table if not exists...")
+        await CONNECTION.execute("""CREATE TABLE IF NOT EXISTS jackpot(
+                                    id INTEGER PRIMARY KEY,
+                                    tickets INTEGER, 
+                                    user_id INTEGER NOT NULL UNIQUE,
+                                    FOREIGN KEY(user_id) REFERENCES casino_players(user_id)
                                     );""")
 
 

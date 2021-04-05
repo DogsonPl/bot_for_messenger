@@ -1,4 +1,4 @@
-from Bot.handling_sql_actions import *
+from Bot.handling_sql import *
 import secrets
 
 
@@ -59,3 +59,30 @@ async def make_tip(event):
     await insert_into_user_money(event.author.id, sender_money)
     await insert_into_user_money(int(mention.thread_id), receiver_money)
     return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
+
+
+async def buy_jackpot_ticket(event):
+    try:
+        tickets_to_buy = abs(int(event.message.text.split()[1]))
+    except (IndexError, ValueError, TypeError):
+        return "🚫 Wygląd komendy: !jackpotbuy liczba_biletów"
+    money = await get_user_money(event.author.id)
+    if money < tickets_to_buy:
+        return "🚫 Nie masz wystarczająco pieniędzy"
+    tickets = await get_user_tickets(event.author.id)
+    tickets += tickets_to_buy
+    await insert_into_user_money(event.author.id, money-tickets_to_buy)
+    await insert_into_user_tickets(event.author.id, tickets)
+    return f"✅ Kupiono {tickets_to_buy} biletów"
+
+
+async def jackpot_info(event):
+    ticket_number = await get_tickets_number()
+    user_tickets = await get_user_tickets(event.author.id)
+    return f"""Ogólna liczba kupionych biletów: {ticket_number}
+Twoja liczba biletów: {user_tickets}
+
+Zasady:
+-każdy bilet kosztuje 1 dogecoin
+-jeden bilet to jeden los
+-na końcu dnia jest losowanie, osoba której bilet zostanie wylosowany wygrywa dogecoiny (każdy kupiony bilet zwiększa pule nagród o jeden dogecoin)"""

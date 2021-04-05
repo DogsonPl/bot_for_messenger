@@ -79,3 +79,24 @@ async def get_group_welcome_message(event):
         message = """🥂 Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
 Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
     return message
+
+
+async def insert_into_user_tickets(user_id, tickets):
+    async with INSERT_INTO as db:
+        await db.insert_into_user_ticket(user_id, tickets)
+
+
+async def get_user_tickets(user_id):
+    async with GET_FROM_DB as db:
+        try:
+            data = await db.fetch_user_tickets(user_id)
+            data = data[0][0]
+        except IndexError:
+            data = 0
+    return data
+
+
+async def get_tickets_number():
+    async with GET_FROM_DB as db:
+        data = await db.fetch_tickets_number()
+    return data[0][0]
