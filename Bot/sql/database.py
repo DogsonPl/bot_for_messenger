@@ -1,6 +1,6 @@
 import asyncio
 import aiosqlite
-import aioschedule
+
 
 
 class Database:
@@ -50,26 +50,6 @@ class Cursor(Database):
 
     async def execute(self, query, args=None):
         await self.connection.execute(query, args)
-
-
-async def reset_daily_table():
-    print("Daily has been reset...")
-    await cursor.execute("""UPDATE casino_players
-                              SET daily_strike = 1 
-                              WHERE take_daily = 0;""")
-    await cursor.execute("""UPDATE casino_players
-                              SET take_daily = 0;""")
-
-
-async def restarting_scheduler():
-    aioschedule.every().day.at("00:00").do(daily_tasks)
-    while True:
-        await aioschedule.run_pending()
-        await asyncio.sleep(60)
-
-
-async def daily_tasks():
-    await reset_daily_table()
 
 
 loop = asyncio.get_event_loop()
