@@ -1,4 +1,4 @@
-from .connection import database
+from . import database
 
 
 async def set_group_regulations(event):

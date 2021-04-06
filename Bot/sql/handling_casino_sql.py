@@ -1,4 +1,4 @@
-from .connection import database
+from .import database
 
 
 async def insert_into_daily(user_id, strike, coins_to_give):

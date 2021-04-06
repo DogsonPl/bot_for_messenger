@@ -1,7 +1,7 @@
 import fbchat
 import random as rd
-from Bot import getting_and_editing_files, page_parsing
-from Bot.bot_actions import BotActions
+from .. import getting_and_editing_files, page_parsing
+from . import BotActions
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS

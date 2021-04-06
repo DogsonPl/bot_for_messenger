@@ -1,7 +1,7 @@
-class CreateTablesIfNotExists:
-    def __init__(self, database):
-        self.database = database
+from . import database
 
+
+class CreateTablesIfNotExists:
     async def async_init(self):
         await self.create_group_info_table()
         await self.create_casino_players_table()
@@ -12,7 +12,7 @@ class CreateTablesIfNotExists:
 
     async def create_group_info_table(self):
         print("Creating group info table if not exists...")
-        await self.database.execute("""CREATE TABLE IF NOT EXISTS groups_information(
+        await database.execute("""CREATE TABLE IF NOT EXISTS groups_information(
                                     id INTEGER PRIMARY KEY,
                                     group_id INTEGER NOT NULL UNIQUE,
                                     regulations TEXT,
@@ -21,7 +21,7 @@ class CreateTablesIfNotExists:
 
     async def create_casino_players_table(self):
         print("Creating casino players table if not exists...")
-        await self.database.execute("""CREATE TABLE IF NOT EXISTS casino_players(
+        await database.execute("""CREATE TABLE IF NOT EXISTS casino_players(
                                     id INTEGER PRIMARY KEY,
                                     user_id INTEGER NOT NULL UNIQUE,
                                     money FLOAT,

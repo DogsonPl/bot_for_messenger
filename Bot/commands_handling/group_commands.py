@@ -1,7 +1,7 @@
 import fbchat
 import random as rd
-from Bot.bot_actions import BotActions
-from Bot.sql import handling_group_sql
+from . import BotActions
+from . import handling_group_sql
 
 
 def check_admin_permission(function):

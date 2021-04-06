@@ -1,6 +1,6 @@
-from Bot.bot_actions import BotActions
-from Bot import casino_actions
-from Bot.sql import handling_casino_sql
+from . import BotActions
+from .. import casino_actions
+from . import handling_casino_sql
 
 MEDALS = ["🥇", "🥈", "🥉"]
 
@@ -34,7 +34,7 @@ class CasinoCommands(BotActions):
         await self.send_text_message(event, message)
 
     async def send_jackpot_info(self, event):
-        message, winner_id = await casino_actions.jackpot_info(event)
+        message = await casino_actions.jackpot_info(event)
         await self.send_text_message(event, message)
 
     async def send_jackpot_ticket_bought_message(self, event):
