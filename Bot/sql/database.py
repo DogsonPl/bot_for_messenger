@@ -5,8 +5,8 @@ import aioschedule
 
 class Database:
     def __init__(self):
-        self.connection = loop.create_task(self.connect_to_db()).result()
-        self.create_database()
+        self.connection = loop.run_until_complete(self.connect_to_db())
+        loop.create_task(self.create_database())
 
     @staticmethod
     async def connect_to_db():
@@ -14,7 +14,7 @@ class Database:
 
     @staticmethod
     async def create_database():
-        print("Creating group info table if not exists...")
+        print("Creating database and all tables...")
         await cursor.execute("""CREATE TABLE IF NOT EXISTS groups_information(
                                     id INTEGER PRIMARY KEY,
                                     group_id INTEGER NOT NULL UNIQUE,
@@ -22,7 +22,6 @@ class Database:
                                     welcome_message TEXT
                                     );""")
 
-        print("Creating casino players table if not exists...")
         await cursor.execute("""CREATE TABLE IF NOT EXISTS casino_players(
                                     id INTEGER PRIMARY KEY,
                                     user_id INTEGER NOT NULL UNIQUE,
@@ -31,7 +30,6 @@ class Database:
                                     daily_strike INTEGER
                                     );""")
 
-        print("Creating jackpot table if not exists...")
         await cursor.execute("""CREATE TABLE IF NOT EXISTS jackpot(
                                     id INTEGER PRIMARY KEY,
                                     tickets INTEGER, 
