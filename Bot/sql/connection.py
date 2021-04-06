@@ -1,6 +1,6 @@
 import asyncio
 import aiosqlite
-from . import daily_actions, create_database
+from . import create_database, daily_actions
 
 
 class Database:

@@ -1,6 +1,6 @@
-from . import BotActions
+from ..bot_actions import BotActions
 from .. import casino_actions
-from . import handling_casino_sql
+from ..sql import handling_casino_sql
 
 MEDALS = ["🥇", "🥈", "🥉"]
 

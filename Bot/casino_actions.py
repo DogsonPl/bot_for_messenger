@@ -3,7 +3,7 @@ import json
 import bisect
 import random as rd
 import aiofiles
-from . import handling_casino_sql
+from .sql import handling_casino_sql
 
 
 async def take_daily(event):

@@ -21,3 +21,4 @@ async def restarting_scheduler(loop):
 
 async def daily_tasks():
     await reset_daily_table()
+
