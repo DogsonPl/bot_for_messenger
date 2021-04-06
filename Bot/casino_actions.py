@@ -87,14 +87,7 @@ async def jackpot_info(event):
     last_jackpot_results = await get_last_jackpot_results()
     last_prize = last_jackpot_results["last_prize"]
     last_winner = last_jackpot_results["last_winner"]
-    return f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
-🎫 Twoja liczba biletów: {user_tickets}
-🎟 Ostatnio {last_prize} dogecoinów wygrał {last_winner} 
-
-📑 Zasady:
--każdy bilet kosztuje 1 dogecoin
--jeden bilet to jeden los
--na końcu dnia jest losowanie, osoba której bilet zostanie wylosowany wygrywa dogecoiny (każdy kupiony bilet zwiększa pule nagród o jeden dogecoin)"""
+    return ticket_number, user_tickets, last_prize, last_winner
 
 
 class DrawJackpotWinner:

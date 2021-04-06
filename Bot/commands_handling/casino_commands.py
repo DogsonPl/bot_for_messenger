@@ -34,7 +34,16 @@ class CasinoCommands(BotActions):
         await self.send_text_message(event, message)
 
     async def send_jackpot_info(self, event):
-        message = await casino_actions.jackpot_info(event)
+        ticket_number, user_tickets, last_prize, last_winner = await casino_actions.jackpot_info(event)
+        last_winner = await self.get_thread_info(last_winner)
+        message = f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
+        🎫 Twoja liczba biletów: {user_tickets}
+        🎟 Ostatnio {last_prize} dogecoinów wygrał {last_winner.name} 
+
+        📑 Zasady:
+        -każdy bilet kosztuje 1 dogecoin
+        -jeden bilet to jeden los
+        -na końcu dnia jest losowanie, osoba której bilet zostanie wylosowany wygrywa dogecoiny (każdy kupiony bilet zwiększa pule nagród o jeden dogecoin)"""
         await self.send_text_message(event, message)
 
     async def send_jackpot_ticket_bought_message(self, event):

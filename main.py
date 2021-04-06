@@ -5,6 +5,7 @@ import time
 from Bot.commands_handling.normal_commands import Commands
 from Bot.commands_handling.casino_commands import CasinoCommands
 from Bot.commands_handling.group_commands import GroupCommands
+from Bot import do_new_day
 
 
 class BotCore:
@@ -117,6 +118,7 @@ class Listener:
 if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
     MAIN_LOOP.create_task(BotCore().login())
+    MAIN_LOOP.create_task(do_new_day.init())
     MAIN_LOOP.run_forever()
 
 # works only on linux

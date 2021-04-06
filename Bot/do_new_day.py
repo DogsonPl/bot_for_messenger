@@ -14,7 +14,7 @@ async def reset_daily_table():
 
 
 async def restarting_scheduler():
-    aioschedule.every().day.at("00:00").do(daily_tasks)
+    aioschedule.every().day.at("00:24").do(daily_tasks)
     while True:
         loop.create_task(aioschedule.run_pending())
         await asyncio.sleep(60)
@@ -24,5 +24,8 @@ async def daily_tasks():
     await reset_daily_table()
     await draw_jackpot_winner.draw_jackpot_winner()
 
+
+async def init():
+    loop.create_task(restarting_scheduler())
 
 draw_jackpot_winner = DrawJackpotWinner()
