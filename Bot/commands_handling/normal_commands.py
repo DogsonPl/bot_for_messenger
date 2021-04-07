@@ -124,7 +124,7 @@ class Commands(BotActions):
 
     async def send_yt_video(self, event):
         if self.downloading_videos > 10:
-            await self.send_text_message(event, "Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
+            await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
         else:
             self.downloading_videos += 1
             link = event.message.text.split()[0]
@@ -142,4 +142,4 @@ class Commands(BotActions):
         try:
             await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[5:])
         except fbchat.InvalidParameters:
-            await self.send_text_message(event, "Linux nie moze odczytać polskiej litery, albo wpisałes za długi nick")
+            await self.send_text_message(event, "🚫 Wpisano za długi nick")

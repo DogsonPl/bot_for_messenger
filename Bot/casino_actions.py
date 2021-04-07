@@ -111,15 +111,15 @@ class DrawJackpotWinner:
         await handling_casino_sql.reset_jackpot_label()
 
 
-LAST_RESULTS_FILE_PATH = "Bot//data//last_jackpot_results.json"
+LAST_JACKPOT_RESULTS_FILE_PATH = "Bot//data//last_jackpot_results.json"
 
 
 async def save_jackpot_results(data):
-    async with aiofiles.open(LAST_RESULTS_FILE_PATH, "w") as file:
+    async with aiofiles.open(LAST_JACKPOT_RESULTS_FILE_PATH, "w") as file:
         await file.write(json.dumps(data))
 
 
 async def get_last_jackpot_results():
-    async with aiofiles.open(LAST_RESULTS_FILE_PATH, "r") as file:
+    async with aiofiles.open(LAST_JACKPOT_RESULTS_FILE_PATH, "r") as file:
         data = json.loads(await file.read())
         return data

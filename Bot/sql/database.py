@@ -2,7 +2,6 @@ import asyncio
 import aiosqlite
 
 
-
 class Database:
     def __init__(self):
         self.connection = loop.run_until_complete(self.connect_to_db())

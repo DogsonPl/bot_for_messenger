@@ -5,7 +5,7 @@ import time
 from Bot.commands_handling.normal_commands import Commands
 from Bot.commands_handling.casino_commands import CasinoCommands
 from Bot.commands_handling.group_commands import GroupCommands
-from Bot import do_new_day
+from Bot import daily_tasks
 
 
 class BotCore:
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     bot = BotCore()
     MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
-    MAIN_LOOP.create_task(do_new_day.init())
+    MAIN_LOOP.create_task(daily_tasks.init())
     MAIN_LOOP.run_forever()
 
 # works only on linux
