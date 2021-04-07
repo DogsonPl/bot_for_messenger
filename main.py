@@ -10,8 +10,9 @@ from Bot import do_new_day
 
 class BotCore:
     def __init__(self):
+        self.cookies_file_path = "Bot//data//cookies.json"
         try:
-            with open("Bot//data//cookies.json", "r") as cookies_file:
+            with open(self.cookies_file_path, "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
             self.cookies = None
@@ -30,11 +31,12 @@ class BotCore:
             self.session = await fbchat.Session.login(self.mail_and_password["mail"], self.mail_and_password["password"])
             self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
+        MAIN_LOOP.create_task(self.save_cookies())
 
+    async def save_cookies(self):
         new_cookies = self.session.get_cookies()
-        with open("Bot/data//cookies.json", "w") as cookies_file:
+        with open(self.cookies_file_path, "w") as cookies_file:
             json.dump(new_cookies, cookies_file)
-        MAIN_LOOP.create_task(self.init_listening())
 
     async def init_listening(self):
         try:
@@ -43,7 +45,7 @@ class BotCore:
             print("\nRestarting...\n")
             await self.session.logout()
             time.sleep(15)
-            MAIN_LOOP.create_task(BotCore().login())
+            MAIN_LOOP.create_task(self.login())
         except NotImplementedError:
             await self.session.logout()
             raise Exception("Bot works only on Linux")
@@ -117,7 +119,9 @@ class Listener:
 
 if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
-    MAIN_LOOP.create_task(BotCore().login())
+    bot = BotCore()
+    MAIN_LOOP.run_until_complete(bot.login())
+    MAIN_LOOP.create_task(bot.init_listening())
     MAIN_LOOP.create_task(do_new_day.init())
     MAIN_LOOP.run_forever()
 
