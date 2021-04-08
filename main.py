@@ -2,6 +2,8 @@ import fbchat
 import asyncio
 import json
 import time
+
+from Bot.parse_config import get_login_data
 from Bot.commands_handling.normal_commands import Commands
 from Bot.commands_handling.casino_commands import CasinoCommands
 from Bot.commands_handling.group_commands import GroupCommands
@@ -18,9 +20,6 @@ class BotCore:
             self.cookies = None
             print("Cannot find cookies.json")
 
-        with open("Bot//data//mail_and_password.json") as login_data_file:
-            self.mail_and_password = json.load(login_data_file)
-
     async def login(self):
         print("Login in...")
         try:
@@ -28,7 +27,8 @@ class BotCore:
             self.client = fbchat.Client(session=self.session)
             print("Logged using cookies")
         except (fbchat.NotLoggedIn, AttributeError):
-            self.session = await fbchat.Session.login(self.mail_and_password["mail"], self.mail_and_password["password"])
+            mail, password = await get_login_data()
+            self.session = await fbchat.Session.login(mail, password)
             self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
         MAIN_LOOP.create_task(self.save_cookies())
@@ -117,9 +117,12 @@ class Listener:
                     MAIN_LOOP.create_task(self.group_commands.reply_on_person_removed(event))
 
 
+
+
+
 if __name__ == '__main__':
-    MAIN_LOOP = asyncio.get_event_loop()
     bot = BotCore()
+    MAIN_LOOP = asyncio.get_event_loop()
     MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
     MAIN_LOOP.create_task(daily_tasks.init())

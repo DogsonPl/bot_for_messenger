@@ -8,3 +8,4 @@ aiohttp
 aiosqlite
 aioschedule
 pytube
+aiomysql

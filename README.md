@@ -10,25 +10,25 @@
    pip3 install -r requirements.txt
    ```
 ## First configuration
-In a file _Bot/data/mail_and_password.json_ write your mail and password to your Facebook account\
+In a file _config.cfg_ write your mail, password to your Facebook account, and your mysql database server info\
 **I recommend run bot on your second FB account, because FB can ban your account**
 
 ## All available commands and their description:</h3>
-**!help** - sends all available commands and their description\
+**!help** - sends all available commands, and their description\
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
-**!wsparcie** - (wsparcie = support) sends link to paypal and bank account for people who want support bot\
-**!tworca** - (tworca = developer) sends Facebook profile of the person who created the bot\
+**!wsparcie** - (wsparcie = support) sends a link to paypal and bank account for people who want support bot\
+**!tworca** - (tworca = developer) sends FB profile of the person who created the bot\
 **!koronawirus** - (koronawirus = coronavirus) sends info about coronavirus in the world (total cases, total deaths, total recovered, current cases)\
 **!koronawiruspl** - (koronawirus = coronavirus) sends info about coronavirus in Poland (total cases, today cases, total deaths, recovered, current cases, cases per million, number of tests, tests per million)\
 **!mem** - sends random meme\
 **!luckymember** - draws and mention a random group member\
-**!ruletka** - (ruletka = roulette) removes random person from group (bot must be an admin)\
+**!ruletka** - (ruletka = roulette) removes random a person from group (bot must be an admin)\
 **!pogoda x** - (pogoda = weather) sends weather from x (for example !pogoda London)\
 **!nick x** - changes your nick in group to x (for example !nick friend change your nick in group to friend)\
 **!everyone** - mentions everyone on group\
-**!utrudnieniawroclaw** - sends difficulties in public transport in Wroclaw (Wrocław is polish city)\
-**!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is polish city)\
-**!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is polish city)\
+**!utrudnieniawroclaw** - sends difficulties in public transport in Wroclaw (Wrocław is Polish city)\
+**!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is Polish city)\
+**!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is Polish city)\
 **!moneta** - (moneta = draw) bot makes coin flip\
 **!film**- sends random funny film\
 **!tvpis x** - (tvpis = tv station) sends TV news bar with x (for example !tvpis Hi sends bar with Hi)\

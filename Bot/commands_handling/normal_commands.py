@@ -50,7 +50,7 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 5.1 + 8.1 pro 🤖
+🤖 Wersja bota: 6.0 + 8.1 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 !jackpot
