@@ -35,7 +35,7 @@ class CasinoCommands(BotActions):
 
     async def send_jackpot_info(self, event):
         ticket_number, user_tickets, last_prize, last_winner = await casino_actions.jackpot_info(event)
-        last_winner = await self.get_thread_info(last_winner)
+        last_winner = await self.get_thread_info(str(last_winner))
         message = f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
 🎫 Twoja liczba biletów: {user_tickets}
 🎟 Ostatnio {last_prize} dogecoinów wygrał {last_winner.name} 
