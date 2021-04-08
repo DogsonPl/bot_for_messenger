@@ -6,7 +6,7 @@ import pymysql
 
 class Database:
     def __init__(self):
-        self.connection, self.cursor = loop.run_until_complete(self.connect_to_db())
+        self.connection = loop.run_until_complete(self.connect_to_db())
         loop.create_task(self.create_database())
 
     @staticmethod
@@ -18,8 +18,7 @@ class Database:
                                                 autocommit=True, db=database_name)
         except pymysql.err.OperationalError:
             raise Exception(f"Have you installed mysql on your computer and created database '{database_name}'?")
-        cur = await connection.cursor()
-        return connection, cur
+        return connection
 
     @staticmethod
     async def create_database():
@@ -53,12 +52,15 @@ class Cursor(Database):
         super().__init__()
 
     async def fetch_data(self, query, args=None):
-        await self.cursor.execute(query, args)
-        data = await self.cursor.fetchall()
+        cursor_ = await self.connection.cursor()
+        await cursor_.execute(query, args)
+        data = await cursor_.fetchall()
+        await cursor_.close()
         return data
 
     async def execute(self, query, args=None):
-        await self.cursor.execute(query, args)
+        cursor_ = await self.connection.cursor()
+        await cursor_.execute(query, args)
 
 
 loop = asyncio.get_event_loop()
