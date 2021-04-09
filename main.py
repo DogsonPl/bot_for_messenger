@@ -45,7 +45,8 @@ class BotCore:
             print("\nRestarting...\n")
             await self.session.logout()
             time.sleep(15)
-            MAIN_LOOP.create_task(self.login())
+            await self.login()
+            await self.init_listening()
         except NotImplementedError:
             await self.session.logout()
             raise Exception("Bot works only on Linux")
@@ -98,7 +99,7 @@ class Listener:
         listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
         MAIN_LOOP.create_task(self.set_sequence_id(listener))
 
-        print("Listening...")
+        print("\nListening...\n")
         async for event in listener.listen():
             if isinstance(event, fbchat.MessageEvent):
                 if event.author.id != self.bot_id:
@@ -109,15 +110,15 @@ class Listener:
                             MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event))
                     except (AttributeError, KeyError):
                         # attribute error happens when someone sends photo and message don't have text
-                        pass
+                        continue
             elif isinstance(event, fbchat.PeopleAdded):
                 MAIN_LOOP.create_task(self.group_commands.reply_on_person_added(event))
             elif isinstance(event, fbchat.PersonRemoved):
                 if self.bot_id != event.removed.id:
                     MAIN_LOOP.create_task(self.group_commands.reply_on_person_removed(event))
 
-
-
+        print("\nListening stopped. Restarting...\n")
+        await bot.init_listening()
 
 
 if __name__ == '__main__':

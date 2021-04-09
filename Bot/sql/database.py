@@ -15,7 +15,7 @@ class Database:
         print()
         try:
             pool_connection = await aiomysql.create_pool(host=host, user=user, password=password, port=int(port),
-                                                         autocommit=True, db=database_name)
+                                                         autocommit=True, db=database_name, maxsize=20, loop=loop)
         except pymysql.err.OperationalError:
             raise Exception(f"Have you installed mysql on your computer and created database '{database_name}'?")
         return pool_connection

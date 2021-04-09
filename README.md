@@ -33,7 +33,6 @@ In a file _config.cfg_ write your mail, password to your Facebook account, and y
 **!film**- sends random funny film\
 **!tvpis x** - (tvpis = tv station) sends TV news bar with x (for example !tvpis Hi sends bar with Hi)\
 **!disco**- make disco on chat 😎 (bot changes chat color few times)\
-**!emotka x** - (emotka = emoji) change group emoji to x (for example !emotka 😎 change chat emoji to 😎)\
 **!powitanie x** - (powitanie = welcome) sets message which bot send when someone joins to group (for example !powitanie Hi sets welcome message to Hi)\
 **!nowyregulamin x** - (nowyregulamin = new regulations) sets group regulations to x (for example !nowyregulamin be cool change group regulations to be cool)\
 **!regulamin** - (regulamin = regulations) sends group regulations\

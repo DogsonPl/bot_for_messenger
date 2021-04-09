@@ -5,7 +5,6 @@ pillow
 feedparser
 bs4
 aiohttp
-aiosqlite
 aioschedule
 pytube
 aiomysql
