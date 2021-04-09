@@ -6,7 +6,7 @@ import pymysql
 
 class Database:
     def __init__(self):
-        self.connection = loop.run_until_complete(self.connect_to_db())
+        self.pool_connection = loop.run_until_complete(self.connect_to_db())
         loop.create_task(self.create_database())
 
     @staticmethod
@@ -14,11 +14,11 @@ class Database:
         host, user, password, database_name, port = await get_database_config()
         print()
         try:
-            connection = await aiomysql.connect(host=host, user=user, password=password, port=int(port),
-                                                autocommit=True, db=database_name)
+            pool_connection = await aiomysql.create_pool(host=host, user=user, password=password, port=int(port),
+                                                         autocommit=True, db=database_name)
         except pymysql.err.OperationalError:
             raise Exception(f"Have you installed mysql on your computer and created database '{database_name}'?")
-        return connection
+        return pool_connection
 
     @staticmethod
     async def create_database():
@@ -52,15 +52,16 @@ class Cursor(Database):
         super().__init__()
 
     async def fetch_data(self, query, args=None):
-        cursor_ = await self.connection.cursor()
-        await cursor_.execute(query, args)
-        data = await cursor_.fetchall()
-        await cursor_.close()
+        async with self.pool_connection.acquire() as connection:
+            cursor_ = await connection.cursor()
+            await cursor_.execute(query, args)
+            data = await cursor_.fetchall()
         return data
 
     async def execute(self, query, args=None):
-        cursor_ = await self.connection.cursor()
-        await cursor_.execute(query, args)
+        async with self.pool_connection.acquire() as connection:
+            cur = await connection.cursor()
+            await cur.execute(query, args)
 
 
 loop = asyncio.get_event_loop()
