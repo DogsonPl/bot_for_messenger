@@ -7,16 +7,14 @@ from .sql import handling_casino_sql
 
 
 async def take_daily(event):
-    got_daily, strike = await handling_casino_sql.fetch_info_if_user_got_today_daily(event.author.id)
+    got_daily, strike, money = await handling_casino_sql.fetch_info_if_user_got_today_daily(event.author.id)
     if got_daily == 1:
         return "🚫 Odebrano już dzisiaj daily"
 
     try:
         coins_to_give = 10 + (strike/10)
     except TypeError:
-        coins_to_give = 11
-        strike = 0
-    money = await handling_casino_sql.fetch_user_money(event.author.id)
+        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
     await handling_casino_sql.insert_into_daily(event.author.id, strike + 1, money + coins_to_give)
     return f"✅ Otrzymano właśnie darmowe {coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
 
@@ -24,16 +22,19 @@ async def take_daily(event):
 async def make_bet(event):
     message_values = event.message.text.split()
     try:
-        percent_to_win = float(message_values[2])
         bet_money = abs(float(message_values[1]))
+        percent_to_win = abs(int(message_values[2]))
     except (ValueError, IndexError):
         return "🚫 Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
     if not 1 <= percent_to_win <= 90:
         return "🚫 Możesz mieć od 1% do 90% na wygraną"
 
     current_money = await handling_casino_sql.fetch_user_money(event.author.id)
-    if current_money < bet_money:
-        return "🚫 Nie masz wystarczająco dogecoinów"
+    try:
+        if current_money < bet_money:
+            return "🚫 Nie masz wystarczająco dogecoinów"
+    except TypeError:
+        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
     lucky_number = secrets.randbelow(101)
     if lucky_number >= percent_to_win:
@@ -55,8 +56,11 @@ async def make_tip(event):
         return "🚫 Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
 
     sender_money = await handling_casino_sql.fetch_user_money(event.author.id)
-    if sender_money < money_to_give:
-        return "🚫 Nie masz wystarczająco pieniędzy"
+    try:
+        if sender_money < money_to_give:
+            return "🚫 Nie masz wystarczająco pieniędzy"
+    except TypeError:
+        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
     receiver_money += money_to_give
@@ -72,8 +76,13 @@ async def buy_jackpot_ticket(event):
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !jackpotbuy liczba_biletów"
     money = await handling_casino_sql.fetch_user_money(event.author.id)
-    if money < tickets_to_buy:
-        return "🚫 Nie masz wystarczająco pieniędzy"
+
+    try:
+        if money < tickets_to_buy:
+            return "🚫 Nie masz wystarczająco pieniędzy"
+    except ValueError:
+        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+
     tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
     tickets += tickets_to_buy
     await handling_casino_sql.insert_into_user_money(event.author.id, money-tickets_to_buy)

@@ -49,3 +49,8 @@ class CasinoCommands(BotActions):
     async def send_jackpot_ticket_bought_message(self, event):
         message = await casino_actions.buy_jackpot_ticket(event)
         await self.send_text_message(event, message)
+
+    async def register(self, event):
+        name = await self.get_thread_info(event.author.id)
+        await handling_casino_sql.register_casino_user(event.author.id, name.name)
+        await self.send_message_with_reply(event, "✅ Pomyślnie się zarejestrowano. Niedługo będzie możliwa integracja z discordem")

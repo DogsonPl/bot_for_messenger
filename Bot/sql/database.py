@@ -33,21 +33,21 @@ class Database:
 
         await cursor.execute("""CREATE TABLE IF NOT EXISTS casino_players(
                                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                                user_fb_id VARCHAR(20) NOT NULL UNIQUE,
-                                user_discord_id VARCHAR(20) NOT NULL UNIQUE,
-                                fb_name VARCHAR(55)
-                                discord_name VARCHAR(55)
-                                money FLOAT,
-                                take_daily BOOLEAN,
-                                daily_strike SMALLINT
+                                user_fb_id VARCHAR(20) UNIQUE,
+                                user_discord_id VARCHAR(20) UNIQUE,
+                                fb_name VARCHAR(55),
+                                discord_name VARCHAR(55),
+                                money FLOAT DEFAULT 0,
+                                take_daily BOOLEAN DEFAULT 0,
+                                daily_strike SMALLINT DEFAULT 0,
                                 );""")
 
         await cursor.execute("""CREATE TABLE IF NOT EXISTS jackpot(
                                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
                                 tickets INTEGER, 
-                                user_fb_id VARCHAR(20) NOT NULL UNIQUE,
-                                FOREIGN KEY(user_fb_id) REFERENCES casino_players(user_discord_id)
-                                user_discord_id VARCHAR(20) NOT NULL UNIQUE,
+                                user_fb_id VARCHAR(20) UNIQUE,
+                                FOREIGN KEY(user_fb_id) REFERENCES casino_players(user_discord_id),
+                                user_discord_id VARCHAR(20) UNIQUE,
                                 FOREIGN KEY(user_discord_id) REFERENCES casino_players(user_discord_id)
                                     );""")
 

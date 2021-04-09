@@ -82,6 +82,7 @@ class Listener:
                          "!bal": self.casino_commands.send_user_money,
                          "!top": self.casino_commands.send_top_players,
                          "!tip": self.casino_commands.send_tip_message,
+                         "!register": self.casino_commands.register,
                          "!jackpot": self.casino_commands.send_jackpot_info,
                          "!jackpotbuy": self.casino_commands.send_jackpot_ticket_bought_message,
                          "!ruletka": self.group_commands.delete_random_person,
