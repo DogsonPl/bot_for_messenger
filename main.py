@@ -18,7 +18,6 @@ class BotCore:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
             self.cookies = None
-            print("Cannot find cookies.json")
 
     async def login(self):
         print("Login in...")
@@ -31,7 +30,7 @@ class BotCore:
             self.session = await fbchat.Session.login(mail, password)
             self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
-        MAIN_LOOP.create_task(self.save_cookies())
+            MAIN_LOOP.create_task(self.save_cookies())
 
     async def save_cookies(self):
         new_cookies = self.session.get_cookies()
@@ -67,6 +66,7 @@ class Listener:
                          "!tvpis": self.normal_commands.send_tvpis_image,
                          "!pogoda": self.normal_commands.send_weather,
                          "!nick": self.normal_commands.change_nick,
+                         "!id": self.normal_commands.send_user_id,
                          "!koronawirus": self.normal_commands.send_covid_info,
                          "!koronawiruspl": self.normal_commands.send_covid_pl_info,
                          "!utrudnieniawawa": self.normal_commands.send_public_transport_difficulties_in_warsaw,

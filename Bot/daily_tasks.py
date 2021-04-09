@@ -1,17 +1,13 @@
 import asyncio
 import aioschedule
 from .casino_actions import DrawJackpotWinner
-from .sql.database import cursor, loop
+from .sql import handling_casino_sql
+from .sql.database import loop
 
 
 async def reset_daily_table():
-    await cursor.execute("""UPDATE casino_players
-                            SET daily_strike = 1 
-                            WHERE take_daily = 0;""")
-    await cursor.execute("""UPDATE casino_players
-                            SET take_daily = 0;""")
-    await cursor.execute("""UPDATE jackpot
-                            SET tickets = 0;""")
+    await handling_casino_sql.reset_casino_daily_label()
+    await handling_casino_sql.reset_jackpot_label()
 
 
 async def daily_tasks_scheduler():

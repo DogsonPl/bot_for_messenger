@@ -12,6 +12,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !wersja - wysyła wersje bota + to co ostatnio dodano do bota
 ⚙ !wsparcie - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
 ⚙ !tworca - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
+⚙ !id - wysyła twoje id
 ⚙ !koronawirus - wysyła informacje o koroawirusie na świecie
 ⚙ !koronawiruspl - wysyła informacje o koronawirusie w polsce
 ⚙ !mem - wysyła losowego mema
@@ -50,9 +51,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 6.0 + 8.1 pro 🤖
+🤖 Wersja bota: 6.1 + 8.1 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !id
 🆕 !jackpot
 🆕 !jackpotbuy"""
 
@@ -74,6 +76,9 @@ class Commands(BotActions):
 
     async def send_bot_version(self, event):
         await self.send_text_message(event, BOT_VERSION_MESSAGE)
+
+    async def send_user_id(self, event):
+        await self.send_text_message(event, f"Twoje id to {event.author.id}")
 
     async def send_weather(self, event):
         city = event.message.text[8:]

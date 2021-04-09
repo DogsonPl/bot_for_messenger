@@ -18,6 +18,7 @@ In a file _config.cfg_ write your mail, password to your Facebook account, and y
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
 **!wsparcie** - (wsparcie = support) sends a link to paypal and bank account for people who want support bot\
 **!tworca** - (tworca = developer) sends FB profile of the person who created the bot\
+**id** - sends your facebook id
 **!koronawirus** - (koronawirus = coronavirus) sends info about coronavirus in the world (total cases, total deaths, total recovered, current cases)\
 **!koronawiruspl** - (koronawirus = coronavirus) sends info about coronavirus in Poland (total cases, today cases, total deaths, recovered, current cases, cases per million, number of tests, tests per million)\
 **!mem** - sends random meme\
