@@ -80,7 +80,7 @@ async def buy_jackpot_ticket(event):
     try:
         if money < tickets_to_buy:
             return "🚫 Nie masz wystarczająco pieniędzy"
-    except ValueError:
+    except TypeError:
         return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
     tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)

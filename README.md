@@ -42,6 +42,7 @@ In a file _config.cfg_ write your mail, password to your Facebook account, and y
 **!top** - sends tree persons which have the biggest amount of money\
 **!bal** - sends your balance\
 **!bet x y** - you can bet virtual value (x is how much money you bet and y is how many % to win you have, for example !bet 10 80)\
-**!tip x @mention** - you can send virtual money to your friend (for example !tip 10 @nick)
-**!jackpot** - sends info about jackpot rules, total tickets and user tickets
-**!jackpotbuy x** - user buys x tickets to jackpot
+**!tip x @mention** - you can send virtual money to your friend (for example !tip 10 @nick)\
+**!jackpot** - sends info about jackpot rules, total tickets and user tickets\
+**!jackpotbuy x** - user buys x tickets to jackpot\
+**!register** - let you play in casino games\

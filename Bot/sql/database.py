@@ -39,7 +39,7 @@ class Database:
                                 discord_name VARCHAR(55),
                                 money FLOAT DEFAULT 0,
                                 take_daily BOOLEAN DEFAULT 0,
-                                daily_strike SMALLINT DEFAULT 0,
+                                daily_strike SMALLINT DEFAULT 0
                                 );""")
 
         await cursor.execute("""CREATE TABLE IF NOT EXISTS jackpot(

@@ -19,7 +19,10 @@ class CasinoCommands(BotActions):
 
     async def send_user_money(self, event):
         user_money = await handling_casino_sql.fetch_user_money(event.author.id)
-        await self.send_message_with_reply(event, f"🏦 Posiadasz obecnie {'%.2f' % user_money} dc")
+        try:
+            await self.send_message_with_reply(event, f"🏦 Posiadasz obecnie {'%.2f' % user_money} dc")
+        except TypeError:
+            await self.send_message_with_reply(event, user_money)
 
     async def send_tip_message(self, event):
         message = await casino_actions.make_tip(event)
@@ -53,4 +56,4 @@ class CasinoCommands(BotActions):
     async def register(self, event):
         name = await self.get_thread_info(event.author.id)
         await handling_casino_sql.register_casino_user(event.author.id, name.name)
-        await self.send_message_with_reply(event, "✅ Pomyślnie się zarejestrowano. Niedługo będzie możliwa integracja z discordem")
+        await self.send_message_with_reply(event, name)

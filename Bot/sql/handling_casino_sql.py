@@ -24,7 +24,7 @@ async def register_casino_user(user_fb_id, fb_name):
     try:
         await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name)
                                 VALUES(%s, %s)""", (user_fb_id, fb_name))
-        return "✅ Zarejestrowano pomyślnie"
+        return "✅ Pomyślnie się zarejestrowano. Niedługo będzie możliwa integracja z discordem"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
 

@@ -35,6 +35,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 🔥 !regulamin - wysyła regulamin grupy
 🔥 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 KOMENDY DO GRY KASYNO (dogecoinsy nie są prawdziwe i nie da się ich wypłacić)💰 
+💸 !register - po użyciu tej komendy możesz grać w kasyno
 💸 !daily - daje codziennie darmowe dogecoins
 💸 !top - wysyła 3 graczy którzy mają najwięcej monet
 💸 !bal - wysyła twoją liczbe dogecoinów
