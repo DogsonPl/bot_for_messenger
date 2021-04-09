@@ -32,8 +32,7 @@ class CasinoCommands(BotActions):
         message = "3 użytkowników z najwiekszą liczbą dogecoinów:\n"
         top_users = await handling_casino_sql.fetch_top_three_players()
         for user, medal in zip(top_users, MEDALS):
-            user_info = await self.get_thread_info(str(user[0]))
-            message += f"{medal} {user_info.name}: {int(user[1])} dc\n"
+            message += f"{medal} {user[0]}: {int(user[1])} dc\n"
         await self.send_text_message(event, message)
 
     async def send_jackpot_info(self, event):

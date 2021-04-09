@@ -53,7 +53,7 @@ async def fetch_info_if_user_got_today_daily(user_fb_id):
 
 
 async def fetch_top_three_players():
-    top_users = await cursor.fetch_data("""SELECT user_fb_id, money FROM casino_players
+    top_users = await cursor.fetch_data("""SELECT fb_name, money FROM casino_players
                                            ORDER BY money DESC LIMIT 3;""")
     return top_users
 
