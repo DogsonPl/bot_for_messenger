@@ -55,5 +55,5 @@ class CasinoCommands(BotActions):
 
     async def register(self, event):
         name = await self.get_thread_info(event.author.id)
-        await handling_casino_sql.register_casino_user(event.author.id, name.name)
-        await self.send_message_with_reply(event, name)
+        message = await handling_casino_sql.register_casino_user(event.author.id, name.name)
+        await self.send_message_with_reply(event, message)

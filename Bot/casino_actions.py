@@ -63,7 +63,10 @@ async def make_tip(event):
         return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
-    receiver_money += money_to_give
+    try:
+        receiver_money += money_to_give
+    except TypeError:
+        return "Osoba której chcesz dać dogi nie użyła nigdy komendy register"
     sender_money -= money_to_give
     await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
     await handling_casino_sql.insert_into_user_money(int(mention.thread_id), receiver_money)

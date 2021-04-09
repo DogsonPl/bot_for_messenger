@@ -15,9 +15,10 @@ async def insert_into_user_money(user_fb_id, money):
 
 
 async def add_jackpot_tickets(user_fb_id, tickets):
-    await cursor.execute("""UPDATE jackpot 
-                            SET tickets = %s
-                            WHERE user_fb_id = %s;""", (tickets, user_fb_id))
+    await cursor.execute("""INSERT INTO jackpot(user_fb_id, tickets)
+                            VALUES(%s, %s) AS new_values
+                            ON DUPLICATE KEY
+                            UPDATE tickets = new_values.tickets;""", (user_fb_id, tickets))
 
 
 async def register_casino_user(user_fb_id, fb_name):
@@ -69,15 +70,14 @@ async def fetch_user_money(user_fb_id):
 
 async def fetch_tickets_number():
     data = await cursor.fetch_data("""SELECT SUM(tickets) FROM jackpot;""")
-    return data[0]
+    return data[0][0]
 
 
 async def fetch_user_tickets(user_fb_id):
     try:
         data = await cursor.fetch_data("""SELECT tickets FROM jackpot
                                           WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
-
-        data = data[0]
+        data = data[0][0]
     except IndexError:
         data = 0
     return data

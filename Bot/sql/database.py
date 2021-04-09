@@ -46,7 +46,7 @@ class Database:
                                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
                                 tickets INTEGER, 
                                 user_fb_id VARCHAR(20) UNIQUE,
-                                FOREIGN KEY(user_fb_id) REFERENCES casino_players(user_discord_id),
+                                FOREIGN KEY(user_fb_id) REFERENCES casino_players(user_fb_id),
                                 user_discord_id VARCHAR(20) UNIQUE,
                                 FOREIGN KEY(user_discord_id) REFERENCES casino_players(user_discord_id)
                                     );""")
