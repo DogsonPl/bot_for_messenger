@@ -5,7 +5,7 @@ from io import BytesIO
 import pytube
 
 
-WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&q="
+WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&lang=pl&q="
 COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
 COVID_IN_POLAND_URL = "https://coronavirus-19-api.herokuapp.com/countries/poland"
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
@@ -43,11 +43,12 @@ class GetWeather:
             weather_emoji = self.icons[icon]
             temperature_emoji = await self.check_temperature_emoji(temperature)
             perceptible_temperature_emoji = await self.check_temperature_emoji(perceptible_temperature)
+
             return f"""🌐 Pogoda w {city.title()} 🌐
 
 🔰 Temperatura: {temperature_emoji} {int(temperature)}C 
 🔰 Odczuwalna: {perceptible_temperature_emoji} {int(perceptible_temperature)}C
-🔰 Atmosfera: {weather_emoji} {weather_description} 
+🔰 Atmosfera: {weather_emoji} {weather_description.capitalize()} 
 🔰 Ciśnienie: {pressure} hPa
 🔰 Wilgotność: {humidity} %
 🔰 Prędkość wiatru: {wind_speed} m/s"""

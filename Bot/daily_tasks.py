@@ -18,6 +18,7 @@ async def daily_tasks_scheduler():
 
 
 async def daily_tasks():
+    print("Performing daily tasks...")
     await draw_jackpot_winner.draw_jackpot_winner()
     await reset_daily_table()
 
