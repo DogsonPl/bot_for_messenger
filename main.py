@@ -43,7 +43,7 @@ class BotCore:
         except (fbchat.NotConnected, OSError):
             print("\nRestarting...\n")
             await self.session.logout()
-            time.sleep(15)  # sleep in this place can reduce change to get banned on facebook
+            time.sleep(15)  # sleep in this place can reduce chance to get banned on facebook
             await self.login()
             await self.init_listening()
         except NotImplementedError:
