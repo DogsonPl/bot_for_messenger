@@ -118,10 +118,6 @@ class DrawJackpotWinner:
         user_money = await handling_casino_sql.fetch_user_money(winner_id)
         await handling_casino_sql.insert_into_user_money(winner_id, user_money+total)
 
-    @staticmethod
-    async def reset_table():
-        await handling_casino_sql.reset_jackpot_label()
-
 
 LAST_JACKPOT_RESULTS_FILE_PATH = "Bot//data//last_jackpot_results.json"
 

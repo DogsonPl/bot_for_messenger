@@ -8,3 +8,4 @@ aiohttp
 aioschedule
 pytube
 aiomysql
+pexpect
