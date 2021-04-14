@@ -110,7 +110,7 @@ class Listener:
                         elif event.message.text.startswith("https://youtu"):
                             MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event))
                     except (AttributeError, KeyError):
-                        # attribute error happens when someone sends photo and message don't have text
+                        # attribute error happens when someone sends photo and message doesn't have text
                         continue
             elif isinstance(event, fbchat.PeopleAdded):
                 MAIN_LOOP.create_task(self.group_commands.reply_on_person_added(event))
