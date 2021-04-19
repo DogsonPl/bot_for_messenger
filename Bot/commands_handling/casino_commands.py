@@ -1,6 +1,7 @@
 from ..bot_actions import BotActions
 from .. import casino_actions
 from ..sql import handling_casino_sql
+from ..sending_emails import smpt_connection, get_confirmation_code
 
 MEDALS = ["🥇", "🥈", "🥉"]
 
@@ -56,3 +57,28 @@ class CasinoCommands(BotActions):
         name = await self.get_thread_info(event.author.id)
         message = await handling_casino_sql.register_casino_user(event.author.id, name.name)
         await self.send_message_with_reply(event, message)
+
+    async def get_email(self, event):
+        confirmation_code = await get_confirmation_code()
+        sql_answer = await handling_casino_sql.new_email_confirmation(event.author.id, event.message.text.split()[1],
+                                                                      confirmation_code)
+        if not sql_answer:
+            await self.send_text_message(event, "🚫 Możesz poprosić o jednego maila w ciągu godziny")
+        else:
+            try:
+                message = await smpt_connection.send_mail(event.message.text.split()[1], confirmation_code)
+                await self.send_text_message(event, message)
+            except IndexError:
+                await self.send_text_message(event, "🚫 Po !mail podaj swojego maila")
+
+    async def check_code(self, event):
+        try:
+            code = event.message.text.split()[1]
+            message = await handling_casino_sql.check_email_confirmation(event.author.id, code)
+            await self.send_text_message(event, message)
+        except IndexError:
+            await self.send_text_message(event, "🚫 Po !kod napisz kod którego dostałeś na maila")
+
+    async def delete_email(self, event):
+        await handling_casino_sql.delete_mail(event.author.id)
+        await self.send_text_message(event, "✅ Usunięto twój email")

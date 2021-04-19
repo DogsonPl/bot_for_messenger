@@ -42,6 +42,46 @@ async def reset_casino_daily_label():
                             SET take_daily = 0;""")
 
 
+async def reset_old_confirmations_emails():
+    await cursor.execute("""DELETE FROM pending_emails_confirmations
+                            WHERE creation_time < NOW() - INTERVAL 1 HOUR;""")
+
+
+async def new_email_confirmation(user_fb_id, email, code):
+    try:
+        await cursor.execute("""INSERT INTO pending_emails_confirmations(user_fb_id, email, confirmation_code)
+                                VALUES(%s, %s, %s);""", (user_fb_id, email, code))
+        return True
+    except pymysql.IntegrityError:
+        return False
+
+
+async def check_email_confirmation(user_fb_id, code):
+    data = await cursor.fetch_data("""SELECT user_fb_id, email, confirmation_code FROM pending_emails_confirmations
+                                      WHERE (user_fb_id=%s) AND (confirmation_code=%s);""", (user_fb_id, code))
+    if len(data) == 1:
+        try:
+            await cursor.execute("""UPDATE casino_players
+                                    INNER JOIN pending_emails_confirmations 
+                                    ON casino_players.user_fb_id = pending_emails_confirmations.user_fb_id
+                                    SET casino_players.email = pending_emails_confirmations.email
+                                    WHERE (casino_players.user_fb_id = %s) AND (pending_emails_confirmations.confirmation_code = %s)
+                                    ;""", (user_fb_id, code))
+            await cursor.execute("""DELETE FROM pending_emails_confirmations
+                                    WHERE user_fb_id=%s""", (user_fb_id,))
+            return "✅ Twój nowy email został zaktualizowany (jeśli wcześniej użyłeś komendy register)"
+        except pymysql.IntegrityError:
+            return "🚫 Tego maila obecnie używasz na innym koncie. Jeśli chcesz z innego konta usunąć maila napisz !delmail"
+    else:
+        return "🚫 Zły kod"
+
+
+async def delete_mail(user_fb_id):
+    await cursor.execute("""UPDATE casino_players
+                            SET email=NULL
+                            WHERE user_fb_id=%s""", (user_fb_id, ))
+
+
 async def fetch_info_if_user_got_today_daily(user_fb_id):
     try:
         data = await cursor.fetch_data("""SELECT take_daily, daily_strike, money FROM casino_players
@@ -64,7 +104,7 @@ async def fetch_user_money(user_fb_id):
                                           WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
         user_money, = data[0]
     except IndexError:
-        user_money = "💡 Użyj poelcenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        user_money = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
     return user_money
 
 

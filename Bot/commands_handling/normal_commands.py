@@ -42,7 +42,10 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !bet x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
 💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
 💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
-💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)"""
+💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
+💸 !email x - ustaw swój email jako x
+💸 !kod - wpisz kod potwierdzający który dostałeś na email
+💸 !delmail - usuwa twój email z bazy danych"""
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
 
@@ -52,12 +55,12 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 6.1 + 8.1 pro 🤖
+🤖 Wersja bota: 7.0 + 8.1 pro 🤖
 
 🧾 Ostatnio do bota dodano:
-🆕 !id
-🆕 !jackpot
-🆕 !jackpotbuy"""
+🆕 !email
+🆕 !kod
+🆕 !delmail"""
 
 
 class Commands(BotActions):
@@ -79,7 +82,7 @@ class Commands(BotActions):
         await self.send_text_message(event, BOT_VERSION_MESSAGE)
 
     async def send_user_id(self, event):
-        await self.send_text_message(event, f"Twoje id to {event.author.id}")
+        await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
 
     async def send_weather(self, event):
         city = event.message.text[8:]

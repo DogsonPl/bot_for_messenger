@@ -15,7 +15,7 @@ class Database:
         print()
         try:
             pool_connection = await aiomysql.create_pool(host=host, user=user, password=password, port=int(port),
-                                                         autocommit=True, db=database_name, maxsize=20, loop=loop)
+                                                         autocommit=True, db=database_name, maxsize=100, loop=loop)
         except pymysql.err.OperationalError:
             raise Exception(f"Have you installed mysql on your computer and created database '{database_name}'?")
         return pool_connection
@@ -37,6 +37,7 @@ class Database:
                                 user_discord_id VARCHAR(20) UNIQUE,
                                 fb_name VARCHAR(55),
                                 discord_name VARCHAR(55),
+                                email VARCHAR(100) UNIQUE,
                                 money FLOAT DEFAULT 0,
                                 take_daily BOOLEAN DEFAULT 0,
                                 daily_strike SMALLINT DEFAULT 0
@@ -49,7 +50,15 @@ class Database:
                                 FOREIGN KEY(user_fb_id) REFERENCES casino_players(user_fb_id),
                                 user_discord_id VARCHAR(20) UNIQUE,
                                 FOREIGN KEY(user_discord_id) REFERENCES casino_players(user_discord_id)
-                                    );""")
+                                );""")
+
+        await cursor.execute("""CREATE TABLE IF NOT EXISTS pending_emails_confirmations(
+                                id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                user_fb_id VARCHAR(20) UNIQUE,
+                                email VARCHAR(100),
+                                confirmation_code MEDIUMINT,
+                                creation_time DATETIME DEFAULT NOW()
+                                );""")
 
 
 class Cursor(Database):

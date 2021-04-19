@@ -32,9 +32,10 @@ async def run_db_backup():
     loop.run_in_executor(None, make_db_backup)
 
 
-async def daily_tasks_scheduler():
+async def tasks_scheduler():
     aioschedule.every().day.at("4:00").do(run_db_backup)
     aioschedule.every().day.at("14:20").do(run_db_backup)
+    aioschedule.every(4).minutes.do(handling_casino_sql.reset_old_confirmations_emails)
     aioschedule.every().day.at("00:00").do(daily_tasks)
     while True:
         loop.create_task(aioschedule.run_pending())
@@ -48,7 +49,7 @@ async def daily_tasks():
 
 
 async def init():
-    loop.create_task(daily_tasks_scheduler())
+    loop.create_task(tasks_scheduler())
 
 draw_jackpot_winner = DrawJackpotWinner()
 host, user, password, database_name, port = loop.run_until_complete(get_database_config())

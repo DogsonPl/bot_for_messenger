@@ -10,8 +10,10 @@
    pip3 install -r requirements.txt
    ```
 ## First configuration
-In a file _config.cfg_ write your mail, password to your Facebook account, and your mysql database server info\
-**I recommend run bot on your second FB account, because FB can ban your account**
+In a file _config.cfg_ write your mail, password to your Facebook account, your mysql database server info and your SMTP server info\
+**I recommend run bot on your second FB account, because FB can ban your account\
+Bot only answers if you have bot in friends**
+
 
 ## All available commands and their description:</h3>
 **!help** - sends all available commands, and their description\
@@ -46,3 +48,6 @@ In a file _config.cfg_ write your mail, password to your Facebook account, and y
 **!jackpot** - sends info about jackpot rules, total tickets and user tickets\
 **!jackpotbuy x** - user buys x tickets to jackpot\
 **!register** - let you play in casino games\
+**!email x** - sets your email to x\
+**!kod x** (kod = code) - write confirmation code which you should get on your email\
+**!delmail**  - deletes user email from the database\

@@ -2,12 +2,11 @@ import fbchat
 import asyncio
 import json
 import time
-
 from Bot.parse_config import get_login_data
 from Bot.commands_handling.normal_commands import Commands
 from Bot.commands_handling.casino_commands import CasinoCommands
 from Bot.commands_handling.group_commands import GroupCommands
-from Bot import daily_tasks
+from Bot import task_scheduler
 
 
 class BotCore:
@@ -85,6 +84,9 @@ class Listener:
                          "!register": self.casino_commands.register,
                          "!jackpot": self.casino_commands.send_jackpot_info,
                          "!jackpotbuy": self.casino_commands.send_jackpot_ticket_bought_message,
+                         "!email": self.casino_commands.get_email,
+                         "!kod": self.casino_commands.check_code,
+                         "!delmail": self.casino_commands.delete_email,
                          "!ruletka": self.group_commands.delete_random_person,
                          "!luckymember": self.group_commands.send_message_with_random_mention,
                          "!nowyregulamin": self.group_commands.set_new_group_regulations,
@@ -127,7 +129,7 @@ if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
     MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
-    MAIN_LOOP.create_task(daily_tasks.init())
+    MAIN_LOOP.create_task(task_scheduler.init())
     MAIN_LOOP.run_forever()
 
 # works only on linux
