@@ -60,16 +60,18 @@ class CasinoCommands(BotActions):
 
     async def get_email(self, event):
         confirmation_code = await get_confirmation_code()
-        sql_answer = await handling_casino_sql.new_email_confirmation(event.author.id, event.message.text.split()[1],
+        try:
+            email = event.message.text.split()[1]
+        except IndexError:
+            await self.send_text_message(event, "🚫 Po !mail podaj swojego maila")
+            return
+        sql_answer = await handling_casino_sql.new_email_confirmation(event.author.id, email,
                                                                       confirmation_code)
         if not sql_answer:
             await self.send_text_message(event, "🚫 Możesz poprosić o jednego maila w ciągu godziny")
         else:
-            try:
-                message = await smpt_connection.send_mail(event.message.text.split()[1], confirmation_code)
-                await self.send_text_message(event, message)
-            except IndexError:
-                await self.send_text_message(event, "🚫 Po !mail podaj swojego maila")
+            message = await smpt_connection.send_mail(email, confirmation_code)
+            await self.send_text_message(event, message)
 
     async def check_code(self, event):
         try:
