@@ -24,7 +24,8 @@ class SmptConnection:
         message["To"] = receiver
         message["Subject"] = "Kod potwierdzający"
         message.attach(MIMEText(f"""<html><body><h1>Twój kod to {code}</h1>
-Wpisz komendę !kod {code}. Kod wygaśnie za godzinę</body></html>""", "html", "utf-8"))
+Wpisz komendę !kod {code}. Kod wygaśnie za godzinę
+Jeśli nie chciałeś połączyć tego maila z botem na Facebooku, zignoruj tego maila</body></html>""", "html", "utf-8"))
         try:
             await self.smpt_connection.send_message(message)
             return f"Wysłano email z kodem do {receiver}"
