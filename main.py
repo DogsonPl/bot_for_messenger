@@ -65,6 +65,7 @@ class Listener:
                          "!tvpis": self.normal_commands.send_tvpis_image,
                          "!pogoda": self.normal_commands.send_weather,
                          "!nick": self.normal_commands.change_nick,
+                         "!strona": self.normal_commands.send_webpage_link,
                          "!id": self.normal_commands.send_user_id,
                          "!koronawirus": self.normal_commands.send_covid_info,
                          "!koronawiruspl": self.normal_commands.send_covid_pl_info,

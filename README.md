@@ -15,8 +15,9 @@ In a file _config.cfg_ write your mail, password to your Facebook account, your 
 Bot only answers if you have bot in friends**
 
 
-## All available commands and their description:</h3>
+## All available commands and their description:
 **!help** - sends all available commands, and their description\
+**!strona** - sends link to bot webpage (webpage is in beta)
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
 **!wsparcie** - (wsparcie = support) sends a link to paypal and bank account for people who want support bot\
 **!tworca** - (tworca = developer) sends FB profile of the person who created the bot\

@@ -9,6 +9,7 @@ SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
 
 HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !help - wysyła komendy
+⚙ !strona - wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość snchronizowania dogecoinów
 ⚙ !wersja - wysyła wersje bota + to co ostatnio dodano do bota
 ⚙ !wsparcie - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
 ⚙ !tworca - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
@@ -55,9 +56,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.0 + 8.1 pro 🤖
+🤖 Wersja bota: 7.1 + 8.1 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !strona
 🆕 !email
 🆕 !kod
 🆕 !delmail"""
@@ -83,6 +85,9 @@ class Commands(BotActions):
 
     async def send_user_id(self, event):
         await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
+
+    async def send_webpage_link(self, event):
+        await self.send_text_message(event, "Link do strony www: http://dogson.ovh. Obecnie jest to strona testowa i dogi się nie łączą")
 
     async def send_weather(self, event):
         city = event.message.text[8:]
@@ -149,6 +154,6 @@ class Commands(BotActions):
 
     async def change_nick(self, event):
         try:
-            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[5:])
+            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[4:])
         except fbchat.InvalidParameters:
             await self.send_text_message(event, "🚫 Wpisano za długi nick")
