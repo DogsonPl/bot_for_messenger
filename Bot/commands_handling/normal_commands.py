@@ -87,7 +87,7 @@ class Commands(BotActions):
         await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
 
     async def send_webpage_link(self, event):
-        await self.send_text_message(event, "Link do strony www: http://dogson.ovh. Obecnie jest to strona testowa i dogi się nie łączą")
+        await self.send_text_message(event, "Link do strony www: https://dogson.ovh. Obecnie jest to strona testowa i dogi się nie łączą")
 
     async def send_weather(self, event):
         city = event.message.text[8:]
