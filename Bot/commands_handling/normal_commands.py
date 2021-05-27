@@ -148,12 +148,12 @@ class Commands(BotActions):
 
     @staticmethod
     async def make_disco(event):
-        for i in range(5):
+        for _ in range(5):
             color = rd.choice(SETABLE_COLORS)
             await event.thread.set_color(color)
 
     async def change_nick(self, event):
         try:
-            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text[4:])
+            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text.split()[1])
         except fbchat.InvalidParameters:
             await self.send_text_message(event, "🚫 Wpisano za długi nick")
