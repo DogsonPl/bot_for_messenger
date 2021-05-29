@@ -154,6 +154,6 @@ class Commands(BotActions):
 
     async def change_nick(self, event):
         try:
-            await event.thread.set_nickname(user_id=event.author.id, nickname=event.message.text.split()[1])
+            await event.thread.set_nickname(user_id=event.author.id, nickname=" ".join(event.message.text.split()[1:]))
         except fbchat.InvalidParameters:
             await self.send_text_message(event, "🚫 Wpisano za długi nick")
