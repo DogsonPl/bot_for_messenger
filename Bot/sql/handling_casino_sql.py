@@ -23,9 +23,9 @@ async def add_jackpot_tickets(user_fb_id, tickets):
 
 async def register_casino_user(user_fb_id, fb_name):
     try:
-        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name)
-                                VALUES(%s, %s)""", (user_fb_id, fb_name))
-        return "✅ Pomyślnie się zarejestrowano. Niedługo będzie możliwa integracja z discordem"
+        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike)
+                                VALUES(%s, %s, 0, 0, 0);""", (user_fb_id, fb_name))
+        return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh)"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
 
@@ -67,19 +67,24 @@ async def check_email_confirmation(user_fb_id, code):
                                     SET casino_players.email = pending_emails_confirmations.email
                                     WHERE (casino_players.user_fb_id = %s) AND (pending_emails_confirmations.confirmation_code = %s)
                                     ;""", (user_fb_id, code))
-            await cursor.execute("""DELETE FROM pending_emails_confirmations
-                                    WHERE user_fb_id=%s""", (user_fb_id,))
             return "✅ Twój nowy email został zaktualizowany (jeśli wcześniej użyłeś komendy register)"
         except pymysql.IntegrityError:
-            return "🚫 Tego maila obecnie używasz na innym koncie. Jeśli chcesz z innego konta usunąć maila napisz !delmail"
+            email = data[0][1]
+            try:
+                user_fb_name = cursor.execute("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
+                user_fb_name = user_fb_name[0][0]
+                await cursor.execute("""DELETE FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
+                await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name=%s
+                                        WHERE email=%s;""", (user_fb_id, user_fb_name, email))
+                return "✅ Połączono się z twoim kontem na stronie"
+            except pymysql.IntegrityError:
+                return f"🚫 Masz już przypisanego maila do tego konta ({email})"
+        finally:
+            await cursor.execute("""DELETE FROM pending_emails_confirmations
+                                    WHERE user_fb_id=%s;""", (user_fb_id,))
+
     else:
         return "🚫 Zły kod"
-
-
-async def delete_mail(user_fb_id):
-    await cursor.execute("""UPDATE casino_players
-                            SET email=NULL
-                            WHERE user_fb_id=%s""", (user_fb_id, ))
 
 
 async def fetch_info_if_user_got_today_daily(user_fb_id):

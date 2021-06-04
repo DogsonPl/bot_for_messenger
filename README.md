@@ -1,4 +1,7 @@
 # Asynchronous Bot for messenger
+
+# Webpage: https://dogson.ovh (in beta)
+
 ## Important note 1: Bot works only on Linux 
 ## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
 ### Clone the repo:
@@ -51,4 +54,3 @@ Bot only answers if you have bot in friends**
 **!register** - let you play in casino games\
 **!email x** - sets your email to x\
 **!kod x** (kod = code) - write confirmation code which you should get on your email\
-**!delmail**  - deletes user email from the database\

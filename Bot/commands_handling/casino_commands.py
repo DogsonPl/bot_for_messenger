@@ -63,7 +63,7 @@ class CasinoCommands(BotActions):
         try:
             email = event.message.text.split()[1]
         except IndexError:
-            await self.send_text_message(event, "🚫 Po !mail podaj swojego maila")
+            await self.send_text_message(event, "🚫 Po !email podaj swojego maila")
             return
         sql_answer = await handling_casino_sql.new_email_confirmation(event.author.id, email,
                                                                       confirmation_code)
@@ -73,14 +73,10 @@ class CasinoCommands(BotActions):
             message = await smpt_connection.send_mail(email, confirmation_code)
             await self.send_text_message(event, message)
 
-    async def check_code(self, event):
+    async def check_email_verification_code(self, event):
         try:
             code = event.message.text.split()[1]
             message = await handling_casino_sql.check_email_confirmation(event.author.id, code)
             await self.send_text_message(event, message)
         except IndexError:
             await self.send_text_message(event, "🚫 Po !kod napisz kod którego dostałeś na maila")
-
-    async def delete_email(self, event):
-        await handling_casino_sql.delete_mail(event.author.id)
-        await self.send_text_message(event, "✅ Usunięto twój email")

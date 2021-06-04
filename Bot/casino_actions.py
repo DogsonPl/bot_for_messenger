@@ -2,8 +2,14 @@ import secrets
 import json
 import bisect
 import random as rd
+from decimal import Decimal, getcontext
 import aiofiles
 from .sql import handling_casino_sql
+
+
+getcontext().prec = 20
+
+NO_ACCOUNT_MESSAGE = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
 
 async def take_daily(event):
@@ -12,7 +18,7 @@ async def take_daily(event):
         return "🚫 Odebrano już dzisiaj daily"
 
     try:
-        coins_to_give = 10 + (strike/10)
+        coins_to_give = Decimal(10 + (strike/10))
     except TypeError:
         return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
     await handling_casino_sql.insert_into_daily(event.author.id, strike + 1, money + coins_to_give)
@@ -34,15 +40,15 @@ async def make_bet(event):
         if current_money < bet_money:
             return "🚫 Nie masz wystarczająco dogecoinów"
     except TypeError:
-        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        return NO_ACCOUNT_MESSAGE
 
     lucky_number = secrets.randbelow(101)
     if lucky_number >= percent_to_win:
-        current_money = current_money - bet_money
+        current_money -= Decimal(bet_money)
         message = f"📉 Przegrano {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
     else:
         won_money = ((bet_money / (percent_to_win / 100)) - bet_money)*0.99
-        current_money += won_money
+        current_money += Decimal(won_money)
         message = f"📈 Wygrano {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
     await handling_casino_sql.insert_into_user_money(event.author.id, current_money)
     return message
@@ -60,21 +66,22 @@ async def make_tip(event):
         if sender_money < money_to_give:
             return "🚫 Nie masz wystarczająco pieniędzy"
     except TypeError:
-        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        return NO_ACCOUNT_MESSAGE
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
     try:
-        receiver_money += money_to_give
+        receiver_money += Decimal(money_to_give)
     except TypeError:
         return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy register"
-    sender_money -= money_to_give
+    sender_money -= Decimal(money_to_give)
     await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
     await handling_casino_sql.insert_into_user_money(int(mention.thread_id), receiver_money)
     return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
 
 
 async def buy_jackpot_ticket(event):
-    try:
+    return "Ta komenda działa obecnie tylko na https://dogson.ovh"
+    """ try:
         tickets_to_buy = abs(int(event.message.text.split()[1]))
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !jackpotbuy liczba_biletów"
@@ -84,22 +91,26 @@ async def buy_jackpot_ticket(event):
         if money < tickets_to_buy:
             return "🚫 Nie masz wystarczająco pieniędzy"
     except TypeError:
-        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        return NO_ACCOUNT_MESSAGE
 
     tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
     tickets += tickets_to_buy
     await handling_casino_sql.insert_into_user_money(event.author.id, money-tickets_to_buy)
     await handling_casino_sql.add_jackpot_tickets(event.author.id, tickets)
     return f"✅ Kupiono {tickets_to_buy} biletów"
+    """
 
 
 async def jackpot_info(event):
+    return "Ta komenda działa obecnie tylko na https://dogson.ovh"
+    """
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
     last_jackpot_results = await get_last_jackpot_results()
     last_prize = last_jackpot_results["last_prize"]
     last_winner = last_jackpot_results["last_winner"]
     return ticket_number, user_tickets, last_prize, last_winner
+    """
 
 
 class DrawJackpotWinner:
@@ -110,7 +121,7 @@ class DrawJackpotWinner:
         try:
             weights = [total := total + i for i in tickets]
         except SyntaxError:
-            raise Exception("To run this function, you have to update your python version to 3.8+")
+            raise SyntaxError("To run this function, you have to update your python version to 3.8+")
         random = rd.random()*total
         winner_index = bisect.bisect(weights, random)
         winner_id = users[winner_index]
