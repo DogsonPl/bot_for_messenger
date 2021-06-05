@@ -21,7 +21,8 @@ async def take_daily(event):
         coins_to_give = Decimal(10 + (strike/10))
     except TypeError:
         return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
-    await handling_casino_sql.insert_into_daily(event.author.id, strike + 1, money + coins_to_give)
+    strike += 1
+    await handling_casino_sql.insert_into_daily(event.author.id, strike, money + coins_to_give)
     return f"✅ Otrzymano właśnie darmowe {'%.2f' % coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
 
 
