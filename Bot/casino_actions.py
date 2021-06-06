@@ -1,8 +1,9 @@
-import secrets
+import requests
 import json
 import bisect
 import random as rd
 from decimal import Decimal, getcontext
+from bs4 import BeautifulSoup
 import aiofiles
 from .sql import handling_casino_sql
 
@@ -35,24 +36,11 @@ async def make_bet(event):
         return "🚫 Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
     if not 1 <= percent_to_win <= 90:
         return "🚫 Możesz mieć od 1% do 90% na wygraną"
-
-    current_money = await handling_casino_sql.fetch_user_money(event.author.id)
-    try:
-        if current_money < bet_money:
-            return "🚫 Nie masz wystarczająco dogecoinów"
-    except TypeError:
-        return NO_ACCOUNT_MESSAGE
-
-    lucky_number = secrets.randbelow(101)
-    if lucky_number >= percent_to_win:
-        current_money -= Decimal(bet_money)
-        message = f"📉 Przegrano {bet_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
-    else:
-        won_money = ((bet_money / (percent_to_win / 100)) - bet_money)*0.99
-        current_money += Decimal(won_money)
-        message = f"📈 Wygrano {'%.2f' % won_money} dogecoinów\nMasz ich obecnie {'%.2f' % current_money}\nWylosowana liczba: {lucky_number}"
-    await handling_casino_sql.insert_into_user_money(event.author.id, current_money)
-    return message
+    response = requests.post("https://dogson.ovh/casino/bet_fb",
+                             data={"fb_user_id": event.author.id, "bet_money": bet_money, "percent_to_win": percent_to_win})
+    response = response.json()
+    message = BeautifulSoup(response["message"], "html.parser")
+    return message.text
 
 
 async def make_tip(event):
@@ -103,7 +91,7 @@ async def buy_jackpot_ticket(event):
 
 
 async def jackpot_info(event):
-    return "Ta komenda działa obecnie tylko na https://dogson.ovh"
+    return "Ta komenda działa obecnie tylko na https://dogson.ovh", "", "", ""
     """
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
