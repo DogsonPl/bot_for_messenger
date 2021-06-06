@@ -14,17 +14,9 @@ NO_ACCOUNT_MESSAGE = "💡 Użyj polecenia !register żeby móc się bawić w ka
 
 
 async def take_daily(event):
-    got_daily, strike, money = await handling_casino_sql.fetch_info_if_user_got_today_daily(event.author.id)
-    if got_daily == 1:
-        return "🚫 Odebrano już dzisiaj daily"
-
-    try:
-        coins_to_give = Decimal(10 + (strike/10))
-    except TypeError:
-        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
-    strike += 1
-    await handling_casino_sql.insert_into_daily(event.author.id, strike, money + coins_to_give)
-    return f"✅ Otrzymano właśnie darmowe {'%.2f' % coins_to_give} dogecoinów. Jest to twoje {strike} daily z rzędu"
+    response = requests.post("https://dogson.ovh/casino/set_daily_fb", data={"fb_user_id": event.author.id})
+    message = response.json()
+    return message["message"]
 
 
 async def make_bet(event):

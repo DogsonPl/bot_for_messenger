@@ -10,3 +10,4 @@ pytube
 aiomysql
 pexpect
 aiosmtplib
+bs4
