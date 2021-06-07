@@ -51,9 +51,15 @@ async def new_email_confirmation(user_fb_id, email, code):
     try:
         await cursor.execute("""INSERT INTO pending_emails_confirmations(user_fb_id, email, confirmation_code)
                                 VALUES(%s, %s, %s);""", (user_fb_id, email, code))
-        return True
-    except pymysql.IntegrityError:
         return False
+    except pymysql.IntegrityError:
+        return True
+
+
+async def get_user_email(user_fb_id):
+    email, = await cursor.fetch_data("""SELECT email FROM casino_players 
+                            WHERE user_fb_id=%s;""", (user_fb_id,))
+    return email
 
 
 async def check_email_confirmation(user_fb_id, code):
@@ -67,18 +73,15 @@ async def check_email_confirmation(user_fb_id, code):
                                     SET casino_players.email = pending_emails_confirmations.email
                                     WHERE (casino_players.user_fb_id = %s) AND (pending_emails_confirmations.confirmation_code = %s)
                                     ;""", (user_fb_id, code))
-            return "✅ Twój nowy email został zaktualizowany (jeśli wcześniej użyłeś komendy register)"
-        except pymysql.IntegrityError:
+            return "✅ Twój nowy email został ustawiony (jeśli wcześniej użyłeś komendy !register)"
+        except pymysql.err.IntegrityError:
             email = data[0][1]
-            try:
-                user_fb_name = await cursor.execute("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
-                user_fb_name = user_fb_name[0][0]
-                await cursor.execute("""DELETE FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
-                await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name=%s
-                                        WHERE email=%s;""", (user_fb_id, user_fb_name, email))
-                return "✅ Połączono się z twoim kontem na stronie"
-            except pymysql.IntegrityError:
-                return f"🚫 Masz już przypisanego maila do tego konta ({email})"
+            user_fb_name, = await cursor.fetch_data("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
+            user_fb_name = user_fb_name[0]
+            await cursor.execute("""UPDATE casino_players SET user_fb_id = NULL WHERE user_fb_id=%s;""", (user_fb_id,))
+            await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name = %s
+                                    WHERE email= %s;""", (user_fb_id, user_fb_name, email))
+            return "✅ Połączono się z twoim kontem na stronie"
         finally:
             await cursor.execute("""DELETE FROM pending_emails_confirmations
                                     WHERE user_fb_id=%s;""", (user_fb_id,))
