@@ -5,7 +5,7 @@ from io import BytesIO
 import pytube
 
 
-WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&lang=pl&q="
+WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&lang=pl&units=metric&q="
 COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
 COVID_IN_POLAND_URL = "https://coronavirus-19-api.herokuapp.com/countries/poland"
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
@@ -31,13 +31,12 @@ class GetWeather:
         json_data = await html.json()
         try:
             temperature = json_data["main"]["temp"]
-            temperature -= 273  # convert to Celsius
             perceptible_temperature = json_data["main"]["feels_like"]
-            perceptible_temperature -= 273  # convert to Celsius
             weather_description = json_data["weather"][0]["description"]
             pressure = json_data["main"]["pressure"]
             humidity = json_data["main"]["humidity"]
             wind_speed = json_data["wind"]["speed"]
+            wind_speed *= 3.6
             icon = json_data["weather"][0]["icon"]
 
             weather_emoji = self.icons[icon]
@@ -51,7 +50,7 @@ class GetWeather:
 🔰 Atmosfera: {weather_emoji} {weather_description.capitalize()} 
 🔰 Ciśnienie: {pressure} hPa
 🔰 Wilgotność: {humidity} %
-🔰 Prędkość wiatru: {wind_speed} m/s"""
+🔰 Prędkość wiatru: {'%.2f' % wind_speed} km/h"""
         except KeyError:
             return "🚫 Nie znaleziono takiej miejscowości"
 
