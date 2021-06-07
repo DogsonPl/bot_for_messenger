@@ -26,8 +26,7 @@ async def make_bet(event):
         percent_to_win = abs(int(message_values[2]))
     except (ValueError, IndexError):
         return "🚫 Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
-    if not 1 <= percent_to_win <= 90:
-        return "🚫 Możesz mieć od 1% do 90% na wygraną"
+
     response = requests.post("http://127.0.0.1:8000/casino/bet_fb",
                              data={"fb_user_id": event.author.id, "bet_money": bet_money, "percent_to_win": percent_to_win})
     response = response.json()
