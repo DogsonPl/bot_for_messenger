@@ -126,6 +126,7 @@ async def fetch_tickets_number():
 async def fetch_user_tickets(user_fb_id):
     try:
         data = await cursor.fetch_data("""SELECT tickets FROM jackpot
+                                          INNER JOIN casino_players ON jackpot.player_id=casino_players.id
                                           WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
         data = data[0][0]
     except IndexError:

@@ -36,7 +36,7 @@ class GetWeather:
             pressure = json_data["main"]["pressure"]
             humidity = json_data["main"]["humidity"]
             wind_speed = json_data["wind"]["speed"]
-            wind_speed *= 3.6
+            wind_speed *= 3.6  # *3.6 converts ms/s to km/h
             icon = json_data["weather"][0]["icon"]
 
             weather_emoji = self.icons[icon]

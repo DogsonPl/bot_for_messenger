@@ -60,65 +60,19 @@ async def make_tip(event):
 
 
 async def buy_jackpot_ticket(event):
-    return "Ta komenda działa obecnie tylko na https://dogson.ovh"
-    """ try:
+    try:
         tickets_to_buy = abs(int(event.message.text.split()[1]))
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !jackpotbuy liczba_biletów"
-    money = await handling_casino_sql.fetch_user_money(event.author.id)
-
-    try:
-        if money < tickets_to_buy:
-            return "🚫 Nie masz wystarczająco pieniędzy"
-    except TypeError:
-        return NO_ACCOUNT_MESSAGE
-
-    tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
-    tickets += tickets_to_buy
-    await handling_casino_sql.insert_into_user_money(event.author.id, money-tickets_to_buy)
-    await handling_casino_sql.add_jackpot_tickets(event.author.id, tickets)
-    return f"✅ Kupiono {tickets_to_buy} biletów"
-    """
+    response = requests.post("http://127.0.0.1:8000/casino/jackpot_buy_fb",
+                             data={"user_fb_id": event.author.id, "tickets": tickets_to_buy})
+    response = response.json()
+    return response["message"]
 
 
 async def jackpot_info(event):
-    return "Ta komenda działa obecnie tylko na https://dogson.ovh", "", "", ""
-    """
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
-    last_jackpot_results = await get_last_jackpot_results()
-    last_prize = last_jackpot_results["last_prize"]
-    last_winner = last_jackpot_results["last_winner"]
+    last_prize = "soon"
+    last_winner = "soon"
     return ticket_number, user_tickets, last_prize, last_winner
-    """
-
-
-class DrawJackpotWinner:
-    @staticmethod
-    async def draw_jackpot_winner():
-        users, tickets = zip(*await handling_casino_sql.fetch_all_jackpot_data_to_make_draw())
-        total = 0
-        try:
-            weights = [total := total + i for i in tickets]
-        except SyntaxError:
-            raise SyntaxError("To run this function, you have to update your python version to 3.8+")
-        random = rd.random()*total
-        winner_index = bisect.bisect(weights, random)
-        winner_id = users[winner_index]
-        await save_jackpot_results({"last_winner": winner_id, "last_prize": total})
-        user_money = await handling_casino_sql.fetch_user_money(winner_id)
-        await handling_casino_sql.insert_into_user_money(winner_id, user_money+total)
-
-
-LAST_JACKPOT_RESULTS_FILE_PATH = "Bot//data//last_jackpot_results.json"
-
-
-async def save_jackpot_results(data):
-    async with aiofiles.open(LAST_JACKPOT_RESULTS_FILE_PATH, "w") as file:
-        await file.write(json.dumps(data))
-
-
-async def get_last_jackpot_results():
-    async with aiofiles.open(LAST_JACKPOT_RESULTS_FILE_PATH, "r") as file:
-        data = json.loads(await file.read())
-        return data

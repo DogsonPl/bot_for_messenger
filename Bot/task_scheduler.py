@@ -2,7 +2,6 @@ import asyncio
 import pexpect
 import io
 import aioschedule
-from .casino_actions import DrawJackpotWinner
 from .sql import handling_casino_sql
 from .sql.database import loop
 from .parse_config import get_database_config
@@ -39,5 +38,5 @@ async def tasks_scheduler():
 async def init():
     loop.create_task(tasks_scheduler())
 
-draw_jackpot_winner = DrawJackpotWinner()
+
 host, user, password, database_name, port = loop.run_until_complete(get_database_config())
