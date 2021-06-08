@@ -1,10 +1,6 @@
 import requests
-import json
-import bisect
-import random as rd
 from decimal import Decimal, getcontext
 from bs4 import BeautifulSoup
-import aiofiles
 from .sql import handling_casino_sql
 
 
@@ -73,6 +69,7 @@ async def buy_jackpot_ticket(event):
 async def jackpot_info(event):
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
-    last_prize = "soon"
-    last_winner = "soon"
+    last_jackpot_data = await handling_casino_sql.get_last_jackpot_results()
+    last_winner = last_jackpot_data[0] if last_jackpot_data[0] else last_jackpot_data[1]
+    last_prize = last_jackpot_data[2]
     return ticket_number, user_tickets, last_prize, last_winner
