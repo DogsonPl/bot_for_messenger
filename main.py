@@ -134,9 +134,9 @@ class Listener:
 if __name__ == '__main__':
     bot = BotCore()
     MAIN_LOOP = asyncio.get_event_loop()
+
     MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
-
     MAIN_LOOP.create_task(task_scheduler.init())
     MAIN_LOOP.run_forever()
 
