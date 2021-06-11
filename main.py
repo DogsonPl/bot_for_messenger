@@ -24,14 +24,14 @@ class BotCore:
         print("Login in...")
         try:
             self.session = await fbchat.Session.from_cookies(self.cookies)
-            self.client = fbchat.Client(session=self.session)
             print("Logged using cookies")
         except (fbchat.NotLoggedIn, AttributeError):
             mail, password = await get_login_data()
             self.session = await fbchat.Session.login(mail, password)
-            self.client = fbchat.Client(session=self.session)
             print("Logged using mail and password")
             MAIN_LOOP.create_task(self.save_cookies())
+        finally:
+            self.client = fbchat.Client(session=self.session)
 
     async def save_cookies(self):
         new_cookies = self.session.get_cookies()
@@ -98,7 +98,7 @@ class Listener:
 
     async def set_sequence_id(self, listener):
         self.client.sequence_id_callback = listener.set_sequence_id
-        await self.client.fetch_threads(limit=1).__anext__()
+        await self.client.fetch_threads(limit=None).__anext__()
 
     async def listening(self):
         listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
