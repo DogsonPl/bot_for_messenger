@@ -117,7 +117,12 @@ class Listener:
                         # attribute error happens when someone sends photo and message doesn't have text
                         continue
             elif isinstance(event, fbchat.PeopleAdded):
-                MAIN_LOOP.create_task(self.group_commands.reply_on_person_added(event))
+                for user in event.added:
+                    if user.id == self.bot_id:
+                        MAIN_LOOP.create_task(self.group_commands.send_bot_added_message(event))
+                        break
+                else:
+                    MAIN_LOOP.create_task(self.group_commands.reply_on_person_added(event))
             elif isinstance(event, fbchat.PersonRemoved):
                 if self.bot_id != event.removed.id:
                     MAIN_LOOP.create_task(self.group_commands.reply_on_person_removed(event))

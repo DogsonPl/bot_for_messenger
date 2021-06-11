@@ -4,6 +4,10 @@ from ..bot_actions import BotActions
 from ..sql import handling_group_sql
 
 
+BOT_WELCOME_MESSAGE = """👋 Witajcie, jestem botem 🤖
+❓ Jeśli chcesz zobaczyć moje komendy napisz !help"""
+
+
 def check_admin_permission(function):
     async def wrapper(self, event, group_info):
         if event.author.id not in group_info.admins:
@@ -82,6 +86,9 @@ class GroupCommands(BotActions):
 
     async def reply_on_person_removed(self, event):
         await self.send_text_message(event, "🥂 Jakaś kurwa opusciła grupe")
+
+    async def send_bot_added_message(self, event):
+        await self.send_text_message(event, BOT_WELCOME_MESSAGE)
 
 
 async def get_random_mention(group_info):
