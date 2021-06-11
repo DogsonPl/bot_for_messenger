@@ -30,7 +30,6 @@ HELP_MESSAGE = """🎉Komendy🎉
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
 🔥 !disco - robi dyskoteke
-🔥 !emotka x - zmienia emotke na x (np emotka 😎)
 🔥 !powitanie 'treść' - ustawia powitanie na grupie nowego członka
 🔥 !nowyregulamin 'treść' - ustawia regulamin grupy
 🔥 !regulamin - wysyła regulamin grupy
@@ -45,8 +44,8 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
 💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
 💸 !email x - ustaw swój email jako x
-💸 !kod - wpisz kod potwierdzający który dostałeś na email
-💸 !delmail - usuwa twój email z bazy danych"""
+💸 !kod x - wpisz kod potwierdzający który dostałeś na email
+"""
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
 
@@ -56,13 +55,13 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.1 + 8.1 pro 🤖
+🤖 Wersja bota: 7.1 + 8.2 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 !strona
 🆕 !email
 🆕 !kod
-🆕 !delmail"""
+"""
 
 
 class Commands(BotActions):
