@@ -7,7 +7,6 @@ from .parse_config import django_password
 
 getcontext().prec = 20
 
-NO_ACCOUNT_MESSAGE = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 DJANGO_PASSWORD = django_password
 
 
@@ -46,7 +45,7 @@ async def make_tip(event):
         if sender_money < money_to_give:
             return "🚫 Nie masz wystarczająco pieniędzy"
     except TypeError:
-        return NO_ACCOUNT_MESSAGE
+        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
     try:
