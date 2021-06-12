@@ -2,15 +2,18 @@ import requests
 from decimal import Decimal, getcontext
 from bs4 import BeautifulSoup
 from .sql import handling_casino_sql
+from .parse_config import django_password
 
 
 getcontext().prec = 20
 
 NO_ACCOUNT_MESSAGE = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+DJANGO_PASSWORD = django_password
 
 
 async def take_daily(event):
-    response = requests.post("http://127.0.0.1:8000/casino/set_daily_fb", data={"fb_user_id": event.author.id})
+    response = requests.post("http://127.0.0.1:8000/casino/set_daily_fb",
+                             data={"fb_user_id": event.author.id, "django_password": django_password})
     message = response.json()
     return message["message"]
 
@@ -24,7 +27,8 @@ async def make_bet(event):
         return "🚫 Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
 
     response = requests.post("http://127.0.0.1:8000/casino/bet_fb",
-                             data={"fb_user_id": event.author.id, "bet_money": bet_money, "percent_to_win": percent_to_win})
+                             data={"fb_user_id": event.author.id, "bet_money": bet_money,
+                                   "percent_to_win": percent_to_win, "django_password": django_password})
     response = response.json()
     message = BeautifulSoup(response["message"], "html.parser")
     return message.text
@@ -61,7 +65,8 @@ async def buy_jackpot_ticket(event):
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !jackpotbuy liczba_biletów"
     response = requests.post("http://127.0.0.1:8000/casino/jackpot_buy_fb",
-                             data={"user_fb_id": event.author.id, "tickets": tickets_to_buy})
+                             data={"user_fb_id": event.author.id, "tickets": tickets_to_buy,
+                                   "django_password": django_password})
     response = response.json()
     return response["message"]
 

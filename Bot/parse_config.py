@@ -34,3 +34,5 @@ async def get_smpt_config():
 
 config_parser = ConfigParser()
 config_parser.read("config.cfg", "UTF-8")
+
+django_password = config_parser.get("django_password", "django_password")
