@@ -3,6 +3,7 @@ from decimal import Decimal, getcontext
 from bs4 import BeautifulSoup
 from .sql import handling_casino_sql
 from .parse_config import django_password
+from .task_scheduler import last_jackpot_data
 
 
 getcontext().prec = 20
@@ -73,7 +74,4 @@ async def buy_jackpot_ticket(event):
 async def jackpot_info(event):
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
-    last_jackpot_data = await handling_casino_sql.get_last_jackpot_results()
-    last_winner = last_jackpot_data[0] if last_jackpot_data[0] else last_jackpot_data[1]
-    last_prize = last_jackpot_data[2]
-    return ticket_number, user_tickets, last_prize, last_winner
+    return ticket_number, user_tickets, last_jackpot_data.last_prize, last_jackpot_data.last_winner
