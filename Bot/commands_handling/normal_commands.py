@@ -86,7 +86,9 @@ class Commands(BotActions):
         await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
 
     async def send_webpage_link(self, event):
-        await self.send_text_message(event, "Link do strony www: https://dogson.ovh. Obecnie jest to strona testowa i dogi się nie łączą")
+        await self.send_text_message(event, """🔗 Link do strony www: https://dogson.ovh. Strona jest w wersji beta
+
+Żeby połączyć swoje dane z kasynem że stroną, ustaw w  bocie email za pomocą komendy !email, a potem załóż konto na stronie bota na ten sam email""")
 
     async def send_weather(self, event):
         city = event.message.text[8:]

@@ -12,7 +12,7 @@ async def register_casino_user(user_fb_id, fb_name):
     try:
         await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike)
                                 VALUES(%s, %s, 0, 0, 0);""", (user_fb_id, fb_name))
-        return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh)"
+        return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh). Po więcej informacji napisz !strona"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
 
