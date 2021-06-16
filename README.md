@@ -5,7 +5,7 @@
 ## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
 ### Clone the repo:
    ```
-   git clone https://github.com/DogsonPl/bot_for_messenger.git
+   git clone -b without_connection_with_webpage https://github.com/DogsonPl/bot_for_messenger.git
    ```
 ### Install required packages:
    ```
