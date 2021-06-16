@@ -49,48 +49,47 @@ class BotCore:
 class Listener(BotCore):
     def __init__(self):
         super().__init__()
-
-    async def init_commands_handlers(self):
-        normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client)
-        group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client)
-        casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client)
-        commands = {"help": normal_commands.send_help_message,
-                    "pomoc": normal_commands.send_help_message,
-                    "mem": normal_commands.send_random_meme,
-                    "film": normal_commands.send_random_film,
-                    "say": normal_commands.send_tts,
-                    "tvpis": normal_commands.send_tvpis_image,
-                    "pogoda": normal_commands.send_weather,
-                    "nick": normal_commands.change_nick,
-                    "strona": normal_commands.send_webpage_link,
-                    "id": normal_commands.send_user_id,
-                    "koronawirus": normal_commands.send_covid_info,
-                    "koronawiruspl": normal_commands.send_covid_pl_info,
-                    "utrudnieniawawa": normal_commands.send_public_transport_difficulties_in_warsaw,
-                    "utrudnieniawroclaw": normal_commands.send_public_transport_difficulties_in_wroclaw,
-                    "utrudnienialodz": normal_commands.send_public_transport_difficulties_in_lodz,
-                    "disco": normal_commands.make_disco,
-                    "moneta": normal_commands.send_random_coin_side,
-                    "tworca": normal_commands.send_link_to_creator_account,
-                    "wsparcie": normal_commands.send_support_info,
-                    "wersja": normal_commands.send_bot_version,
-                    "bet": casino_commands.send_bet_message,
-                    "daily": casino_commands.send_daily_money_message,
-                    "bal": casino_commands.send_user_money,
-                    "top": casino_commands.send_top_players,
-                    "tip": casino_commands.send_tip_message,
-                    "register": casino_commands.register,
-                    "jackpot": casino_commands.send_jackpot_info,
-                    "jackpotbuy": casino_commands.send_jackpot_ticket_bought_message,
-                    "email": casino_commands.get_email,
-                    "kod": casino_commands.check_email_verification_code,
-                    "ruletka": group_commands.delete_random_person,
-                    "luckymember": group_commands.send_message_with_random_mention,
-                    "nowyregulamin": group_commands.set_new_group_regulations,
-                    "regulamin": group_commands.get_group_regulations,
-                    "powitanie": group_commands.set_welcome_message,
-                    "everyone": group_commands.mention_everyone}
-        return commands, normal_commands, group_commands, casino_commands
+        if self.client is None or self.session is None:
+            MAIN_LOOP.run_until_complete(self.login())
+        self.normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client)
+        self.group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client)
+        self.casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client)
+        self.commands = {"help": self.normal_commands.send_help_message,
+                         "pomoc": self.normal_commands.send_help_message,
+                         "mem": self.normal_commands.send_random_meme,
+                         "film": self.normal_commands.send_random_film,
+                         "say": self.normal_commands.send_tts,
+                         "tvpis": self.normal_commands.send_tvpis_image,
+                         "pogoda": self.normal_commands.send_weather,
+                         "nick": self.normal_commands.change_nick,
+                         "strona": self.normal_commands.send_webpage_link,
+                         "id": self.normal_commands.send_user_id,
+                         "koronawirus": self.normal_commands.send_covid_info,
+                         "koronawiruspl": self.normal_commands.send_covid_pl_info,
+                         "utrudnieniawawa": self.normal_commands.send_public_transport_difficulties_in_warsaw,
+                         "utrudnieniawroclaw": self.normal_commands.send_public_transport_difficulties_in_wroclaw,
+                         "utrudnienialodz": self.normal_commands.send_public_transport_difficulties_in_lodz,
+                         "disco": self.normal_commands.make_disco,
+                         "moneta": self.normal_commands.send_random_coin_side,
+                         "tworca": self.normal_commands.send_link_to_creator_account,
+                         "wsparcie": self.normal_commands.send_support_info,
+                         "wersja": self.normal_commands.send_bot_version,
+                         "bet": self.casino_commands.send_bet_message,
+                         "daily": self.casino_commands.send_daily_money_message,
+                         "bal": self.casino_commands.send_user_money,
+                         "top": self.casino_commands.send_top_players,
+                         "tip": self.casino_commands.send_tip_message,
+                         "register": self.casino_commands.register,
+                         "jackpot": self.casino_commands.send_jackpot_info,
+                         "jackpotbuy": self.casino_commands.send_jackpot_ticket_bought_message,
+                         "email": self.casino_commands.get_email,
+                         "kod": self.casino_commands.check_email_verification_code,
+                         "ruletka": self.group_commands.delete_random_person,
+                         "luckymember": self.group_commands.send_message_with_random_mention,
+                         "nowyregulamin": self.group_commands.set_new_group_regulations,
+                         "regulamin": self.group_commands.get_group_regulations,
+                         "powitanie": self.group_commands.set_welcome_message,
+                         "everyone": self.group_commands.mention_everyone}
 
     async def init_listening(self):
         try:
@@ -110,7 +109,6 @@ class Listener(BotCore):
         await self.client.fetch_threads(limit=None).__anext__()
 
     async def listening(self):
-        commands, normal_commands, group_commands, casino_commands = await self.init_commands_handlers()
         listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
         MAIN_LOOP.create_task(self.set_sequence_id(listener))
 
@@ -118,29 +116,28 @@ class Listener(BotCore):
         async for event in listener.listen():
             if isinstance(event, fbchat.MessageEvent):
                 if event.author.id != self.bot_id:
-                    try:
-                        if event.message.text.startswith("!"):
-                            command = event.message.text.split()[0][1:]
-                            MAIN_LOOP.create_task(commands[command](event))
-                        elif event.message.text.startswith("https://youtu"):
-                            MAIN_LOOP.create_task(normal_commands.send_yt_video(event))
-                    except (AttributeError, KeyError):
-                        # attribute error happens when someone sends photo and message doesn't have text
-                        continue
+                    MAIN_LOOP.create_task(self.handle_message_event(event))
             elif isinstance(event, fbchat.PeopleAdded):
-                MAIN_LOOP.create_task(group_commands.send_message_on_person_added(event))
+                MAIN_LOOP.create_task(self.group_commands.send_message_on_person_added(event))
             elif isinstance(event, fbchat.PersonRemoved):
-                MAIN_LOOP.create_task(group_commands.reply_on_person_removed(event))
+                MAIN_LOOP.create_task(self.group_commands.reply_on_person_removed(event))
 
-        print("\nListening stopped. Restarting...\n")
-        await bot.init_listening()
+    async def handle_message_event(self, event):
+        if event.author.id != self.bot_id:
+            try:
+                if event.message.text.startswith("!"):
+                    command = event.message.text.split()[0][1:]
+                    MAIN_LOOP.create_task(self.commands[command](event))
+                elif event.message.text.startswith("https://youtu"):
+                    MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event))
+            except (AttributeError, KeyError):
+                # attribute error happens when someone sends photo and message doesn't have text
+                pass
 
 
 if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
     bot = Listener()
-
-    MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
     MAIN_LOOP.create_task(task_scheduler.init())
     MAIN_LOOP.run_forever()
