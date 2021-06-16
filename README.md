@@ -39,6 +39,7 @@ Bot only answers if you have bot in friends**
 **!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is Polish city)\
 **!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is Polish city)\
 **!moneta** - (moneta = draw) bot makes coin flip\
+**!waluta amount from to** - (waluta = currency) bot converts given currency (for example !waluta 10 PLN USD) converts 10 PLN to USD
 **!film**- sends random funny film\
 **!tvpis x** - (tvpis = tv station) sends TV news bar with x (for example !tvpis Hi sends bar with Hi)\
 **!disco**- make disco on chat 😎 (bot changes chat color few times)\

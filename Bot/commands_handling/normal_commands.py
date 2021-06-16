@@ -1,10 +1,12 @@
 import fbchat
 import random as rd
+from currency_converter import CurrencyConverter
 from .. import getting_and_editing_files, page_parsing
 from ..bot_actions import BotActions
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
+currency_converter = CurrencyConverter()
 
 
 HELP_MESSAGE = """🎉Komendy🎉
@@ -26,6 +28,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !utrudnieniawawa - pisze utrudnienia w komunikacji miejsiej w Warszawie
 ⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)\n
+⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
@@ -55,12 +58,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.1 + 8.2 pro 🤖
+🤖 Wersja bota: 7.2 + 8.2 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !waluta
 🆕 !strona
-🆕 !email
-🆕 !kod
 """
 
 
@@ -147,9 +149,26 @@ class Commands(BotActions):
             await self.send_bytes_file(event, video, filetype)
             self.downloading_videos -= 1
 
+    async def convert_currency(self, event):
+        message_data = event.message.text.split()
+        try:
+            amount = float(message_data[1])
+            from_ = message_data[2].upper()
+            to = message_data[3].upper()
+        except (IndexError, ValueError):
+            message = "💡 Użycie komendy: !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów"
+        else:
+            try:
+                converted_currency = currency_converter.convert(amount, from_, to)
+            except ValueError as e:
+                message = f"🚫 {e}"
+            else:
+                message = f"💲 {amount} {from_} to {'%.2f' % converted_currency} {to}"
+        await self.send_text_message(event, message)
+
     @staticmethod
     async def make_disco(event):
-        for _ in range(5):
+        for _ in range(10):
             color = rd.choice(SETABLE_COLORS)
             await event.thread.set_color(color)
 
