@@ -80,8 +80,6 @@ class GroupCommands(BotActions):
 
     async def reply_on_person_added(self, event):
         message = await handling_group_sql.fetch_welcome_message(event)
-        if message is None:
-            message = "🖐 Witaj w grupie! Jestem botem. Jeśli chcesz zobaczyć moje komendy napisz !help"
         await self.send_text_message(event, message)
 
     async def reply_on_person_removed(self, event):
