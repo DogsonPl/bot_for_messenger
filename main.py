@@ -14,13 +14,14 @@ from Bot import task_scheduler
 
 
 class BotCore:
+    COOKIES_FILE_PATH = "Bot//data//cookies.json"
+
     def __init__(self):
         self.session = None
         self.client = None
         self.bot_id = None
-        self.cookies_file_path = "Bot//data//cookies.json"
         try:
-            with open(self.cookies_file_path, "r") as cookies_file:
+            with open(self.COOKIES_FILE_PATH, "r") as cookies_file:
                 self.cookies = json.load(cookies_file)
         except FileNotFoundError:
             self.cookies = None
@@ -41,7 +42,7 @@ class BotCore:
 
     async def save_cookies(self):
         new_cookies = self.session.get_cookies()
-        with open(self.cookies_file_path, "w") as cookies_file:
+        with open(self.COOKIES_FILE_PATH, "w") as cookies_file:
             json.dump(new_cookies, cookies_file)
 
 
@@ -127,15 +128,9 @@ class Listener(BotCore):
                         # attribute error happens when someone sends photo and message doesn't have text
                         continue
             elif isinstance(event, fbchat.PeopleAdded):
-                for user in event.added:
-                    if user.id == self.bot_id:
-                        MAIN_LOOP.create_task(group_commands.send_bot_added_message(event))
-                        break
-                else:
-                    MAIN_LOOP.create_task(group_commands.reply_on_person_added(event))
+                MAIN_LOOP.create_task(group_commands.send_message_on_person_added(event))
             elif isinstance(event, fbchat.PersonRemoved):
-                if self.bot_id != event.removed.id:
-                    MAIN_LOOP.create_task(group_commands.reply_on_person_removed(event))
+                MAIN_LOOP.create_task(group_commands.reply_on_person_removed(event))
 
         print("\nListening stopped. Restarting...\n")
         await bot.init_listening()

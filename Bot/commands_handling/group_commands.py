@@ -78,15 +78,19 @@ class GroupCommands(BotActions):
         mention = await get_random_mention(group_info)
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
-    async def reply_on_person_added(self, event):
-        message = await handling_group_sql.fetch_welcome_message(event)
-        await self.send_text_message(event, message)
-
     async def reply_on_person_removed(self, event):
-        await self.send_text_message(event, "🥂 Jakaś kurwa opusciła grupe")
+        if self.bot_id != event.removed.id:
+            # if bot is removed from group, bot can`t send removed message
+            await self.send_text_message(event, "🥂 Jakaś kurwa opusciła grupe")
 
-    async def send_bot_added_message(self, event):
-        await self.send_text_message(event, BOT_WELCOME_MESSAGE)
+    async def send_message_on_person_added(self, event):
+        for user in event.added:
+            if user.id == self.bot_id:
+                await self.send_text_message(event, BOT_WELCOME_MESSAGE)
+                break
+        else:
+            message = await handling_group_sql.fetch_welcome_message(event)
+            await self.send_text_message(event, message)
 
 
 async def get_random_mention(group_info):
