@@ -2,7 +2,7 @@
 
 # Webpage: https://dogson.ovh (in beta)
 
-## To run this bot version on your machine. you have to configure website deticated to bot:  https://github.com/DogsonPl/bot_for_messenger_website_django <br> If you want to run this bot without configuring django website, check this bot version: https://github.com/DogsonPl/bot_for_messenger/tree/without_connection_with_webpage  
+## To run this bot version on your machine, you have to configure website deticated to bot:  https://github.com/DogsonPl/bot_for_messenger_website_django <br> If you want to run this bot without configuring django website, check this bot version: https://github.com/DogsonPl/bot_for_messenger/tree/without_connection_with_webpage  
 
 ## Important note 1: Bot works only on Linux 
 ## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger

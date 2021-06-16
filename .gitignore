@@ -132,3 +132,6 @@ dmypy.json
 Scripts/
 .idea/
 pyvenv.cfg
+
+# bot config files
+/config.cfg
