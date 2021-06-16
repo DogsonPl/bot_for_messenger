@@ -1,4 +1,6 @@
 # Asynchronous Bot for messenger
+
+## This is version with works without a webpage. It`s not longer supported
 ## Important note 1: Bot works only on Linux 
 ## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
 ### Clone the repo:
