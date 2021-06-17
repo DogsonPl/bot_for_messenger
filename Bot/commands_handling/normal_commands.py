@@ -27,7 +27,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !utrudnieniawroclaw - pisze utrudnienia w komunikacji miejskiej we Wrocławiu (ostatnie dwa posty MPK Wrocław)
 ⚙ !utrudnieniawawa - pisze utrudnienia w komunikacji miejsiej w Warszawie
 ⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
-⚙ !moneta - bot rzuca monete (orzeł lub reszka)\n
+⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !film - wysyła losowy śmieszny film
@@ -163,7 +163,7 @@ class Commands(BotActions):
             except ValueError as e:
                 message = f"🚫 {e}"
             else:
-                message = f"💲 {amount} {from_} to {'%.2f' % converted_currency} {to}"
+                message = f"💲 {'%.2f' % amount} {from_} to {'%.2f' % converted_currency} {to}"
         await self.send_text_message(event, message)
 
     @staticmethod
