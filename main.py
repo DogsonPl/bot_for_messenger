@@ -49,8 +49,12 @@ class BotCore:
 class Listener(BotCore):
     def __init__(self):
         super().__init__()
-        if self.client is None or self.session is None:
-            MAIN_LOOP.run_until_complete(self.login())
+        self.normal_commands = None
+        self.group_commands = None
+        self.casino_commands = None
+        self.commands = None
+
+    async def init_commands(self):
         self.normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client)
         self.group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client)
         self.casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client)
@@ -110,6 +114,7 @@ class Listener(BotCore):
         await self.client.fetch_threads(limit=None).__anext__()
 
     async def listening(self):
+        await self.init_commands()
         listener = fbchat.Listener(session=self.session, chat_on=True, foreground=True)
         MAIN_LOOP.create_task(self.set_sequence_id(listener))
 
@@ -139,6 +144,7 @@ class Listener(BotCore):
 if __name__ == '__main__':
     MAIN_LOOP = asyncio.get_event_loop()
     bot = Listener()
+    MAIN_LOOP.run_until_complete(bot.login())
     MAIN_LOOP.create_task(bot.init_listening())
     MAIN_LOOP.create_task(task_scheduler.init())
     MAIN_LOOP.run_forever()
