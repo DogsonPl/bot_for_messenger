@@ -1,12 +1,12 @@
 import fbchat
 import random as rd
-from currency_converter import CurrencyConverter
+from forex_python.converter import CurrencyRates, RatesNotAvailableError
 from .. import getting_and_editing_files, page_parsing
 from ..bot_actions import BotActions
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
-currency_converter = CurrencyConverter()
+currency_converter = CurrencyRates()
 
 
 HELP_MESSAGE = """🎉Komendy🎉
@@ -159,11 +159,10 @@ class Commands(BotActions):
             message = "💡 Użycie komendy: !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów"
         else:
             try:
-                converted_currency = currency_converter.convert(amount, from_, to)
-            except ValueError as e:
-                message = f"🚫 {e}"
-            else:
+                converted_currency = currency_converter.convert(from_, to, amount)
                 message = f"💲 {'%.2f' % amount} {from_} to {'%.2f' % converted_currency} {to}"
+            except RatesNotAvailableError:
+                message = f"🚫 Podano niepoprawną walute"
         await self.send_text_message(event, message)
 
     @staticmethod

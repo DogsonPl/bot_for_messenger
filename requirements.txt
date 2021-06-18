@@ -11,4 +11,4 @@ aiomysql
 pexpect
 aiosmtplib
 bs4
-CurrencyConverter
+forex-python
