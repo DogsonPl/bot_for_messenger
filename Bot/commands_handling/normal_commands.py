@@ -185,9 +185,8 @@ class Commands(BotActions):
                 message = f"🚫 Podano niepoprawną walute"
         await self.send_text_message(event, message)
 
-    @staticmethod
     @logger
-    async def make_disco(event):
+    async def make_disco(self, event):
         for _ in range(10):
             color = rd.choice(SETABLE_COLORS)
             await event.thread.set_color(color)
