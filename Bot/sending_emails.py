@@ -42,7 +42,8 @@ class SmptConnection:
                                 "html", "utf-8"))
         return message
 
-    async def create_traceback_message(self, traceback_message):
+    @staticmethod
+    async def create_traceback_message(traceback_message):
         message = MIMEMultipart("alternative")
         message["From"] = MAIL
         message["To"] = "dogsonkrul@gmail.com"
