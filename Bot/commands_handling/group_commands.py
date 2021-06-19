@@ -1,5 +1,6 @@
 import fbchat
 import random as rd
+from .logger import logger
 from ..bot_actions import BotActions
 from ..sql import handling_group_sql
 
@@ -29,6 +30,7 @@ class GroupCommands(BotActions):
     def __init__(self, loop, bot_id, client):
         super().__init__(loop, bot_id, client)
 
+    @logger
     @check_group_instance
     @check_admin_permission
     async def delete_random_person(self, event, group_info):
@@ -43,6 +45,7 @@ class GroupCommands(BotActions):
             except fbchat.InvalidParameters:
                 await self.send_text_message(event, "🚫 Żeby działała ta funkcja na grupie, muszę mieć admina")
 
+    @logger
     @check_group_instance
     @check_admin_permission
     async def set_welcome_message(self, event, group_info):
@@ -53,12 +56,14 @@ class GroupCommands(BotActions):
             message = "✅ Powitanie zostało zmienione :)"
         await self.send_text_message(event, message)
 
+    @logger
     @check_group_instance
     @check_admin_permission
     async def set_new_group_regulations(self, event, group_info):
         await handling_group_sql.set_group_regulations(event)
         await self.send_text_message(event, "✅ Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć")
 
+    @logger
     @check_group_instance
     async def get_group_regulations(self, event, group_info):
         group_regulations = await handling_group_sql.fetch_group_regulations(event)
@@ -66,23 +71,27 @@ class GroupCommands(BotActions):
             group_regulations = "ℹ Grupa nie ma regulaminu. Aby go ustawić użyj komendy !nowyregulamin"
         await self.send_text_message(event, group_regulations)
 
+    @logger
     @check_group_instance
     @check_admin_permission
     async def mention_everyone(self, event, group_info):
         mentions = [fbchat.Mention(thread_id=participant.id, offset=0, length=12) for participant in group_info.participants]
         await self.send_text_message_with_mentions(event, "💬 ELUWA ALL", mentions)
 
+    @logger
     @check_group_instance
     async def send_message_with_random_mention(self, event, group_info):
         group_info = await self.get_thread_info(event.thread.id)
         mention = await get_random_mention(group_info)
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
+    @logger
     async def reply_on_person_removed(self, event):
         if self.bot_id != event.removed.id:
             # if bot is removed from group, bot can`t send removed message
             await self.send_text_message(event, "🥂 Jakaś kurwa opusciła grupe")
 
+    @logger
     async def send_message_on_person_added(self, event):
         for user in event.added:
             if user.id == self.bot_id:

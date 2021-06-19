@@ -1,3 +1,4 @@
+from .logger import logger
 from ..bot_actions import BotActions
 from .. import casino_actions
 from ..sql import handling_casino_sql
@@ -10,14 +11,17 @@ class CasinoCommands(BotActions):
     def __init__(self, loop, bot_id, client):
         super().__init__(loop, bot_id, client)
 
+    @logger
     async def send_daily_money_message(self, event):
         message = await casino_actions.take_daily(event)
         await self.send_message_with_reply(event, message)
 
+    @logger
     async def send_bet_message(self, event):
         message = await casino_actions.make_bet(event)
         await self.send_message_with_reply(event, message)
 
+    @logger
     async def send_user_money(self, event):
         user_money = await handling_casino_sql.fetch_user_money(event.author.id)
         try:
@@ -25,10 +29,12 @@ class CasinoCommands(BotActions):
         except TypeError:
             await self.send_message_with_reply(event, user_money)
 
+    @logger
     async def send_tip_message(self, event):
         message = await casino_actions.make_tip(event)
         await self.send_message_with_reply(event, message)
 
+    @logger
     async def send_top_players(self, event):
         message = "3 użytkowników z najwiekszą liczbą dogecoinów:\n"
         top_users = await handling_casino_sql.fetch_top_three_players()
@@ -37,6 +43,7 @@ class CasinoCommands(BotActions):
             message += f"{medal} {username}: {int(user[2])} dc\n"
         await self.send_text_message(event, message)
 
+    @logger
     async def send_jackpot_info(self, event):
         ticket_number, user_tickets, last_prize, last_winner = await casino_actions.jackpot_info(event)
         message = f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
@@ -49,15 +56,18 @@ class CasinoCommands(BotActions):
 -na końcu dnia jest losowanie, osoba której bilet zostanie wylosowany wygrywa dogecoiny (każdy kupiony bilet zwiększa pule nagród o jeden dogecoin)"""
         await self.send_text_message(event, message)
 
+    @logger
     async def send_jackpot_ticket_bought_message(self, event):
         message = await casino_actions.buy_jackpot_ticket(event)
         await self.send_text_message(event, message)
 
+    @logger
     async def register(self, event):
         name = await self.get_thread_info(event.author.id)
         message = await handling_casino_sql.register_casino_user(event.author.id, name.name)
         await self.send_message_with_reply(event, message)
 
+    @logger
     async def get_email(self, event):
         user_email, = await handling_casino_sql.get_user_email(event.author.id)
         if user_email is not None:
@@ -80,6 +90,7 @@ class CasinoCommands(BotActions):
             message = await smpt_connection.send_mail(email, email_message)
             await self.send_text_message(event, message)
 
+    @logger
     async def check_email_verification_code(self, event):
         try:
             code = event.message.text.split()[1]

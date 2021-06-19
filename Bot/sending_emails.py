@@ -42,6 +42,14 @@ class SmptConnection:
                                 "html", "utf-8"))
         return message
 
+    async def create_traceback_message(self, traceback_message):
+        message = MIMEMultipart("alternative")
+        message["From"] = MAIL
+        message["To"] = "dogsonkrul@gmail.com"
+        message["Subject"] = "Bot error"
+        message.attach(MIMEText(traceback_message, "html", "utf-8"))
+        return message
+
 
 loop = asyncio.get_event_loop()
 HOSTNAME, MAIL, PASSWORD = loop.run_until_complete(parse_config.get_smpt_config())

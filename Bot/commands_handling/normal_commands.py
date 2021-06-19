@@ -1,6 +1,7 @@
 import fbchat
 import random as rd
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
+from .logger import logger
 from .. import getting_and_editing_files, page_parsing
 from ..bot_actions import BotActions
 
@@ -72,73 +73,91 @@ class Commands(BotActions):
         self.downloading_videos = 0
         super().__init__(loop, bot_id, client)
 
+    @logger
     async def send_help_message(self, event):
         await self.send_text_message(event, HELP_MESSAGE)
 
+    @logger
     async def send_link_to_creator_account(self, event):
         await self.send_text_message(event, LINK_TO_MY_FB_ACCOUNT_MESSAGE)
 
+    @logger
     async def send_support_info(self, event):
         await self.send_text_message(event, SUPPORT_INFO_MESSAGE)
 
+    @logger
     async def send_bot_version(self, event):
         await self.send_text_message(event, BOT_VERSION_MESSAGE)
 
+    @logger
     async def send_user_id(self, event):
         await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
 
+    @logger
     async def send_webpage_link(self, event):
         await self.send_text_message(event, """🔗 Link do strony www: https://dogson.ovh. Strona jest w wersji beta
 
 Żeby połączyć swoje dane z kasynem że stroną, ustaw w  bocie email za pomocą komendy !email, a potem załóż konto na stronie bota na ten sam email""")
 
+    @logger
     async def send_weather(self, event):
         city = event.message.text[8:]
         weather = await self.get_weather(city)
         await self.send_text_message(event, weather)
 
+    @logger
     async def send_covid_info(self, event):
         covid_info = await page_parsing.get_coronavirus_info()
         await self.send_text_message(event, covid_info)
 
+    @logger
     async def send_covid_pl_info(self, event):
         covid_pl_info = await page_parsing.get_coronavirus_pl_info()
         await self.send_text_message(event, covid_pl_info)
 
+    @logger
     async def send_public_transport_difficulties_in_warsaw(self, event):
         difficulties_in_warsaw = await page_parsing.get_public_transport_difficulties_in_warsaw()
         await self.send_text_message(event, difficulties_in_warsaw)
 
+    @logger
     async def send_public_transport_difficulties_in_wroclaw(self, event):
         difficulties_in_wroclaw = await page_parsing.get_public_transport_difficulties_in_wroclaw()
         await self.send_text_message(event, difficulties_in_wroclaw)
 
+    @logger
     async def send_public_transport_difficulties_in_lodz(self, event):
         difficulties_in_lodz = await page_parsing.get_public_transport_difficulties_in_lodz()
         await self.send_text_message(event, difficulties_in_lodz)
 
+    @logger
     async def send_random_meme(self, event):
         meme_path, filetype = await getting_and_editing_files.get_random_meme()
         await self.send_file(event, meme_path, filetype)
 
+    @logger
     async def send_random_film(self, event):
         film_path, filetype = await getting_and_editing_files.get_random_film()
         await self.send_file(event, film_path, filetype)
 
+    @logger
     async def send_random_coin_side(self, event):
         film_path, filetype = await getting_and_editing_files.make_coin_flip()
         await self.send_file(event, film_path, filetype)
 
+    @logger
     async def send_tvpis_image(self, event):
         text = event.message.text[6:]
         image, filetype = await self.loop.run_in_executor(None, getting_and_editing_files.edit_tvpis_image, text)
         await self.send_bytes_file(event, image, filetype)
 
+    @logger
     async def send_tts(self, event):
         text = event.message.text[4:]
         tts = await self.loop.run_in_executor(None, getting_and_editing_files.get_tts, text)
         await self.send_bytes_audio_file(event, tts)
 
+    @logger
     async def send_yt_video(self, event):
         if self.downloading_videos > 10:
             await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
@@ -149,6 +168,7 @@ class Commands(BotActions):
             await self.send_bytes_file(event, video, filetype)
             self.downloading_videos -= 1
 
+    @logger
     async def convert_currency(self, event):
         message_data = event.message.text.split()
         try:
@@ -166,11 +186,13 @@ class Commands(BotActions):
         await self.send_text_message(event, message)
 
     @staticmethod
+    @logger
     async def make_disco(event):
         for _ in range(10):
             color = rd.choice(SETABLE_COLORS)
             await event.thread.set_color(color)
 
+    @logger
     async def change_nick(self, event):
         try:
             await event.thread.set_nickname(user_id=event.author.id, nickname=" ".join(event.message.text.split()[1:]))
