@@ -12,7 +12,6 @@ class Database:
     @staticmethod
     async def connect_to_db():
         host, user, password, database_name, port = await get_database_config()
-        print()
         try:
             pool_connection = await aiomysql.create_pool(host=host, user=user, password=password, port=int(port),
                                                          autocommit=True, db=database_name, maxsize=100, loop=loop)
