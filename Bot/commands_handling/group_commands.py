@@ -67,6 +67,9 @@ class GroupCommands(BotActions):
     @check_group_instance
     async def get_group_regulations(self, event, group_info):
         group_regulations = await handling_group_sql.fetch_group_regulations(event)
+        if group_regulations is None:
+            group_regulations = """🥂 Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
+Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
         await self.send_text_message(event, group_regulations)
 
     @logger
@@ -97,6 +100,8 @@ class GroupCommands(BotActions):
                 break
         else:
             message = await handling_group_sql.fetch_welcome_message(event)
+            if message is None:
+                message = "📜 Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
             await self.send_text_message(event, message)
 
 
