@@ -1,6 +1,7 @@
 import asyncio
 import json
 import time
+import re
 
 import fbchat
 
@@ -134,8 +135,12 @@ class Listener(BotCore):
                 if event.message.text.startswith("!"):
                     command = event.message.text.split()[0][1:]
                     MAIN_LOOP.create_task(self.commands[command](event))
-                elif event.message.text.startswith("https://youtu"):
-                    MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event))
+                else:
+                    yt_links = re.findall(r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
+                                          event.message.text)
+                    if len(yt_links) > 0:
+                        yt_link = "https://youtu.be/" + yt_links[0][0]
+                        MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event, yt_link))
             except (AttributeError, KeyError):
                 # attribute error happens when someone sends photo and message doesn't have text
                 pass

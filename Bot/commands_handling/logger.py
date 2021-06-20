@@ -4,9 +4,9 @@ from ..sending_emails import smpt_connection
 
 def logger(function):
     @functools.wraps(function)
-    async def wrapper(self, event):
+    async def wrapper(self, event, *kwargs):
         try:
-            return await function(self, event)
+            return await function(self, event, *kwargs)
         except Exception as e:
             message = f"""<b>Traceback</b>: {e} <br>
 <b>Event data</b>: {event} <br>

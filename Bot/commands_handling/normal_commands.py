@@ -159,12 +159,12 @@ class Commands(BotActions):
         await self.send_bytes_audio_file(event, tts)
 
     @logger
-    async def send_yt_video(self, event):
+    async def send_yt_video(self, event, yt_link):
         if self.downloading_videos > 10:
             await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
         else:
             self.downloading_videos += 1
-            link = event.message.text.split()[0]
+            link = yt_link
             video, filetype = await self.loop.run_in_executor(None, page_parsing.download_yt_video, link)
             await self.send_bytes_file(event, video, filetype)
             self.downloading_videos -= 1
