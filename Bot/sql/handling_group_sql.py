@@ -19,7 +19,7 @@ async def fetch_group_regulations(event):
     try:
         data = await cursor.fetch_data("""SELECT regulations FROM groups_information
                                           WHERE group_id = %s LIMIT 1;""", (event.thread.id, ))
-        group_regulations = data[0]
+        group_regulations = data[0][0]
     except IndexError:
         group_regulations = "📜 Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
     return group_regulations
@@ -28,9 +28,9 @@ async def fetch_group_regulations(event):
 async def fetch_welcome_message(event):
     data = await cursor.fetch_data("""SELECT welcome_message FROM groups_information
                                       WHERE group_id = %s LIMIT 1;""", (event.thread.id, ))
-    message = data[0][0]
-
-    if message is None:
+    try:
+        message = data[0][0]
+    except IndexError:
         message = """🥂 Witaj w grupie! Jeśli chcesz zobaczyć moje funkcje napisz !help 
 Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
     return message

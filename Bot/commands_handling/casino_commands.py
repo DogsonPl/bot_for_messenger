@@ -69,7 +69,10 @@ class CasinoCommands(BotActions):
 
     @logger
     async def get_email(self, event):
-        user_email, = await handling_casino_sql.get_user_email(event.author.id)
+        try:
+            user_email, = await handling_casino_sql.get_user_email(event.author.id)
+        except ValueError:
+            user_email = None
         if user_email is not None:
             await self.send_text_message(event, f"📧 Twój email to {user_email}")
             return

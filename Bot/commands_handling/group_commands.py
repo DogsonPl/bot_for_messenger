@@ -67,8 +67,6 @@ class GroupCommands(BotActions):
     @check_group_instance
     async def get_group_regulations(self, event, group_info):
         group_regulations = await handling_group_sql.fetch_group_regulations(event)
-        if group_regulations is None:
-            group_regulations = "ℹ Grupa nie ma regulaminu. Aby go ustawić użyj komendy !nowyregulamin"
         await self.send_text_message(event, group_regulations)
 
     @logger

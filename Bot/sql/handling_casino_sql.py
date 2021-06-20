@@ -53,7 +53,8 @@ async def check_email_confirmation(user_fb_id, code):
             email = data[0][1]
             user_fb_name, = await cursor.fetch_data("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
             user_fb_name = user_fb_name[0]
-            await cursor.execute("""UPDATE casino_players SET user_fb_id = NULL WHERE user_fb_id=%s;""", (user_fb_id,))
+            await cursor.execute("""UPDATE casino_players SET user_fb_id = NULL, money = 0 
+                                    WHERE user_fb_id=%s;""", (user_fb_id,))
             await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name = %s
                                     WHERE email= %s;""", (user_fb_id, user_fb_name, email))
             return "✅ Połączono się z twoim kontem na stronie"
