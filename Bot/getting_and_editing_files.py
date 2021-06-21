@@ -36,7 +36,7 @@ def edit_tvpis_image(text):
 
     tvpis_image = Image.open("Bot//media//tvpis//img.png")
     draw = ImageDraw.Draw(tvpis_image)
-    draw.text((72, 176), text, (255, 255, 255), FONT)
+    draw.text((72, 176), text.replace("\n", " "), (255, 255, 255), FONT)
     bytes_image = BytesIO()
     tvpis_image.save(bytes_image, format='PNG')
     return bytes_image, "image/jpeg"
