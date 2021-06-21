@@ -121,7 +121,7 @@ class Listener(BotCore):
 
         print("\nListening...\n")
         async for event in listener.listen():
-            if isinstance(event, fbchat.MessageEvent):
+            if isinstance(event, (fbchat.MessageEvent, fbchat.MessageReplyEvent)):
                 if event.author.id != self.bot_id:
                     MAIN_LOOP.create_task(self.handle_message_event(event))
             elif isinstance(event, fbchat.PeopleAdded):
@@ -133,7 +133,7 @@ class Listener(BotCore):
         if event.author.id != self.bot_id:
             try:
                 if event.message.text.startswith("!"):
-                    command = event.message.text.split()[0][1:]
+                    command = event.message.text.split()[0][1:].lower()
                     MAIN_LOOP.create_task(self.commands[command](event))
                 else:
                     yt_links = re.findall(r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
