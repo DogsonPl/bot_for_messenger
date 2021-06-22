@@ -105,8 +105,16 @@ class CasinoCommands(BotActions):
     @logger
     async def send_player_stats(self, event):
         won_bets, lost_bets = await handling_casino_sql.fetch_user_stats(event.author.id)
-        message = f"""🔢 Wykonałeś/aś obecnie {won_bets+lost_bets} betów
-📈 Wygrałeś/aś {won_bets} razy
-📉 Przegrałeś/aś {lost_bets} razy
+        win_ratio = str(won_bets / lost_bets)
+        win_ratio_formatted, dec = win_ratio.split(".")
+        win_ratio_formatted += "."
+        for i in dec[:4]:
+            win_ratio_formatted += i
+            if i == 0:
+                break
+        message = f"""🔢 Wykonałeś/aś obecnie: {won_bets+lost_bets} betów
+📈 Wygrałeś/aś: {won_bets} razy
+📉 Przegrałeś/aś: {lost_bets} razy
+🕹 Stosunek wygrane/przegrane bety: {win_ratio_formatted}
 """
         await self.send_text_message(event, message)
