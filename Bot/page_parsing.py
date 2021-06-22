@@ -74,7 +74,7 @@ async def get_coronavirus_info():
 
 🤒 Potwierdzonych: {format(data['cases'], ',d')}
 ☠ Śmierci: {format(data['deaths'], ',d')}
-🩺 Uleczonych: {data['recovered']}
+🩺 Uleczonych: {format(data['recovered'], ',d')}
 😷 Chore osoby w tej chwili: {format(data['cases'] - data['deaths'] - data['recovered'], ',d')}"""
     except KeyError:
         return "Błąd API. Spróbuj ponownie za kilka minut"

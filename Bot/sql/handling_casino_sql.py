@@ -107,3 +107,13 @@ async def fetch_user_tickets(user_fb_id):
     except IndexError:
         data = 0
     return data
+
+
+async def fetch_user_stats(user_fb_id):
+    try:
+        data = await cursor.fetch_data("""SELECT won_bets, lost_bets FROM casino_players
+                                           WHERE user_fb_id = %s;""", (user_fb_id,))
+        won_bets, lost_bets = data[0]
+    except (ValueError, IndexError):
+        won_bets, lost_bets = "Brak danych", "Brak danych"
+    return won_bets, lost_bets

@@ -48,7 +48,8 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
 💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
 💸 !email x - ustaw swój email jako x
-💸 !kod x - wpisz kod potwierdzający który dostałeś na email
+💸 !kod x - wpisz kod potwierdzający którego otrzymano na email
+💸 !stats - wysyła twoje statystyki
 """
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
@@ -59,9 +60,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.2 + 8.2 pro 🤖
+🤖 Wersja bota: 7.2 + 8.3 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !stats
 🆕 !waluta
 🆕 !strona
 """

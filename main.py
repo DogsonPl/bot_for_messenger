@@ -90,6 +90,7 @@ class Listener(BotCore):
                          "jackpotbuy": self.casino_commands.send_jackpot_ticket_bought_message,
                          "email": self.casino_commands.get_email,
                          "kod": self.casino_commands.check_email_verification_code,
+                         "stats": self.casino_commands.send_player_stats,
                          "ruletka": self.group_commands.delete_random_person,
                          "luckymember": self.group_commands.send_message_with_random_mention,
                          "nowyregulamin": self.group_commands.set_new_group_regulations,

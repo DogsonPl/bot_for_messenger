@@ -101,3 +101,12 @@ class CasinoCommands(BotActions):
             await self.send_text_message(event, message)
         except IndexError:
             await self.send_text_message(event, "🚫 Po !kod napisz kod którego dostałeś na maila")
+
+    @logger
+    async def send_player_stats(self, event):
+        won_bets, lost_bets = await handling_casino_sql.fetch_user_stats(event.author.id)
+        message = f"""🔢 Wykonałeś/aś obecnie {won_bets+lost_bets} betów
+📈 Wygrałeś/aś {won_bets} razy
+📉 Przegrałeś/aś {lost_bets} razy
+"""
+        await self.send_text_message(event, message)
