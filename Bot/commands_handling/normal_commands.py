@@ -104,9 +104,12 @@ class Commands(BotActions):
 
     @logger
     async def send_weather(self, event):
-        city = event.message.text[8:]
-        weather = await self.get_weather(city)
-        await self.send_text_message(event, weather)
+        city = " ".join(event.message.text.split()[1:])
+        if not city:
+            message = "🚫 Po !pogoda podaj miejscowość z której chcesz mieć pogode, np !pogoda warszawa"
+        else:
+            message = await self.get_weather(city)
+        await self.send_text_message(event, message)
 
     @logger
     async def send_covid_info(self, event):
