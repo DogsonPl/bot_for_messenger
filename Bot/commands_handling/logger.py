@@ -1,3 +1,4 @@
+import traceback
 import functools
 from ..sending_emails import smpt_connection
 
@@ -7,8 +8,8 @@ def logger(function):
     async def wrapper(self, event, *kwargs):
         try:
             return await function(self, event, *kwargs)
-        except Exception as e:
-            message = f"""<b>Traceback</b>: {e} <br>
+        except Exception:
+            message = f"""<b>Traceback</b>: {traceback.format_exc()} <br>
 <b>Event data</b>: {event} <br>
 <b>Function</b>: {function.__name__}"""
             message = await smpt_connection.create_traceback_message(message)
