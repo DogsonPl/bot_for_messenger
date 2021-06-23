@@ -104,7 +104,7 @@ class CasinoCommands(BotActions):
 
     @logger
     async def send_player_stats(self, event):
-        won_bets, lost_bets = await handling_casino_sql.fetch_user_stats(event.author.id)
+        won_bets, lost_bets, today_won_money, today_lost_money = await handling_casino_sql.fetch_user_stats(event.author.id)
         try:
             win_ratio = str(won_bets / lost_bets)
         except TypeError:
@@ -125,5 +125,10 @@ class CasinoCommands(BotActions):
             message = f"""🔢 Wykonałeś/aś obecnie: {bets_num} betów
 📈 Wygrałeś/aś: {won_bets} razy
 📉 Przegrałeś/aś: {lost_bets} razy
-🕹 Stosunek wygrane/przegrane bety: {win_ratio_formatted}"""
+🕹 Stosunek wygrane/przegrane bety: {win_ratio_formatted}
+
+🟩 Wygrane dogecoiny dzisiaj: {'%.2f' % today_won_money}
+🟥 Przegrane dogecoiny dzisiaj: {'%.2f' % today_lost_money}
+💲 Dzisiejszy profit: {'%.2f' % (today_won_money+today_lost_money)}
+"""
         await self.send_text_message(event, message)

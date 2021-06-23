@@ -10,8 +10,8 @@ async def insert_into_user_money(user_fb_id, money):
 
 async def register_casino_user(user_fb_id, fb_name):
     try:
-        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, won_bets, lost_bets)
-                                VALUES(%s, %s, 0, 0, 0, 0, 0);""", (user_fb_id, fb_name))
+        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, won_bets, lost_bets, today_won_money, today_lost_money)
+                                VALUES(%s, %s, 0, 0, 0, 0, 0, 0, 0);""", (user_fb_id, fb_name))
         return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh). Po więcej informacji napisz !strona"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
@@ -111,9 +111,9 @@ async def fetch_user_tickets(user_fb_id):
 
 async def fetch_user_stats(user_fb_id):
     try:
-        data = await cursor.fetch_data("""SELECT won_bets, lost_bets FROM casino_players
+        data = await cursor.fetch_data("""SELECT won_bets, lost_bets, today_won_money, today_lost_money FROM casino_players
                                            WHERE user_fb_id = %s;""", (user_fb_id,))
-        won_bets, lost_bets = data[0]
+        won_bets, lost_bets, today_won_money, today_lost_money = data[0]
     except (ValueError, IndexError):
-        won_bets, lost_bets = "Brak danych", "Brak danych"
-    return won_bets, lost_bets
+        won_bets, lost_bets, today_won_money, today_lost_money = "No data", "No data", "No data", "No data"
+    return won_bets, lost_bets, today_won_money, today_lost_money
