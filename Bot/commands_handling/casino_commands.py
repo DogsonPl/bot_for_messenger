@@ -107,17 +107,21 @@ class CasinoCommands(BotActions):
         won_bets, lost_bets = await handling_casino_sql.fetch_user_stats(event.author.id)
         try:
             win_ratio = str(won_bets / lost_bets)
-        except (ZeroDivisionError, TypeError):
-            message = """💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne.
-Ta wiadomość również się wyświetla jeśli nie wykonałeś żadnego beta"""
+        except TypeError:
+            message = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        except ZeroDivisionError:
+            message = "🚫 Nie wykonałeś/aś jeszcze żadnych betów. Użyj komendy !bet"
         else:
             bets_num = won_bets+lost_bets
             win_ratio_formatted, dec = win_ratio.split(".")
             win_ratio_formatted += "."
-            for i in dec[:4]:
-                win_ratio_formatted += i
-                if i == 0:
-                    break
+            if dec.startswith("0"):
+                win_ratio_formatted += dec[:4]
+            else:
+                for i in dec[:4]:
+                    win_ratio_formatted += i
+                    if i == 0:
+                        break
             message = f"""🔢 Wykonałeś/aś obecnie: {bets_num} betów
 📈 Wygrałeś/aś: {won_bets} razy
 📉 Przegrałeś/aś: {lost_bets} razy
