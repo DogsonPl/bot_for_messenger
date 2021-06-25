@@ -57,4 +57,5 @@ Bot only answers if you have bot in friends**
 **!register** - let you play in casino games\
 **!email x** - sets your email to x\
 **!kod x** (kod = code) - write confirmation code which you should get on your email\
-**!stats** - sends user statistic data from casino
+**!stats** - sends user statistic data from casino\
+**!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discardgame

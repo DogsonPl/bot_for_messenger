@@ -1,3 +1,5 @@
+from fbchat import Mention
+import random as rd
 import requests
 from decimal import Decimal, getcontext
 from bs4 import BeautifulSoup
@@ -75,3 +77,41 @@ async def jackpot_info(event):
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
     return ticket_number, user_tickets, last_jackpot_data.last_prize, last_jackpot_data.last_winner
+
+
+async def make_new_duel(duel_creator, wage, opponent):
+    duel_creator_money = await handling_casino_sql.fetch_user_money(duel_creator)
+    if duel_creator_money < wage:
+        message = f"🚫 Nie masz wystarczająco monet (Posiadasz ich: {'%.2f' % duel_creator_money})"
+    else:
+        message = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
+        duel_creator_money -= Decimal(wage)
+        await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
+    return message
+
+
+async def play_duel(accepting_person_fb_id):
+    mention = None
+    accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
+    duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
+    if len(duel_data) != 1:
+        message = "🚫 Nie masz żadnych zaproszeń do gry"
+    else:
+        wage, duel_creator, opponent = duel_data[0]
+        if accepting_person_fb_id_money < wage:
+            message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {accepting_person_fb_id_money} dogecoinów)"
+        else:
+            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-Decimal(wage))
+            winner = rd.choice([duel_creator, opponent])
+            winner_money = await handling_casino_sql.fetch_user_money(winner)
+            winner_money += Decimal(wage)*2
+            await handling_casino_sql.insert_into_user_money(winner, winner_money)
+            message = f"Osoba która wygrała {wage*2} dogecoinów"
+            mention = [Mention(thread_id=winner, offset=0, length=37)]
+            await handling_casino_sql.delete_duels(duel_creator)
+    return message, mention
+
+
+async def discard_duel(fb_id):
+    await handling_casino_sql.delete_duels(fb_id)
+    return "Usunięto twoje gry"

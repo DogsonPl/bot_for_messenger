@@ -117,3 +117,28 @@ async def fetch_user_stats(user_fb_id):
     except (ValueError, IndexError):
         won_bets, lost_bets, today_won_money, today_lost_money = "No data", "No data", "No data", "No data"
     return won_bets, lost_bets, today_won_money, today_lost_money
+
+
+async def create_duel(duel_creator, wage, opponent):
+    try:
+        await cursor.execute("""INSERT INTO duels(wage, duel_creator, opponent)
+                                VALUES(%s, %s, %s);""", (wage, duel_creator, opponent))
+        message = "🕛 Oczekiwanie na akceptacje gry... (twój przeciwnik musi wpisać !duel akceptuj)"
+    except pymysql.IntegrityError:
+        message = """🚫 Możesz tworzyć jedną grę jednocześnie, jeśli chcesz ją anulować napisz !duel odrzuć. 
+Również osoba z która chcesz grać nie może mieć żadnych gier w trakcie"""
+    return message
+
+
+async def fetch_duel_info(opponent):
+    data = await cursor.fetch_data("""SELECT wage, duel_creator, opponent FROM duels
+                                      WHERE opponent = %s;""", (opponent,))
+    return data
+
+
+async def delete_duels(fb_id):
+    await cursor.execute("""UPDATE casino_players
+                            INNER JOIN duels wage ON casino_players.user_fb_id = duel_creator
+                            SET money = money+wage;""")
+    await cursor.execute("""DELETE FROM duels
+                            WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))

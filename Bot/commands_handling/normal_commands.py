@@ -47,6 +47,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
 💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
 💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
+💸 !duel - gra duel, po więcej informacji napisz !duel
 💸 !email x - ustaw swój email jako x
 💸 !kod x - wpisz kod potwierdzający którego otrzymano na email
 💸 !stats - wysyła twoje statystyki
@@ -60,9 +61,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.2 + 8.3 pro 🤖
+🤖 Wersja bota: 7.2 + 8.4 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !duel
 🆕 !stats
 🆕 !waluta
 🆕 !strona

@@ -38,6 +38,14 @@ class Database:
                                 creation_time DATETIME DEFAULT NOW()
                                 );""")
 
+        await cursor.execute("""CREATE TABLE IF NOT EXISTS duels(
+                                id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                wage INTEGER,
+                                duel_creator VARCHAR(20) UNIQUE,
+                                opponent VARCHAR(20) UNIQUE,
+                                creation_time DATETIME DEFAULT NOW()
+                                );""")
+
 
 class Cursor(Database):
     def __init__(self):
