@@ -136,9 +136,10 @@ async def fetch_duel_info(opponent):
     return data
 
 
-async def delete_duels(fb_id):
-    await cursor.execute("""UPDATE casino_players
-                            INNER JOIN duels wage ON casino_players.user_fb_id = duel_creator
-                            SET money = money+wage;""")
+async def delete_duels(fb_id, give_money_back=False):
+    if give_money_back:
+        await cursor.execute("""UPDATE casino_players
+                                INNER JOIN duels wage ON casino_players.user_fb_id = duel_creator
+                                SET money = money+wage;""")
     await cursor.execute("""DELETE FROM duels
                             WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))

@@ -81,6 +81,10 @@ async def jackpot_info(event):
 
 async def make_new_duel(duel_creator, wage, opponent):
     duel_creator_money = await handling_casino_sql.fetch_user_money(duel_creator)
+    try:
+        duel_creator_money = float(duel_creator_money)
+    except ValueError:
+        return duel_creator_money
     if duel_creator_money < wage:
         message = f"🚫 Nie masz wystarczająco monet (Posiadasz ich: {'%.2f' % duel_creator_money})"
     else:
@@ -93,13 +97,17 @@ async def make_new_duel(duel_creator, wage, opponent):
 async def play_duel(accepting_person_fb_id):
     mention = None
     accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
+    try:
+        accepting_person_fb_id_money - float(accepting_person_fb_id_money)
+    except ValueError:
+        return accepting_person_fb_id_money, mention
     duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
     if len(duel_data) != 1:
         message = "🚫 Nie masz żadnych zaproszeń do gry"
     else:
         wage, duel_creator, opponent = duel_data[0]
         if accepting_person_fb_id_money < wage:
-            message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {accepting_person_fb_id_money} dogecoinów)"
+            message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {'%.2f' % accepting_person_fb_id_money} dogecoinów)"
         else:
             await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-Decimal(wage))
             winner = rd.choice([duel_creator, opponent])
@@ -113,5 +121,5 @@ async def play_duel(accepting_person_fb_id):
 
 
 async def discard_duel(fb_id):
-    await handling_casino_sql.delete_duels(fb_id)
+    await handling_casino_sql.delete_duels(fb_id, True)
     return "Usunięto twoje gry"
