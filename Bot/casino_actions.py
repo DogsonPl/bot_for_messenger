@@ -89,7 +89,7 @@ async def make_new_duel(duel_creator, wage, opponent):
         message = f"🚫 Nie masz wystarczająco monet (Posiadasz ich: {'%.2f' % duel_creator_money})"
     else:
         message = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
-        duel_creator_money -= Decimal(wage)
+        duel_creator_money -= float(wage)
         await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
     return message
 
@@ -98,7 +98,7 @@ async def play_duel(accepting_person_fb_id):
     mention = None
     accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
     try:
-        accepting_person_fb_id_money - float(accepting_person_fb_id_money)
+        accepting_person_fb_id_money = float(accepting_person_fb_id_money)
     except ValueError:
         return accepting_person_fb_id_money, mention
     duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
@@ -109,10 +109,10 @@ async def play_duel(accepting_person_fb_id):
         if accepting_person_fb_id_money < wage:
             message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {'%.2f' % accepting_person_fb_id_money} dogecoinów)"
         else:
-            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-Decimal(wage))
+            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-wage)
             winner = rd.choice([duel_creator, opponent])
             winner_money = await handling_casino_sql.fetch_user_money(winner)
-            winner_money += Decimal(wage)*2
+            winner_money += wage*2
             await handling_casino_sql.insert_into_user_money(winner, winner_money)
             message = f"Osoba która wygrała {wage*2} dogecoinów"
             mention = [Mention(thread_id=winner, offset=0, length=37)]
