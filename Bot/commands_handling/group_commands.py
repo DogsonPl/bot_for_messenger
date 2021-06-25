@@ -86,7 +86,6 @@ Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
     @logger
     @check_group_instance
     async def send_message_with_random_mention(self, event, group_info):
-        group_info = await self.get_thread_info(event.thread.id)
         mention = await get_random_mention(group_info)
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
