@@ -60,8 +60,12 @@ class GroupCommands(BotActions):
     @check_group_instance
     @check_admin_permission
     async def set_new_group_regulations(self, event, group_info):
-        await handling_group_sql.set_group_regulations(event)
-        await self.send_text_message(event, "✅ Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć")
+        if event.message.text == "!nowyregulamin":
+            message = "🚫 Po !nowyregulamin ustaw treść regulaminu"
+        else:
+            await handling_group_sql.set_group_regulations(event)
+            message = "✅ Regulamin został zmieniony :) Użyj komendy !regulamin by go zobaczyć"
+        await self.send_text_message(event, message)
 
     @logger
     @check_group_instance
