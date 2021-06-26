@@ -180,14 +180,14 @@ class Commands(BotActions):
     async def convert_currency(self, event):
         message_data = event.message.text.split()
         try:
-            amount = float(message_data[1])
+            amount = int(message_data[1])
             from_ = message_data[2].upper()
             to = message_data[3].upper()
         except (IndexError, ValueError):
-            message = "💡 Użycie komendy: !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów"
+            message = "💡 Użycie komendy: !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów (x musi być liczbą całkowitą)"
         else:
             try:
-                converted_currency = currency_converter.convert(from_, to, amount)
+                converted_currency = float(currency_converter.convert(from_, to, amount))
                 message = f"💲 {'%.2f' % amount} {from_} to {'%.2f' % converted_currency} {to}"
             except RatesNotAvailableError:
                 message = f"🚫 Podano niepoprawną walute"
