@@ -49,7 +49,7 @@ class GroupCommands(BotActions):
     @check_group_instance
     @check_admin_permission
     async def set_welcome_message(self, event, group_info):
-        if event.message.text == "!powitanie":
+        if event.message.text.lower() == "!powitanie":
             message = "🚫 Po !powitanie ustaw treść powitania"
         else:
             await handling_group_sql.set_welcome_message(event)
@@ -60,7 +60,7 @@ class GroupCommands(BotActions):
     @check_group_instance
     @check_admin_permission
     async def set_new_group_regulations(self, event, group_info):
-        if event.message.text == "!nowyregulamin":
+        if event.message.text.lower() == "!nowyregulamin":
             message = "🚫 Po !nowyregulamin ustaw treść regulaminu"
         else:
             await handling_group_sql.set_group_regulations(event)
@@ -86,7 +86,8 @@ Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
     @logger
     @check_group_instance
     async def send_message_with_random_mention(self, event, group_info):
-        mention = await get_random_mention(group_info)
+        lucky_member = rd.choice(group_info.participants).id
+        mention = [fbchat.Mention(thread_id=lucky_member, offset=0, length=12)]
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
     @logger
@@ -106,9 +107,3 @@ Jeśli chesz ustawić wiadomość powitalną użyj komendy !powitanie"""
             if message is None:
                 message = "📜 Grupa nie ma regulaminu. Aby go ustawić użyj komendy\n!nowyregulamin 'treść'"
             await self.send_text_message(event, message)
-
-
-async def get_random_mention(group_info):
-    lucky_member = rd.choice(group_info.participants).id
-    mention = [fbchat.Mention(thread_id=lucky_member, offset=0, length=12)]
-    return mention
