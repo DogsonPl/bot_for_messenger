@@ -1,7 +1,8 @@
+from io import BytesIO
+
 import feedparser
 import aiohttp
 from bs4 import BeautifulSoup
-from io import BytesIO
 import pytube
 
 

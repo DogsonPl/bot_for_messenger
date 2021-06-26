@@ -1,6 +1,8 @@
-import fbchat
 import random as rd
+
+import fbchat
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
+
 from .logger import logger
 from .. import getting_and_editing_files, page_parsing
 from ..bot_actions import BotActions

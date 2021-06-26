@@ -1,8 +1,10 @@
-from fbchat import Mention
 import random as rd
 import requests
 from decimal import Decimal, getcontext
+
+from fbchat import Mention
 from bs4 import BeautifulSoup
+
 from .sql import handling_casino_sql
 from .parse_config import django_password
 from .task_scheduler import last_jackpot_data

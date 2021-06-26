@@ -1,8 +1,10 @@
-from gtts import gTTS
-from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import random as rd
 import os
+
+
+from gtts import gTTS
+from PIL import Image, ImageDraw, ImageFont
 
 MEMES_FILES = os.listdir("Bot//media//memes")
 FILMS_FILES = os.listdir("Bot//media//films")
