@@ -30,9 +30,12 @@ class CasinoCommands(BotActions):
     async def send_user_money(self, event):
         user_money = await handling_casino_sql.fetch_user_money(event.author.id)
         try:
-            await self.send_message_with_reply(event, f"🏦 Posiadasz obecnie {'%.2f' % user_money} dc")
+            user_money_formatted = "%.2f" % user_money
+            message = f"🏦 Posiadasz obecnie {user_money_formatted} dc"
         except TypeError:
-            await self.send_message_with_reply(event, user_money)
+            message = user_money
+
+        await self.send_message_with_reply(event, message)
 
     @logger
     async def send_tip_message(self, event):
@@ -77,26 +80,23 @@ class CasinoCommands(BotActions):
         try:
             user_email, = await handling_casino_sql.get_user_email(event.author.id)
         except ValueError:
-            user_email = None
-        if user_email is not None:
-            await self.send_text_message(event, f"📧 Twój email to {user_email}")
-            return
-
-        try:
-            email = event.message.text.split()[1]
-        except IndexError:
-            await self.send_text_message(event, "🚫 Po !email podaj swojego maila")
-            return
-
-        confirmation_code = await get_confirmation_code()
-        user_send_mail_in_last_hour = await handling_casino_sql.new_email_confirmation(event.author.id, email,
-                                                                                       confirmation_code)
-        if user_send_mail_in_last_hour:
-            await self.send_text_message(event, "🚫 Możesz poprosić o jednego maila w ciągu godziny")
+            try:
+                email = event.message.text.split()[1]
+            except IndexError:
+                message = "🚫 Jeśli chcesz ustawić swojego maila żeby mieć możliwość synchronizacji danych ze stroną, po !email podaj swojego maila"
+            else:
+                confirmation_code = await get_confirmation_code()
+                user_send_mail_in_last_hour = await handling_casino_sql.new_email_confirmation(event.author.id, email,
+                                                                                               confirmation_code)
+                if user_send_mail_in_last_hour:
+                    message = "🚫 Możesz poprosić o jednego maila w ciągu godziny"
+                else:
+                    email_message = await smpt_connection.create_message(email, confirmation_code)
+                    message = await smpt_connection.send_mail(email, email_message)
         else:
-            email_message = await smpt_connection.create_message(email, confirmation_code)
-            message = await smpt_connection.send_mail(email, email_message)
-            await self.send_text_message(event, message)
+            message = f"""📧 Twój email to {user_email}
+Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze stroną (komenda !strona) zakładając konto używająć tego samego maila"""
+        await self.send_text_message(event, message)
 
     @logger
     async def check_email_verification_code(self, event):
