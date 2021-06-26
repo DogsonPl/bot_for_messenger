@@ -22,7 +22,7 @@ Bot only answers if you have bot in friends**
 
 ## All available commands and their description:
 **!help** - sends all available commands, and their description\
-**!strona** - sends link to bot webpage (webpage is in beta)
+**!strona** - sends link to bot webpage (webpage is in beta)\
 **!wersja** - (wersja = version) sends info about bot version and news from the last update\
 **!wsparcie** - (wsparcie = support) sends a link to paypal and bank account for people who want support bot\
 **!tworca** - (tworca = developer) sends FB profile of the person who created the bot\
@@ -58,4 +58,4 @@ Bot only answers if you have bot in friends**
 **!email x** - sets your email to x\
 **!kod x** (kod = code) - write confirmation code which you should get on your email\
 **!stats** - sends user statistic data from casino\
-**!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discardgame
+**!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discard game

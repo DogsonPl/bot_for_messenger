@@ -114,12 +114,12 @@ async def play_duel(accepting_person_fb_id):
             winner_money = await handling_casino_sql.fetch_user_money(winner)
             winner_money += wage*2
             await handling_casino_sql.insert_into_user_money(winner, winner_money)
-            message = f"Osoba która wygrała {wage*2} dogecoinów"
-            mention = [Mention(thread_id=winner, offset=0, length=37)]
+            message = f"✨ Osoba która wygrała {wage*2} dogecoinów"
+            mention = [Mention(thread_id=winner, offset=0, length=45)]
             await handling_casino_sql.delete_duels(duel_creator)
     return message, mention
 
 
 async def discard_duel(fb_id):
     await handling_casino_sql.delete_duels(fb_id, True)
-    return "Usunięto twoje gry"
+    return "💥 Usunięto twoje gry"
