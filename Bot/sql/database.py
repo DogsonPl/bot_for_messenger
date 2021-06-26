@@ -1,7 +1,9 @@
 import asyncio
+
 import aiomysql
-from ..parse_config import get_database_config
 import pymysql
+
+from ..parse_config import get_database_config
 
 
 class Database:
