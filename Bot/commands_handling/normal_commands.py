@@ -61,7 +61,7 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.2 + 8.4 pro 🤖
+🤖 Wersja bota: 7.3 + 8.4 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 !duel
@@ -75,7 +75,7 @@ class Commands(BotActions):
     def __init__(self, loop, bot_id, client):
         self.get_weather = page_parsing.GetWeather().get_weather
         self.downloading_videos = 0
-        self.making_disco = []
+        self.chats_where_making_disco = []
         super().__init__(loop, bot_id, client)
 
     @logger
@@ -196,14 +196,14 @@ class Commands(BotActions):
     @logger
     async def make_disco(self, event):
         thread_id = event.thread.id
-        if thread_id in self.making_disco:
-            await self.send_text_message(event, "🚫 Rozkręcam właśnie imprezę")
+        if thread_id in self.chats_where_making_disco:
+            await self.send_text_message(event, "🎇🎈 Rozkręcam właśnie imprezę")
         else:
-            self.making_disco.append(event.thread.id)
+            self.chats_where_making_disco.append(event.thread.id)
             for _ in range(12):
                 color = rd.choice(SETABLE_COLORS)
                 await event.thread.set_color(color)
-            self.making_disco.remove(thread_id)
+            self.chats_where_making_disco.remove(thread_id)
 
     @logger
     async def change_nick(self, event):
