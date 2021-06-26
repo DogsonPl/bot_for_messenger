@@ -124,8 +124,7 @@ class Listener(BotCore):
         print("\nListening...\n")
         async for event in listener.listen():
             if isinstance(event, (fbchat.MessageEvent, fbchat.MessageReplyEvent)):
-                if event.author.id != self.bot_id:
-                    MAIN_LOOP.create_task(self.handle_message_event(event))
+                MAIN_LOOP.create_task(self.handle_message_event(event))
             elif isinstance(event, fbchat.PeopleAdded):
                 MAIN_LOOP.create_task(self.group_commands.send_message_on_person_added(event))
             elif isinstance(event, fbchat.PersonRemoved):
