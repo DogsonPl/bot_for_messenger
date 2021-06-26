@@ -103,31 +103,30 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         try:
             code = event.message.text.split()[1]
             message = await handling_casino_sql.check_email_confirmation(event.author.id, code)
-            await self.send_text_message(event, message)
         except IndexError:
-            await self.send_text_message(event, "🚫 Po !kod napisz kod którego dostałeś na maila")
+            message = "🚫 Po !kod napisz kod którego dostałeś na maila"
+        await self.send_text_message(event, message)
 
     @logger
-    async def duel(self, event):
+    async def send_duel_message(self, event):
+        mention = None
         args = event.message.text.split()[1:]
         if len(args) == 0:
-            await self.send_text_message(event, DUEL_HELP_MESSAGE)
+            message = DUEL_HELP_MESSAGE
         else:
             if args[0] == "akceptuj":
                 message, mention = await casino_actions.play_duel(event.author.id)
-                await self.send_text_message_with_mentions(event, message, mention)
             elif args[0] == "odrzuć":
                 message = await casino_actions.discard_duel(event.author.id)
-                await self.send_text_message(event, message)
             else:
                 try:
                     wage = abs(float(args[0]))
                     opponent = event.message.mentions[0].thread_id
                 except(ValueError, IndexError):
-                    await self.send_text_message(event, DUEL_HELP_MESSAGE)
+                    message = DUEL_HELP_MESSAGE
                 else:
                     message = await casino_actions.make_new_duel(event.author.id, wage, opponent)
-                    await self.send_text_message(event, message)
+        await self.send_text_message_with_mentions(event, message, mention)
 
     @logger
     async def send_player_stats(self, event):
