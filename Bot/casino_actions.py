@@ -3,7 +3,6 @@ import requests
 from decimal import Decimal, getcontext
 
 from fbchat import Mention
-from bs4 import BeautifulSoup
 
 from .sql import handling_casino_sql
 from .parse_config import django_password
@@ -34,8 +33,8 @@ async def make_bet(event):
                              data={"fb_user_id": event.author.id, "bet_money": bet_money,
                                    "percent_to_win": percent_to_win, "django_password": django_password})
     response = response.json()
-    message = BeautifulSoup(response["message"], "html.parser")
-    return message.text
+    message = response["message"].replace("<strong>", "").replace("</strong>.", "")
+    return message
 
 
 async def make_tip(event):
@@ -56,7 +55,7 @@ async def make_tip(event):
     try:
         receiver_money += Decimal(money_to_give)
     except TypeError:
-        return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy register"
+        return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy !register"
     sender_money -= Decimal(money_to_give)
     await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
     await handling_casino_sql.insert_into_user_money(int(mention.thread_id), receiver_money)
@@ -104,7 +103,7 @@ async def play_duel(accepting_person_fb_id):
     except ValueError:
         return accepting_person_fb_id_money, mention
     duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
-    if len(duel_data) != 1:
+    if len(duel_data) == 0:
         message = "🚫 Nie masz żadnych zaproszeń do gry"
     else:
         wage, duel_creator, opponent = duel_data[0]
