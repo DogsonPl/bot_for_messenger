@@ -2,24 +2,27 @@ from io import BytesIO
 import random as rd
 import os
 
-
 from gtts import gTTS
 from PIL import Image, ImageDraw, ImageFont
 
-MEMES_FILES = os.listdir("Bot//media//memes")
-FILMS_FILES = os.listdir("Bot//media//films")
+MEMES_DIR = "Bot//media//memes"
+FILMS_DIR = "Bot//media//films"
+MONEY_FLIP_DIR = "Bot//media//orzel_reszka"
+
+MEMES_FILES = [os.path.join(MEMES_DIR, i) for i in os.listdir(MEMES_DIR)]
+FILMS_FILES = [os.path.join(FILMS_DIR, i) for i in os.listdir(FILMS_DIR)]
+COIN_FLIP_FILES = [os.path.join(MONEY_FLIP_DIR, i) for i in os.listdir(MONEY_FLIP_DIR)]
 FONT = ImageFont.truetype("Bot//media//fonts/FallingSkySemibold-Bn7B.otf", 15)
-COIN_FLIP_FILES = ["Bot//media//orzel_reszka//orzel.png", "Bot//media//orzel_reszka//reszka.png"]
 
 
 async def get_random_meme():
     drawn_meme = rd.choice(MEMES_FILES)
-    return "Bot//media//memes//" + drawn_meme, "image/png"
+    return drawn_meme, "image/png"
 
 
 async def get_random_film():
     drawn_film = rd.choice(FILMS_FILES)
-    return "Bot//media//films//" + drawn_film, "video/mp4"
+    return drawn_film, "video/mp4"
 
 
 async def make_coin_flip():
@@ -31,14 +34,12 @@ def edit_tvpis_image(text):
     if text == "":
         return "🚫 Napisz coś po !tvpis, np !tvpis jebać pis", None
 
-    if len(text) > 46:
-        text = text[0:46].upper()
-    else:
-        text = text.upper()
+    # image can have max 46 letters
+    text = text[:46].upper().replace("\n", " ")
 
     tvpis_image = Image.open("Bot//media//tvpis//img.png")
     draw = ImageDraw.Draw(tvpis_image)
-    draw.text((72, 176), text.replace("\n", " "), (255, 255, 255), FONT)
+    draw.text((72, 176), text, (255, 255, 255), FONT)
     bytes_image = BytesIO()
     tvpis_image.save(bytes_image, format='PNG')
     return bytes_image, "image/jpeg"
@@ -46,7 +47,7 @@ def edit_tvpis_image(text):
 
 def get_tts(text):
     if len(text) > 1500:
-        return "🚫 Wiadomość może mieć maksymalnie 1500 znaków (musiałem zrobić te ograniczenie bo bot się za bardzo lagował)"
+        return "🚫 Wiadomość może mieć maksymalnie 1500 znaków"
     if text == "":
         return "🚫 Po !say napisz coś co ma powiedzieć bot, np !say elo"
 
