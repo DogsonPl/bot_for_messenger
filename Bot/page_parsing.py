@@ -13,6 +13,8 @@ DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
 DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
 
+API_ERROR_MESSAGE = "😭 Błąd API. Spróbuj ponownie za kilka minut"
+
 
 class GetWeather:
     def __init__(self):
@@ -78,7 +80,7 @@ async def get_coronavirus_info():
 🩺 Uleczonych: {format(data['recovered'], ',d')}
 😷 Chore osoby w tej chwili: {format(data['cases'] - data['deaths'] - data['recovered'], ',d')}"""
     except KeyError:
-        return "Błąd API. Spróbuj ponownie za kilka minut"
+        return API_ERROR_MESSAGE
 
 
 async def get_coronavirus_pl_info():
@@ -99,7 +101,7 @@ async def get_coronavirus_pl_info():
 🧬 Liczba zrobionych testów: {format(data['totalTests'], ',d')}
 🧬 Liczba testów na milion osób: {format(data['testsPerOneMillion'], ',d')}"""
     except KeyError:
-        return "Błąd API. Spróbuj ponownie za kilka minut"
+        return API_ERROR_MESSAGE
 
 
 async def get_public_transport_difficulties_in_warsaw():
@@ -118,6 +120,7 @@ async def get_public_transport_difficulties_in_warsaw():
 
 
 async def get_public_transport_difficulties_in_wroclaw():
+    # todo make parsing compatible with newer version of facebook
     async with aiohttp.ClientSession() as session:
         html = await session.get(DIFFICULTIES_IN_WROCLAW_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
@@ -155,7 +158,7 @@ def download_yt_video(link):
     try:
         video = video.streams.first()
     except pytube.exceptions.VideoUnavailable:
-        return "Bot nie może pobrać video, ponieważ jest nieobecne w danym ragionie", None
+        return "Bot nie może pobrać video, ponieważ jest niedostępne w danym ragionie", None
     try:
         video.stream_to_buffer(bytes_object)
     except KeyError:
