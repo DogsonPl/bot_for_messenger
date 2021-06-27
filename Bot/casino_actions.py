@@ -49,7 +49,7 @@ async def make_tip(event):
         if sender_money < money_to_give:
             return "🚫 Nie masz wystarczająco pieniędzy"
     except TypeError:
-        return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        return sender_money
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
     try:
@@ -113,9 +113,9 @@ async def play_duel(accepting_person_fb_id):
             await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-wage)
             winner = rd.choice([duel_creator, opponent])
             winner_money = await handling_casino_sql.fetch_user_money(winner)
-            winner_money += wage*2
+            winner_money += Decimal(wage*2)
             await handling_casino_sql.insert_into_user_money(winner, winner_money)
-            message = f"✨ Osoba która wygrała {wage*2} dogecoinów"
+            message = f"✨ Osoba która wygrała {'%.2f' % float(wage*2)} dogecoinów"
             mention = [Mention(thread_id=winner, offset=0, length=45)]
             await handling_casino_sql.delete_duels(duel_creator)
     return message, mention

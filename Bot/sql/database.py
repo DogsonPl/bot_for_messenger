@@ -42,7 +42,7 @@ class Database:
 
         await cursor.execute("""CREATE TABLE IF NOT EXISTS duels(
                                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                                wage INTEGER,
+                                wage FLOAT,
                                 duel_creator VARCHAR(20) UNIQUE,
                                 opponent VARCHAR(20) UNIQUE,
                                 creation_time DATETIME DEFAULT NOW()
