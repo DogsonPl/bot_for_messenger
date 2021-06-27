@@ -87,7 +87,7 @@ async def fetch_user_money(user_fb_id):
 async def get_last_jackpot_results():
     data, = await cursor.fetch_data("""SELECT username, fb_name, prize FROM jackpots_results
                                       INNER JOIN casino_players ON jackpots_results.winner_id=casino_players.id
-                                      INNER JOIN login_user ON casino_players.user_id=login_user.id
+                                      LEFT JOIN login_user ON casino_players.user_id=login_user.id
                                       ORDER BY jackpots_results.id DESC
                                       LIMIT 1;""")
     return data
