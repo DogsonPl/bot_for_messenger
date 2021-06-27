@@ -38,7 +38,7 @@ class SmptConnection:
         message["From"] = MAIL
         message["To"] = receiver
         message["Subject"] = "Kod potwierdzający"
-        message.attach(MIMEText(f"""<<h1>Twój kod to {code}</h1>
+        message.attach(MIMEText(f"""<h1>Twój kod to {code}</h1>
                                     Wpisz komendę <b>!kod {code}</b>. Kod wygaśnie za godzinę<br>
                                     Jeśli nie chciałeś połączyć tego maila z botem na Facebooku, zignoruj tego maila""",
                                 "html", "utf-8"))
@@ -57,4 +57,4 @@ class SmptConnection:
 loop = asyncio.get_event_loop()
 HOSTNAME, MAIL, PASSWORD = loop.run_until_complete(parse_config.get_smpt_config())
 smpt_connection = SmptConnection()
-loop.run_until_complete(smpt_connection.connect())
+loop.create_task(smpt_connection.connect())
