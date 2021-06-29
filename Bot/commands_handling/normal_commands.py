@@ -77,6 +77,7 @@ class Commands(BotActions):
     def __init__(self, loop, bot_id, client):
         self.get_weather = page_parsing.GetWeather().get_weather
         self.downloading_videos = 0
+        self.sending_say_messages = 0
         self.chats_where_making_disco = []
         super().__init__(loop, bot_id, client)
 
@@ -163,9 +164,14 @@ class Commands(BotActions):
 
     @logger
     async def send_tts(self, event):
-        text = event.message.text[4:]
-        tts = await self.loop.run_in_executor(None, getting_and_editing_files.get_tts, text)
-        await self.send_bytes_audio_file(event, tts)
+        if self.sending_say_messages > 10:
+            await self.send_text_message(event, "🚫 Bot obecnie wysyła za dużo wiadomości głosowych, poczekaj")
+        else:
+            self.sending_say_messages += 1
+            text = event.message.text[4:]
+            tts = await self.loop.run_in_executor(None, getting_and_editing_files.get_tts, text)
+            await self.send_bytes_audio_file(event, tts)
+            self.sending_say_messages -= 1
 
     @logger
     async def send_yt_video(self, event, yt_link):

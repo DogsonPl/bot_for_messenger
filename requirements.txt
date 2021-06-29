@@ -12,3 +12,4 @@ pexpect
 aiosmtplib
 bs4
 forex-python
+emoji

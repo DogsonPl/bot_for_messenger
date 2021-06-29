@@ -4,6 +4,7 @@ import os
 
 from gtts import gTTS
 from PIL import Image, ImageDraw, ImageFont
+import emoji
 
 MEMES_DIR = "Bot//media//memes"
 FILMS_DIR = "Bot//media//films"
@@ -13,6 +14,8 @@ MEMES_FILES = [os.path.join(MEMES_DIR, i) for i in os.listdir(MEMES_DIR)]
 FILMS_FILES = [os.path.join(FILMS_DIR, i) for i in os.listdir(FILMS_DIR)]
 COIN_FLIP_FILES = [os.path.join(MONEY_FLIP_DIR, i) for i in os.listdir(MONEY_FLIP_DIR)]
 FONT = ImageFont.truetype("Bot//media//fonts/FallingSkySemibold-Bn7B.otf", 15)
+
+EMOJI_LIST = emoji.UNICODE_EMOJI_ENGLISH
 
 
 async def get_random_meme():
@@ -46,8 +49,15 @@ def edit_tvpis_image(text):
 
 
 def get_tts(text):
-    if len(text) > 1500:
-        return "🚫 Wiadomość może mieć maksymalnie 1500 znaków"
+    for i in text:
+        if i in EMOJI_LIST:
+            max_len = 150
+            break
+    else:
+        max_len = 5000
+
+    if len(text) > max_len:
+        return "🚫 Wiadomość może mieć maksymalnie 5000 znaków lub 150 jeśli posiada emotki"
     if text == "":
         return "🚫 Po !say napisz coś co ma powiedzieć bot, np !say elo"
 
