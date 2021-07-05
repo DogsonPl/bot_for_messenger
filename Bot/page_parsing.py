@@ -33,6 +33,7 @@ class GetWeather:
             html = await session.get(WEATHER_API_URL + city)
         json_data = await html.json()
         try:
+            city_name = json_data["name"]
             temperature = json_data["main"]["temp"]
             perceptible_temperature = json_data["main"]["feels_like"]
             weather_description = json_data["weather"][0]["description"]
@@ -46,7 +47,7 @@ class GetWeather:
             temperature_emoji = await self.check_temperature_emoji(temperature)
             perceptible_temperature_emoji = await self.check_temperature_emoji(perceptible_temperature)
 
-            return f"""🌐 Pogoda w {city.title()} 🌐
+            return f"""🌐 Pogoda w {city_name} 🌐
 
 🔰 Temperatura: {temperature_emoji} {int(temperature)}C 
 🔰 Odczuwalna: {perceptible_temperature_emoji} {int(perceptible_temperature)}C
