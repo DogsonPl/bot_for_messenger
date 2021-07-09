@@ -54,10 +54,10 @@ def get_tts(text):
             max_len = 150
             break
     else:
-        max_len = 5000
+        max_len = 3000
 
     if len(text) > max_len:
-        return "🚫 Wiadomość może mieć maksymalnie 5000 znaków lub 150 jeśli posiada emotki"
+        return "🚫 Wiadomość może mieć maksymalnie 3000 znaków lub 150 jeśli posiada emotki"
     if text == "":
         return "🚫 Po !say napisz coś co ma powiedzieć bot, np !say elo"
 

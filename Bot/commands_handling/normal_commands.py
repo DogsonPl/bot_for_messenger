@@ -164,7 +164,7 @@ class Commands(BotActions):
 
     @logger
     async def send_tts(self, event):
-        if self.sending_say_messages > 10:
+        if self.sending_say_messages > 8:
             await self.send_text_message(event, "🚫 Bot obecnie wysyła za dużo wiadomości głosowych, poczekaj")
         else:
             self.sending_say_messages += 1
@@ -175,7 +175,7 @@ class Commands(BotActions):
 
     @logger
     async def send_yt_video(self, event, yt_link):
-        if self.downloading_videos > 10:
+        if self.downloading_videos > 8:
             await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
         else:
             self.downloading_videos += 1
