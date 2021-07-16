@@ -116,7 +116,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         else:
             if args[0] == "akceptuj":
                 message, mention = await casino_actions.play_duel(event.author.id)
-            elif args[0] == "odrzuć":
+            elif args[0].replace("ć", "c") == "odrzuc":
                 message = await casino_actions.discard_duel(event.author.id)
             else:
                 try:
