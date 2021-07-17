@@ -1,3 +1,5 @@
+from math import floor
+
 from .logger import logger
 from ..bot_actions import BotActions
 from .. import casino_actions
@@ -30,7 +32,7 @@ class CasinoCommands(BotActions):
     async def send_user_money(self, event):
         user_money = await handling_casino_sql.fetch_user_money(event.author.id)
         try:
-            user_money_formatted = "%.2f" % user_money
+            user_money_formatted = floor(user_money*100)/100
             message = f"🏦 Posiadasz obecnie {user_money_formatted} dc"
         except TypeError:
             message = user_money
