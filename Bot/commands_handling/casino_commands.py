@@ -77,9 +77,8 @@ class CasinoCommands(BotActions):
 
     @logger
     async def get_email(self, event):
-        try:
-            user_email, = await handling_casino_sql.get_user_email(event.author.id)
-        except ValueError:
+        user_email, = await handling_casino_sql.get_user_email(event.author.id)
+        if not user_email:
             try:
                 email = event.message.text.split()[1]
             except IndexError:
