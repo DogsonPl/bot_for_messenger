@@ -81,19 +81,7 @@ class CasinoCommands(BotActions):
     async def get_email(self, event):
         user_email, = await handling_casino_sql.get_user_email(event.author.id)
         if not user_email:
-            try:
-                email = event.message.text.split()[1]
-            except IndexError:
-                message = "🚫 Jeśli chcesz ustawić swojego maila żeby mieć możliwość synchronizacji danych ze stroną, po !email podaj swojego maila"
-            else:
-                confirmation_code = await get_confirmation_code()
-                user_send_mail_in_last_hour = await handling_casino_sql.new_email_confirmation(event.author.id, email,
-                                                                                               confirmation_code)
-                if user_send_mail_in_last_hour:
-                    message = "🚫 Możesz poprosić o jednego maila w ciągu godziny"
-                else:
-                    email_message = await smpt_connection.create_message(email, confirmation_code)
-                    message = await smpt_connection.send_mail(email, email_message)
+            message = await send_confirmation_email(event)
         else:
             message = f"""📧 Twój email to {user_email}
 Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze stroną (komenda !strona) zakładając konto używająć tego samego maila"""
@@ -159,3 +147,19 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 💲 Dzisiejszy profit: {'%.2f' % (today_won_money+today_lost_money)}
 """
         await self.send_text_message(event, message)
+
+
+async def send_confirmation_email(event):
+    try:
+        email = event.message.text.split()[1]
+    except IndexError:
+        return "🚫 Jeśli chcesz ustawić swojego maila żeby mieć możliwość synchronizacji danych ze stroną, po !email podaj swojego maila"
+
+    confirmation_code = await get_confirmation_code()
+    user_send_mail_in_last_hour = await handling_casino_sql.new_email_confirmation(event.author.id, email,
+                                                                                   confirmation_code)
+    if user_send_mail_in_last_hour:
+        return "🚫 Możesz poprosić o jednego maila w ciągu godziny"
+    else:
+        email_message = await smpt_connection.create_message(email, confirmation_code)
+        return await smpt_connection.send_mail(email, email_message)
