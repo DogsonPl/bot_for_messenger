@@ -79,9 +79,11 @@ class CasinoCommands(BotActions):
 
     @logger
     async def get_email(self, event):
-        user_email, = await handling_casino_sql.get_user_email(event.author.id)
-        if not user_email:
+        user_email = await handling_casino_sql.get_user_email(event.author.id)
+        if user_email is None:
             message = await send_confirmation_email(event)
+        elif user_email is False:
+            message = "🚨 Te konto było już używane i dane zostały przeniesione na inne konto, jeśli chcesz znowu grać na tym koncie napisz do !tworca"
         else:
             message = f"""📧 Twój email to {user_email}
 Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze stroną (komenda !strona) zakładając konto używająć tego samego maila"""

@@ -32,8 +32,12 @@ async def new_email_confirmation(user_fb_id, email, code):
 
 
 async def get_user_email(user_fb_id):
-    email, = await cursor.fetch_data("""SELECT email FROM casino_players 
+    email = await cursor.fetch_data("""SELECT email FROM casino_players 
                             WHERE user_fb_id=%s;""", (user_fb_id,))
+    try:
+        email = email[0][0]
+    except IndexError:
+        email = False
     return email
 
 
