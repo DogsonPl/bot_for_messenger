@@ -99,7 +99,10 @@ async def get_last_jackpot_results():
 
 async def fetch_tickets_number():
     data = await cursor.fetch_data("""SELECT SUM(tickets) FROM jackpot;""")
-    return data[0][0]
+    data = data[0][0]
+    if data is None:
+        data = 0
+    return data
 
 
 async def fetch_user_tickets(user_fb_id):
