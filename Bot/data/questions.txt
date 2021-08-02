@@ -1,131 +1,516 @@
-Czy jesteś osobą poranną czy nocną marką?
-Wolisz ćwiczenia umysłowe czy fizyczne?
-Jak byś przeżył swoje życie, gdybyś się dowiedział, że zostałeś tylko rok?
-Gdybyś był wyjątkowo bogaty, jakich zmian dokonałbyś w swoim życiu lub na świecie?
-Gdybyś mógł mieć jakiekolwiek zwierzę jako oswojone zwierzątko, które byś wybrał?
-Gdybyś mógł żyć wiecznie, czy chciałbyś to zrobić? Czemu?
-Jakie zmiany byś wprowadził, gdybyś otrzymał 100 000 dolarów na remont lub przebudowę domu lub mieszkania?
-Czy kiedykolwiek warto kłamać? Wyjaśnij swoją odpowiedź.
-Z jakiego osiągnięcia jesteś najbardziej dumny?
-Co cię denerwuje?
-Jaka książka miała na ciebie znaczący wpływ?
-Jaką postać z książki lub filmu lubisz najbardziej?
-Jaki kraj lub miejsce na świecie chciałbyś odwiedzić najbardziej / najmniej?
-Jaką sławną osobę, martwą lub żywą, chciałbyś najbardziej spotkać?
-Jakiego jedzenia nienawidziłeś jako dziecko, ale cieszysz się teraz?
-Czy podążasz za swoim horoskopem?
-Jakiego jedzenia lub przekąski najbardziej pragniesz?
-Jakie jedzenie byłbyś skłonny jeść przy każdym posiłku do końca życia?
-O jakim wydarzeniu historycznym chciałbyś poznać prawdę?
-Wolisz ubierać się na co dzień czy w strój formalny?
-Co jest uważane za społecznie akceptowalne, czego nie akceptujesz?
-Co jest niezwykłego, co polecasz każdemu przynajmniej raz?
-Jaki przedmiot ostatnio zgubiłeś? Znalazłeś to?
-Co cię zaskoczyło, czego się niedawno nauczyłeś?
-Co chciałbyś zrobić lepiej?
-Gdzie się urodziłeś i w ilu miejscach mieszkałeś?
-Co jest w tobie dziwnego lub niezwykłego?
-Jaka jest najlepsza rada, jaką kiedykolwiek dał ci ktoś? Kto ci to dał?
-Jaki jest twój ulubiony kwiat / rodzaj cukierków?
-Jaka jest najlepsza i najgorsza rzecz w byciu kobietą?
-Gdzie jest ostatnie miejsce, które chciałbyś odwiedzić?
-Który problem światowy chciałbyś rozwiązać i dlaczego?
-Kto wywarł największy wpływ na Twoje życie?
-Za kogo lub za co jesteś najbardziej wdzięczny?
-Jaka jest najważniejsza lekcja, jakiej nauczyłeś się dotychczas w życiu?
-Jaka jest najdziwniejsza tradycja Twojej rodziny?
-Jaka jest najgorsza i / lub najlepsza randka, na której kiedykolwiek byłeś?
-Jaki jest najgorszy film, jaki kiedykolwiek widziałeś lub książkę, którą kiedykolwiek czytałeś?
-Jaka jest Twoja ulubiona książka, film i / lub program telewizyjny?
-Jakie jest Twoje ulubione wspomnienie z dzieciństwa?
-Jaki jest Twój ulubiony kolor? Czemu?
-Jacy ludzie cię denerwują?
-Jaka jest twoja wymarzona praca?
-Czy cokolwiek zbierasz?
-Czy uważasz się za osobę z kraju lub miasta?
-Czy lubisz reality TV?
-Wolisz podróżować samochodem, samolotem, statkiem czy pociągiem? Czemu?
-Jak budzisz się rano?
-Co robisz aby się zrelaksować?
-Jaki rodzaj muzyki preferujesz?
-Jakie były twoje ostatnie wakacje?
-Co, jeśli cokolwiek, sprawia, że się boisz?
-Co, jeśli cokolwiek, cię denerwuje?
-Kto lub co cię uszczęśliwia?
-Czy chciałbyś spędzić wakacje z dala od wszelkiej technologii?
-Jaki strój lub rodzaj odzieży wybierzesz na co dzień do końca życia?
-O jakim temacie możesz rozmawiać godzinami?
-Jaka jedna rzecz, którą zrobiłeś w życiu, dała ci najwięcej satysfakcji?
-Jaką masz cechę, która sprawia, że czujesz się dobrze ze sobą?
-Jakim cytatem starasz się żyć?
-Jaki trend, który wygasł, chciałby powrócić?
-Jaki niezwykły przedmiot masz teraz w torebce?
-Jaki niezwykły lub nieprzyjemny zapach lubisz?
-Jakie słowo (a) zawsze błędnie zapisujesz?
-Na czym, jeśli w ogóle, uważasz się za obsesję?
-Kto jest Twoim najstarszym żyjącym krewnym?
-Jaka jest najlepsza i najgorsza rzecz w byciu mężczyzną?
-Który film lubisz tak bardzo, że możesz go oglądać wielokrotnie?
-Co byś zrobił / czego nie zrobiłbyś za milion dolarów?
-Jaka jest jedna rzecz, którą lubiłeś, gdy byłeś dzieckiem, a którą nadal lubisz?
-Jaka jest najbardziej stresująca sytuacja, w której kiedykolwiek byłeś i jak sobie z tym poradziłeś?
-Co cię stresuje?
-Jaka osoba lub wydarzenie wywarło największy wpływ na Twoje życie?
-Gdybyś mógł codziennie robić jedną rzecz do końca życia, co by to było?
-Jak myślisz, co zrobiłeś, aby uczynić świat lepszym miejscem?
-Czy kiedykolwiek spotkałeś kogoś sławnego? WHO?
-Jaka historia z twojego życia jest najstraszniejsza / najzabawniejsza / najdziwniejsza?
-Gdybyś mógł być ekspertem w jednej dziedzinie, co by to było?
-Jaki był najlepszy / najgorszy zakup, jaki kiedykolwiek dokonałeś?
-Kto jest Twoim ulubionym autorem / aktorem / aktorką? Czemu?
-Jakie cechy sprawiają, że dana osoba „odnosi sukcesy”?
-Jaka jest najbardziej niezwykła rzecz, jaką kiedykolwiek zrobiłeś?
-Jakiego jedzenia absolutnie nienawidzisz? Czemu?
-Jak myślisz, jakie było najstraszniejsze wydarzenie historyczne? Czemu?
-Dla kogo lub na co zawsze znajdujesz czas?
-Czy kiedykolwiek wyszedłeś z filmu? Czemu?
-Jaka była twoja ulubiona kreskówka, gdy byłeś dzieckiem?
-Co inni powiedzieliby, że posiadasz zbyt wiele?
-Jakie jest Twoje idealne jedzenie / przekąska?
-Kto jest Twoim ulubionym fikcyjnym złoczyńcą?
-Jaką grę lub sport lubisz, ale nie jesteś dobry?
-Jaka jest najdziwniejsza rzecz, którą robiłeś, gdy byłeś dzieckiem?
-Czy kiedykolwiek płakałeś na filmie? Jeśli tak, które)?
-Którą aktywność mógłbyś wykonywać przez cały dzień i nadal się nią cieszyć?
-Jak myślisz, czego każdy powinien doświadczyć przynajmniej raz w życiu?
-Do jakiego kraju / stanu / miasta chcesz się przenieść?
-Jakie jest Twoje najwcześniejsze / ulubione wspomnienie z dzieciństwa?
-Jaka jest ostatnia rzecz, której się nauczyłeś?
-Jaki przedmiot osobisty, z wyłączeniem zwierząt domowych i rodziny, chciałbyś najbardziej uratować, gdyby twój dom się zapalił?
-Jakie były najlepsze wakacje, jakie kiedykolwiek wziąłeś?
-Jaki przypadkowy uczynek zrobiłeś ostatnio?
-Jaka jest najbardziej przydatna umiejętność, którą posiadasz?
-Jakie było najbardziej historyczne wydarzenie, w którym byłeś świadkiem lub w którym uczestniczyłeś?
-Jaki komplement, który ktoś ci dał, naprawdę utknął w twojej pamięci?
-Jaka jest Twoja ulubiona / najmniej ulubiona gra karciana / planszowa?
-Jak myślisz, co sprawia, że jesteś wyjątkowy?
-Gdybyś mógł wybrać jeden talent, aby od razu stać się ekspertem, który byś wybrał?
-Czy jest coś, co zbierasz?
-Jakiego składnika, przyprawy lub zioła nie lubisz?
-Co uważasz za swój najlepszy talent lub zdolność?
-Jaka jest Twoja pierwsza myśl, gdy widzisz osobę bezdomną?
-Jaka była najgorsza kontuzja, jaką kiedykolwiek miałeś i jak ją dostałeś?
-Jaki był Twój ostatni główny osiągnięty cel?
-Jaki jest Twój potencjał twórczy lub zainteresowania?
-Co zawsze chciałeś zrobić, ale jeszcze tego nie zrobiłeś?
-Co uważasz za najlepszą część swojego dnia?
-Gdybyś mógł uciec od swojego obecnego życia i zacząć od nowa gdzie indziej, czy ty i dokąd byś się udał?
-Czy wybrałbyś się sam na wycieczkę do obcego kraju?
-Gdybyś mógł mieć jakiekolwiek zwierzę jako oswojone zwierzątko, które byś wybrał?
-Jaką jedną cechę osobowości chciałbyś, aby wszyscy mieli?
-Czego nauczyłeś się w tym tygodniu?
-Czy chciałbyś żyć wiecznie? Dlaczego lub dlaczego nie?
-Jaki jest Twój ulubiony środek transportu? Czemu?
-Jaka jest najbardziej ekstremalna pogoda, jakiej kiedykolwiek doświadczyłeś?
-Kto jest Twoim ulubionym bliskim krewnym?
-Czy uważasz, że twoje dzieciństwo było dobre? Dlaczego lub dlaczego nie?
-Czy uważałbyś siebie za osobę typu „napraw to sam” lub „wezwij eksperta”?
-Czy oglądasz reklamy w nagranym programie czy przewijasz je do przodu?
-Co uważasz za najcenniejsze, jakie posiadasz?
-Czy jest coś, czego żałujesz lub czego nie robisz?
-Co uważasz za najważniejszą rzecz, jaką zrobiłeś w swoim życiu?
+Jaka jest najbardziej zawstydzająca rzecz, jaką kiedykolwiek zrobiłeś?
+Jak myślisz, co jest Twoją najlepszą funkcją? A co najgorsze
+Powiedz mi sekret z twojego dzieciństwa.
+Jaka jest twoja największa (tajna) wada?
+Co jest najodważniejszą rzeczą jaką kiedykolwiek zrobiłeś?
+Kto w tej rundzie chciałbyś zakląć świnię?
+O czym marzysz najbardziej śpiąc?
+Jeśli miałbyś zarabiać pieniądze nielegalnie, jak byś to zrobił?
+Gdybyś był ślepy, kto w tej rundzie byłby twoim psem przewodnikiem?
+Co może wywrzeć na Tobie największe wrażenie?
+Gdybyś mógł używać tylko 3 słów do końca wieczoru - co by to było?
+Gdybyś był dyktatorem, jakie prawo uchwaliłbyś jako pierwsze?
+Gdybyś żył w czasach nazizmu, kim byś był?
+Jakie było najbardziej zawstydzające doświadczenie w twoim szkolnym czasie / czasie nauki / edukacji / zeszłym roku?
+Jaki był największy błąd w twoim życiu?
+Czego byś nigdy nie zrobił - nawet jeśli wiesz, że masz jeszcze tylko 12 godzin życia?
+Jakie przestępstwo popełniłeś?
+Co chciałbyś ze mną zrobić … (na osobie xy), gdybyś mógł wtedy wymazać moją (jej, jej …) pamięć?
+Jaka jest najgorsza rzecz, jaką kiedykolwiek zrobiłeś komukolwiek?
+W kim miałeś największą miłość do kogo?
+Czy byłeś kiedyś zakochany w jednym z obecnych?
+Gdybyś był wampirem, kogo z nas ugryzłbyś teraz?
+Jaka jest najgorsza rzecz, jakiej kiedykolwiek doświadczyłeś?
+Jaki był twój najgorszy koszyk?
+Jaka jest twoja najciemniejsza fantazja?
+Jaka jest najprzyjemniejsza rzecz, jakiej kiedykolwiek doświadczyłeś z inną osobą?
+Jaki jest dla ciebie najlepszy Abturner?
+Co najbardziej lubisz w swoim ciele i co jest najbrzydsze?
+Kogo z naszej rundy chciałbyś zobaczyć nago?
+W kim w tej rundzie mógłbyś się najbardziej zakochać?
+Czy miałeś kiedyś erotyczny sen, w którym pojawił się ktoś z tej rundy?
+Jeśli wytatuowałbyś się w okolicy narządów płciowych - co by tam było?
+Co jest ważniejsze w związku - seks czy miłość?
+Czy uważasz, że seks jest fajny, dobry, w porządku, czasem miły - czy nie jest dla ciebie taki ważny?
+Co czyni cię naprawdę dobrym seksem?
+Ile razy w tygodniu / miesiącu uprawiasz seks - i jak często chciałbyś uprawiać seks?
+Z iloma partnerami seksualnymi już spałeś?
+Która część ciała najbardziej cię podnieca?
+Jak, gdzie i z kim miałeś swój pierwszy raz?
+Jak ważna jest dla ciebie przedłużona gra wstępna?
+Co mężczyzna / kobieta musi zrobić, aby cię uwieść?
+Czy kiedykolwiek miałeś trójkę? A jak ci się podobało
+Czy kiedykolwiek uprawiałeś seks z dobrym przyjacielem?
+Czy kiedykolwiek uprawiałeś seks z jedną z tej grupy - oprócz swojego partnera?
+Jaki był najbardziej zawstydzający moment w seksie, jaki kiedykolwiek miałeś?
+Jesteś całkowicie zakochany, ale potem on / ona wychodzi. Co by się stało, żebyś uciekł z krzykiem?
+Czego szukasz u kobiety - piersi, tyłka lub twarzy?
+Czego najpierw szukasz u mężczyzny i co musi on mieć, abyś pomyślał: awwwww, spoko!
+Czy kiedykolwiek usatysfakcjonowałeś się na samą myśl o tej rundzie?
+Jaka jest twoja ulubiona pozycja podczas seksu?
+Co to jest absolutne tabu podczas seksu?
+Jaka jest najgorętsza rzecz, jaką kiedykolwiek zrobiłeś?
+Czy kiedykolwiek uprawiałeś seks z cyberseksem lub przez telefon - iz kim?
+Jakie jest twoje najgorsze sekretne życzenie?
+Co jest lepsze - przycięte lub nieobrobione?
+Jak myślisz, kto w tej rundzie uprawia najlepszy seks?
+Komu dałbyś pieniądze na spanie z tobą?
+Jakie było twoje najbardziej szalone doświadczenie seksualne?
+Czy kiedykolwiek uprawiałeś niebezpieczny seks - i jak to dokładnie było?
+Czy kiedykolwiek uprawiałeś seks z nieznajomym? na przykład z Tinder?
+Gdybyś poszedł na linię - jaka byłaby twoja specjalność?
+O czym najbardziej lubisz myśleć, kiedy się satysfakcjonujesz?
+Czy kiedykolwiek uprawiałeś seks z tą samą płcią?
+Uprawiałeś ze mną seks. Co byś mi powiedział później?
+Jaki jest najlepszy sposób, żeby Cię położyć?
+Z kim w każdym razie spałeś - czy jesteś żonaty, czy zakochany w nieśmiertelnym?
+Z kim miałeś najlepszy seks w swoim życiu?
+Czy kiedykolwiek płaciłeś za seks?
+O kim miałeś swój ostatni gorący sen?
+Czy kiedykolwiek byłeś zaskoczony podczas seksu - i przez kogo?
+Jaka jest twoja ulubiona pozycja?
+Gdzie jest twoja strefa erogenna?
+Czy jęczysz w punkcie kulminacyjnym?
+Z kim chciałbyś uprawiać seks?
+Kiedy ostatni raz uprawiałeś seks?
+Gdzie masz intymne kolczyki?
+Ilu mężczyzn / kobiet już całowałeś?
+Jaki był twój najgorszy koszyk?
+Z kim miałeś najgorętszą randkę?
+Jaka jest twoja ulubiona pozycja?
+Kiedy był twój pierwszy raz?
+Jesteś wciąż dziewicą?
+W toalecie: Składanie lub rolowanie papieru toaletowego?
+Gdzie golisz się wszędzie?
+Czy kiedykolwiek byłeś w intymności z 2 osobami jednocześnie?
+Czy kiedykolwiek słyszałeś jęk swojej siostry / brata?
+Czy byłeś kiedyś przyłapany na masturbacji?
+W jakich miejscach uprawiałeś seks?
+Czy kiedykolwiek kogoś zdradzałeś?
+Czy zawsze jesteś wierny?
+Czy miałeś nastoletni chłód?
+W której osobie jesteś zakochany?
+Z którą gwiazdą chciałbyś się umówić?
+Jaki jest najbardziej zawstydzający moment w twoim życiu?
+Które usta najbardziej lubisz z tej grupy?
+Który gracz ma najpiękniejsze ręce?
+Gdzie był twój pierwszy pocałunek?
+Kogo w tej rundzie najbardziej chciałbyś pocałować?
+Kto przy stole jest prawdopodobnie najbardziej łaskotki?
+Jaki był największy błąd w twoim życiu?
+Czy zdarzyło ci się coś zawstydzającego na randce?
+Czy kiedykolwiek miałeś kontakt z narkotykami?
+Którą osobę chciałbyś teraz pocałować?
+Kiedy ostatni raz miałeś kaca?
+Czy kiedykolwiek zdradzałeś egzamin szkolny?
+Których nauczycieli lubisz?
+Czy kiedykolwiek coś ukradłeś w przeszłości?
+Czy chrapiesz w nocy?
+Która to twoja ulubiona piosenka?
+Z którym graczem zamieniłbyś się na 1 tydzień i dlaczego?
+Przeprowadzasz się na samotną wyspę, kogo z rundy zabierasz ze sobą?
+Czego się najbardziej boisz?
+Gdzie golisz się wszędzie?
+Czy masz pseudonim?
+Patrzysz do muszli klozetowej przed umyciem?
+Kto sprawił ci najgorszy ból serca?
+Ile razy całowałeś się?
+Jaka była najbardziej zawstydzająca rzecz, jaka ci się kiedykolwiek przytrafiła?
+Ile typów / dziewczyn już całowałeś?
+Kogo kochasz?
+Którą gwiazdę lubisz gorącą?
+Czy zacząłbyś coś od XY (wstaw nazwę)?
+Czy kiedykolwiek coś ukradłeś?
+Które zwierzę najbardziej Ci odpowiada i dlaczego?
+Jaka była twoja najgorsza randka?
+Kogo chciałbyś teraz pocałować?
+Jaka jest Twoja tajemnica, mroczna fantazja?
+Wolisz wytatuować sobie tyłek lub przebijać język?
+Z jaką sławną osobą chciałbyś spędzić noc?
+Gdzie chciałbyś teraz przesłać?
+Musisz poślubić gwiazdę, kto?
+Jak / gdzie / z kim był twój pierwszy pocałunek?
+Jesteś wciąż dziewicą?
+Golisz się? Jeśli tak to gdzie?
+Jaką fryzurę masz w okolicy narządów płciowych?
+Czy jesteś zainteresowany intymnością z osobą tej samej płci?
+Czy lubisz długą grę wstępną? Jeśli tak, to jak to powinno wyglądać?
+O czym myślisz, kiedy się satysfakcjonujesz?
+Kiedy był twój pierwszy raz?
+Jesteś wciąż dziewicą?
+Czy kiedykolwiek kogoś zdradzałeś?
+Jaki był twój najgorszy koszyk?
+Czy jęczysz podczas orgazmu?
+Czy byłeś kiedyś przyłapany na masturbacji?
+Czy wypchałeś kiedyś stanik?
+Kiedy ostatni raz uprawiałeś seks?
+W jakich miejscach już się masturbowałeś?
+O czym myślisz, kiedy się satysfakcjonujesz?
+Czy masz doświadczenie z siusiu?
+Czy kiedykolwiek uprawiałeś seks na świeżym powietrzu?
+Jaka jest twoja ulubiona pozycja?
+Czy zawsze byłeś wierny?
+Jaką masz fryzurę łonową?
+Czy kiedykolwiek byłeś w intymności z 2 osobami jednocześnie?
+Jaka jest Twoja tajemnica, mroczna fantazja?
+Czy pozwoliłbyś się pochlapać mężczyźnie w twarz?
+Czy grałeś w gry doktorskie, gdy byłeś młodszy?
+Czy miałeś już doświadczenia homoseksualne?
+Czy kiedykolwiek uprawiałeś seks przez telefon?
+Gdybyś musiał zrezygnować z erotycznej reklamy kontaktowej, co by to było?
+Kto według ciebie jest najpiękniejszy w tej rundzie? Sortuj wszystkich ludzi od uroczych do brzydkich.
+Kogo w twojej klasie najprawdopodobniej byś pocałował?
+Kogo z tej rundy NIE zaprosiłbyś na następną imprezę?
+Jakie było ostatnie kłamstwo, które powiedziałeś osobie po swojej prawej?
+Jakie było twoje największe życzenie, którego nigdy nie powiedziałeś?
+Jakie przestępstwo popełniłeś?
+Sikasz pod prysznic?
+Jakie masz dzisiaj dziecinne zachowanie?
+Gdzie golisz się wszędzie?
+Czy kiedykolwiek kogoś zdradzałeś?
+Jaki jest twój największy lęk, o którym nikt nie wie?
+W kim kiedykolwiek byłeś zakochany, o którym nikt nic nie wie?
+Czy wypchałeś kiedyś stanik lub majtki?
+Wolałbyś być brzydki i popularny czy ładny i niepopularny?
+Którą pozycję najbardziej lubisz?
+Co na głośnikach?
+Ile miałeś lat, kiedy miałeś swój pierwszy pocałunek?
+Kto był ostatnią osobą, która złamała ci serce?
+Co najbardziej Cię kręci, jeśli chodzi o potencjalnego partnera?
+Lubisz być sam lub pocieszać po walce?
+Jaka jest Twoja obowiązkowa postawa partnera?
+Czy wybrałbyś spryt zamiast wyglądu?
+Jak najlepiej łączysz się z innymi?
+Jakie są Twoje 3 najlepsze rozwiązania?
+Czy żałujesz swoich wyborów dotyczących związk?
+Jakie 5 rzeczy sprawiają, że relacje są udane?
+Co najbardziej w sobie kochasz?
+Czy jest osoba, którą inspirujes?
+Czy kiedykolwiek żałujesz, że coś zrobiłeś?
+Co sprawia, że jesteś najszczęśliwszy? najsmutniejszy?
+Czy masz trem?
+Jakie obowiązki potajemnie lubisz robić?
+Czy masz rodzinną tradycję, którą obiecujesz kontynuowa?
+Jakie hobby znajduje się na twojej wiecznej liście rzeczy do zrobienia?
+Czy jesteś w czymś ekspertem?
+Jaki jest twój ulubiony zapach?
+Czy czujesz się komfortowo, jedząc samotnie poza domem?
+Czy masz specjalność kulinarną?
+Masz kolekcję, o której nikt nie wie?
+Czy masz ukryty tatuaż?
+Czy jesteś w stanie swobodnie wyrażać swoje opinie?
+Gdzie jest twoje ulubione miejsce na świecie?
+Masz samochód marzeń?
+Jakie jest Twoje najwcześniejsze wspomnienie?
+Czego boisz się najbardziej?
+Za czym tęsknisz za dzieckiem?
+Której aplikacji do gier używasz najczęściej?
+Czy masz ulubionego superbohatera?
+W jakie teorie spiskowe wierzysz?
+Czy lubisz filmowego złoczyńc?
+Jaka jest najdziwniejsza rzecz, którą oglądałeś online?
+Jakie witryny odwiedzasz codziennie?
+Jaka jest najgłupsza rzecz, na jaką kiedykolwiek zgodziłeś się zrobić jako wyzwanie?
+Czy możesz przetrwać bez mediów społecznościowych? Jeśli możesz zachować tylko jedną, którą platformę byś wybrał?
+Czy wierzysz w zjawiska paranormaln?
+Jeśli dżin spełni trzy życzenia, jakie by one były?
+Pij kawę lub herbatę?
+Jedz ciasteczka lub ciasteczka?
+Oglądaj Netflix lub idź do kina?
+Zorganizuj wielkie wesele lub weź ślub w ratuszu (podróżując z miesiącem miodowym po całym świecie)?
+Przeczytaj książkę lub posłuchaj muzyki?
+Przejdź na dietę lub rozpocznij trening?
+Noś gumowe buty lub kapcie?
+Napisz swoje myśli lub wypowiedz się?
+Pomiń śniadanie lub kolację?
+Noś swoją poszarpaną koszulę lub kup nową?
+Tańcz sam lub z innymi ludźmi?
+Przeglądaj Pinterest lub Twitter?
+Pij piwo lub koktajle?
+Wybierz się na wycieczkę lub popływaj?
+Śmierć przez rekina lub zombie?
+Czy masz dziwny powtarzający się se?
+Gdybyś mógł płynnie nauczyć się języka, co byś wybrał?
+Którego dnia nigdy nie zapomnisz?
+Jak blisko jesteś ze swoimi współpracownikami?
+Jeśli możesz zdobyć dinozaura lub smoka jako zwierzaka, który byś wybrał?
+Zrobiłem ci coś, czego nigdy nie zapomnisz?
+Jaka jest ostatnia rzecz, którą zrobiłeś po raz pierwsz?
+Jeśli dostaniesz moc wymazania wakacji, co by to było?
+Czy zaznaczyłeś coś z listy rzeczy do zrobienia?
+Jakie było najbardziej imponujące wydarzenie, w którym uczestniczyłeś?
+Jaki jest twój najbardziej dumny moment w życiu?
+Jeśli możesz dziś rzucić pracę i zrobić cokolwiek, co by to było?
+Czy są jakieś szczególne momenty w twoim dzieciństwie, które ukształtowały to, kim jesteś dzisia?
+Czego najbardziej żałujesz?
+Jak widzisz siebie za 10 lat?
+Co najbardziej cenisz w przyjaźniach?
+Czy masz przeczucie, jaka byłaby twoja przyszła przyczyna śmierc?
+Życie było dla ciebie ciężkie?
+Co cię trzyma w nocy?
+Jeśli możesz wybrać ostatni posiłek, co by to było?
+Czy wierzysz w cuda?
+Czy masz słabość, którą próbujesz przezwyciężyć?
+Wolałbyś pochówek czy kremację?
+Za jakie 3 rzeczy jesteś dziś najbardziej wdzięczny?
+Czy jesteś teraz zadowolony ze swojego życia?
+Jaki był jeden z najszczęśliwszych momentów twojego dzieciństwa?
+Jaka była najgorsza randka, na jakiej kiedykolwiek byłaś?
+Jak traktowałby cię twój idealny partner?
+Jaki jest najdziwniejszy nawyk, jaki masz?
+Wymień mi jedną rzecz, którą uwielbiasz robić? (Wysłuchaj) Dlaczego?
+Jaki był jeden z najszczęśliwszych momentów twojego dzieciństwa?
+Jakie są Twoje lęki?
+Co byś zrobiła gdybyś wiedziała, że nie możesz ponieść porażki?
+Co chcesz zmienić w swoim życiu?
+Czy masz jakieś postanowienia? Skąd takie postanowienia?
+Jak wyobrażasz sobie, aby twój idealny partner / partnerka traktowałby cię?
+Jaka jest najlepsza rada, jaką ktokolwiek ci kiedykolwiek dał?
+Gdybyś mogła mieszkać gdziekolwiek, gdzie by to było?
+Jak traktujesz ludzi, którzy bez powodu cię irytują?
+Czemu poświęcasz więcej czasu – myślenie o porażce czy sukcesie?
+Jakich umiejętności chciałabyś się nauczyć? Dlaczego akurat to?
+Jaki jest główny powód, dla którego codziennie wstajesz z łóżka?
+Czy mówisz tak czy nie częściej w życiu?
+Co powiedziałabyś sobie w młodości, gdybyś mogła cofnąć się w czasie?
+Co daje ci motywację do życia i działania?
+Czego najbardziej żałujesz w życiu?
+Czego chciałabyś się nauczyć?
+Bez kogo nie mógłbyś żyć? (lub bez czego)
+Jaki jest teraz twój cel numer jeden?
+Co lubisz robić najbardziej w wolnym czasie?
+Czy wierzysz w przeznaczenie? Czy bardziej w to, że to ludzie mają pełną kontrolę nad własnym życiem?
+Gdybyś był jedynym człowiekiem pozostałym na Ziemi, co byś zrobił?
+Powszechnie mówi się, że każdy człowiek to nieodkryta księga. O czym byłaby w takim razie twoja książka?
+W czym chciałabyś być lepsza?
+Czego jesteś pewien, że nigdy nie zrobisz?
+Z jakiego osiągnięcia w twoim życiu jesteś najbardziej dumna?
+Czy zdarza Ci się myśleć stereotypami?
+Czego najbardziej boisz się w życiu?
+Jaka książka wpłynęła na ciebie najbardziej?
+Gdybyś miał umrzeć w ciągu dnia, co byś zrobił?
+Gdybyś mógł wysłać wiadomość do całego świata, a oni by jej wysłuchali, jaką wiadomość byś przekazał?
+Jakie są twoje nawyki które chcesz zmienić?
+Czego jesteś wyjątkowo samoświadoma?
+Jaka jest twoja najlepsza cecha?
+Jaka jest twoja najgorsza cecha?
+Co jest najtrudniejszą rzeczą w twoim życiu w tej chwili?
+Jaka jest najgorsza rada, jaką kiedykolwiek otrzymałeś?
+Jaki jest dla Ciebie najważniejszy aspekt prowadzenia dobrego życia?
+Czy jesteś człowiekiem odważnym i spontanicznym?
+Czy wolisz rutynę?
+Jaka jest jedyna rzecz, która najbardziej motywuje Cię do wstania rano?
+Jakich cech szukasz w człowieku?
+Kiedy byłaś młodsza, kim chciałaś być, kiedy dorastałaś?
+Czy uważasz, że najszczęśliwiej byłoby ci mieszkać w mieście lub na wsi, poza miastem, w górach?
+Czy zwracasz uwagę na politykę, czy masz tendencję do trzymania się od niej z daleka?
+Jaki był/jest twój ulubiony przedmiot w szkole?
+Czy uważasz, że powiedzenie “mili faceci kończą jako ostatni” ma jakąś prawdę?
+Jaki jest Twój ulubiony rodzaj muzyki?
+Jaki jest Twój wymarzony samochód?
+Czy bardziej zależy Ci na zarabianiu pieniędzy lub dążeniu do szczęścia?
+Jaki jest Twój ulubiony kolor?
+Jaka jest twoja filozofia w życiu?
+Jeśli jest jedna rzecz, którą mógłbyś zmienić w swoim życiu, co by to było?
+Czy uważałabyś się za osobę duchową czy religijną?
+Czy jesteś introwertykiem czy ekstrawertykiem?
+Jaka była twoja najlepsza impreza w życiu?
+Jaki jest twój ulubiony film wszech czasów?
+Czym jest dla ciebie zerwanie związku?
+Czy bardziej zależy Ci na wyglądzie lub mózgu?
+Jeśli jesteś w złym humorze, chcesz, aby ktoś cię pocieszył czy wolisz, abyś została sama?
+Jaki jest dla ciebie idealny weekend?
+W co wierzysz, że jest prawdą, a w co większość ludzi nie wierzy?
+Jaka jest najważniejsza cecha, którą musi mieć twój przyjaciel?
+Czy kiedykolwiek złamałaś komuś serce?
+Czy wolisz być przyjacielem introwertyków czy ekstrawertyków?
+Do jakiej dekady najbardziej pasowałabyś?
+Czy jesteś blisko swojej rodziny?
+Jaka jest jedna czynność, w której czujesz się najbardziej sobą?
+Jaka jest jedna rzecz, która wydarzyła się w twoim życiu, która sprawiła, że czujesz się silna mentalnie?
+Gdybyś miał jeden tydzień życia, co byś zrobił?
+Jaka jest prawdziwa historia, która stoi za twoim ostatnim postem z instagramem?
+Czy wolałbyś być bogaty i sławny, czy też bogaty bez sławy?
+Kiedy czytasz informacje, do którego działu od razu przechodzisz?
+Czy jesteś przesądna?
+Gdybyś mógł być fikcyjnym superbohaterem, to kim byś był?
+Czy wolisz duże imprezy czy małe spotkania?
+Co się wydarzyło w twojej przeszłości, że jesteś niesamowicie zakłopotany?
+Gdybyś mógł być niesamowicie sprawny w jednej rzeczy, co by to było?
+Jesteś góralem czy plażowiczem?
+Czy wolałabyś być zakochana czy bogata?
+Gdybyś mógł cofnąć się w czasie i dać sobie radę, co byś powiedział?
+Za co lub za kogo poświęciłbyś swoje życie?
+Jaka jest pierwsza rzecz, która cię do kogoś przyciąga?
+Jakie pojedyncze wydarzenie miało największy wpływ na to, kim jesteś?
+Czy umawiałeś się z wieloma osobami na raz?
+Jakie kłamstwa najczęściej sobie wmawiasz?
+Jeśli pieniądze nie były problemem, opisz wizje swojego życia
+Jakie są najczęstsze blokady drogowe, które powstrzymują ludzi przed realizacją ich marzeń
+Byłeś kiedyś na randce w ciemno?
+Co trzyma cię na nogach w nocy?
+Jak ważne są dla ciebie atrakcje w życiu?
+Co chciałabyś, żeby ludzie o tobie nie wiedzieli?
+Czy wierzysz w miłość od pierwszego wejrzenia?
+Co jest najważniejsze na twojej liście zadań?
+Jaka jest najlepsza rada, jakiej kiedykolwiek udzielili ci twoi rodzice?
+Jaka jest najlepsza rada, jaką kiedykolwiek otrzymałeś od kogoś w swoim życiu?
+Kogo podziwiałaś jako dziecko?
+Gdybyś mogła być jedną osobą, to kto by to był i dlaczego?
+Jaka była najlepsza książka, jaką kiedykolwiek czytałeś?
+Gdzie żyłabyś gdyby pieniądze lub praca, nie były czynnikami?
+Jakie trzy słowa najlepiej cię opisują?
+Jak chcesz być zapamiętana?
+Dlaczego uważasz, że w dzisiejszych czasach tak wielu ludzi jest samotnych?
+Co trzyma cię na nogach w trudnych chwilach?
+Czy wierzysz w los? Czy też mamy kontrolę nad naszym kierunkiem w życiu?
+Czy wierzysz w karmę?
+Jaka jest jedyna rzecz, która jest dla kogoś najważniejsza, aby poprawić swoje życie?
+Dla kogo poświęciłabyś swoje życie?
+Czy jesteś dumna z tego, że jesteś człowiekiem?
+Jakie wrażenie starasz się wywrzeć, gdy po raz pierwszy kogoś spotkasz?
+Co motywuje cię do bycia lepszym człowiekiem?
+Jaki film sprawił, że najbardziej płaczesz?
+Jaka jest najgorsza randka, na której byłaś?
+Czy uważasz, że potrafisz odróżnić wnikliwe rzeczy o człowieku od tego, jak wygląda?
+Jaka jest najzdrowsza rzecz, którą ktoś może robić na co dzień?
+Co w życiu sprawia ci największą radość?
+Zanim umrzesz, co chcesz osiągnąć?
+Gdzie chciałbyś w przyszłości przejść na emeryturę?
+Jak ważne są pieniądze przy wyborze romantycznego partnera?
+Jaka jest najlepsza randka, na jakiej kiedykolwiek byłeś?
+Kiedy szukasz kochanka, jakie są trzy najważniejsze rzeczy, których szukasz?
+Jakie jest Twoje ulubione wspomnienie z czasów, gdy byłaś dzieckiem?
+Gdybyś wygrała w lotto, co by było pierwszą rzeczą, którą byś zrobiła?
+Jaka jest najbardziej romantyczna podróż, o jakiej marzysz?
+Która piosenka przychodzi ci do głowy i do serca, kiedy myślisz o mnie?
+Jaka jest najlepsza rzecz, która ci się we mnie podoba?
+Jaka jest najlepsza prawdziwa historia miłosna, jaką kiedykolwiek słyszałaś?
+Kiedy po raz pierwszy się we mnie zakochałeś?
+Jakim pseudonimem nazwałbyś mnie z miłością?
+Czy jest coś takiego jak bycie zbyt zakochanym?
+Jaki jest twój pomysł na idealny romantyczny prezent?
+Która z moich cech pierwszy raz cię do mnie przyciągnęła? Jaka jest teraz twoja ulubiona cecha?
+Myślisz, że kiedykolwiek będziesz chciała się ustatkować i mieć dzieci?
+Czy wolisz dobry uścisk, czy dobry pocałunek?
+Jaka jest twoja idealna randka?
+Gdybyś zobaczył mnie gdzieś z inną kobietą, myślałbyś, że jest krewnym, starym przyjacielem, czy dziewczyną, którą widzę na boku?
+Co myślałeś o mnie, kiedy pierwszy raz mnie zobaczyłeś?
+Czy możesz podzielić się czymś z życia, czym nigdy nie dzieliłeś się z nikim innym?
+Jakie były twoje uczucia, kiedy pierwszy raz się całowaliśmy?
+Jaka jest jedyna rzecz w naszym związku, która czyni cię najbardziej szczęśliwym?
+Jaki jest najbardziej romantyczny film, jaki kiedykolwiek widziałaś?
+Jaka jest najlepsza rzecz w byciu w związku?
+Czy możesz podzielić się sekretem tego, co uważasz za atrakcyjne, a czym nie dzieliłeś się z nikim innym?
+Gdzie chciałbyś mnie zabrać gdybyś miał dzień wolnego? (Jeśli poda miejsce to umówcie się tam)
+Jaka jest najważniejsza cecha, aby romantyczny związek był udany?
+Czy w związku ważniejsza jest komunikacja niż seks?
+Jaka jest jedyna rzecz w związku, która czyni cię najbardziej szczęśliwym?
+Jakie są twoje uczucia w związku z naszym pierwszym pocałunkiem?
+Jakie są wspomnienia między nami, które cenisz sobie najbardziej?
+Jaki jest twój wymarzony miesiąc miodowy?
+Chcesz mieć wielkie wesele? Albo mały tylko dla tych, którzy są ci bliscy?
+Czy wolisz namiętny pocałunek? Albo długi, ciepły uścisk?
+Jaki jest najseksowniejszy sen, jaki kiedykolwiek miałeś?
+Jaka jest najbardziej romantyczna randka, na jakiej byłaś?
+Jaka jest twoja ulubiona romantyczna piosenka?
+Lubisz słuchać komplementów na swój temat czy bardziej konstruktywnej krytyki?
+Gdybym mogła zabrać cię teraz w dowolne miejsce na świecie, gdzie chciałbyś pójść?
+Zgadnij, co lubię w tobie najbardziej.
+Jak podoba ci się facet, który pokazuje swoje uczucia?
+Gdybyś mógł poświęcić swoje życie na rozwiązanie jednego problemu, jaki problem wybrałbyś
+Jakie miejsca pracy istnieją, bo ludzie są samolubni
+Jeśli wielu ludzi uważa, że czerwień reprezentuje gniew / pasję, niebieski smutek, zielona zazdrość, jakie uczucia reprezentowałyby niektóre z innych kolorów, takich jak fioletowy, turkusowy, srebrny lub brązowy
+Co jest najdziwniejszą rzeczą, jaką widziałeś na czyimś telefonie
+Jaki jest twój ulubiony sposób na poznawanie nowych ludzi
+Na jakie obszary w twoim życiu masz duże nadzieje i jakie są te wielkie nadzieje?
+Kto był najbardziej zepsutą osobą, jaką osobiście spotkałaś
+Jaki jest najprzyjemniejszy akcent, gdy słyszy się twój język, którym mówisz
+Która strona lub aplikacja całkowicie zmieniła twoje życie na lepsze lub na gorsze
+Co sprawia, że czujesz się stary
+Kto jest lub był twoim największym rywalem
+Jaki jest twój ulubiony nie-narkotykowy / bezalkoholowy haj
+Jaka jest najgorsza rzecz, jaką słyszałeś, gdy jedna osoba mówiła do drugiej.
+Co sądzisz o książkach
+Co naprawdę chcesz wiedzieć
+Jak różne jest środowisko społeczne dla dzieci w szkole teraz w porównaniu z 10 lub 20 lat temu
+Co było twoim najbardziej pamiętnym snem lub koszmarem
+Co ty w sobie kochasz
+Jaka praca nie zostanie wkrótce zastąpiona przez maszyny lub komputery?
+Co staje się coraz dziwniejsze, im więcej o tym myślisz
+Co się stało, że jesteś za stary, by znosić
+Jaką tandetną piosenkę kochasz
+Co jest najbardziej śmieszne, że przekonałeś kogoś, że to prawda.
+Jakie wydarzenie chciałbyś poznać całą i kompletną prawdę o
+Na czym ostatnio masz obsesję
+Co jest największym marnotrawstwem pieniędzy, jakie widziałeś.
+Co w tobie zaskakuje
+Gdybyś mógł nosić tylko jeden strój do końca życia, co by to było…
+Jakie są pewne przestarzałe zwyczaje, które nie mają już sensu, ale ludzie nadal podążają za nimi po prostu poza tradycją?
+Jaka byłaby najsłabsza infekcja w twoim domu
+Jaka była ostatnia katastrofa, której zapobiegliście
+Co nie powinno było się stać, ale i tak się stało.
+Kiedy byłeś dzieckiem, jakiej głupiej rzeczy śmiertelnie bałeś się
+Oprócz podwyżki lub dłuższego urlopu, co jest najlepszym atutem, jaki firma może zaoferować pracownikom
+Gdzie lubisz chodzić na spacery
+Gdybyś dowiedział się, że w ciągu jednego roku w niewytłumaczalny sposób padłbyś martwy, co by się zmieniło w twoim życiu
+Co jest najbardziej wzbudzającą gniew rzeczą, którą musisz zrobić lub poskładać.
+Jaki film widziałeś więcej niż siedem razy
+To, co dzieje się w kulturze popularnej, jest teraz traktowane bardzo poważnie, ale za 20 lat ludzie uznają to za niezwykle głupie.
+Co jest najgorszym przykładem ciekawości zabijającej kota, którego widziałeś.
+Jaką umiejętność chciałbyś, żeby więcej ludzi poświęciło czas na naukę?
+Jaka byłaby najstraszniejsza wiadomość tekstowa, żeby obudzić się do
+Co tak naprawdę się stało, ale wydaje się absurdalne i nierealne.
+Jaka skomplikowana fikcyjna postać naprawdę cię intryguje
+Z jakich cech osobowości ludzie są dumni, ale nie powinni być
+Większość ludzi chce być zamożna z takiego czy innego powodu. Dlaczego chcesz być bogaty? Co byłoby największą korzyścią z bycia bogatym
+Jaki styl projektowania lubisz najbardziej Od architektury, projektowania wnętrz, sztuki, samochodów, telefonów czy czegokolwiek innego.
+Jakie cechy osobowościowe kojarzą Ci się z określonymi nazwiskami
+To, co jest romantyczne we współczesnej kulturze, ale naprawdę nie powinno być
+Jaka jest najgorsza książka, którą zmuszono cię do przeczytania w szkole.
+To, co zawsze cię zawodzi, a co nigdy cię nie zawodzi
+Jaką najlepszą rzeczą możesz powiedzieć komuś, żeby ich pocieszył, gdy poczują się na dole
+Kiedy byłeś dzieckiem, jaki film oglądałeś w kółko…
+Gdybyś mógł przejrzeć e-mail jednej osoby, nie wiedząc, czyj to e-mail szpiegowałbyś
+Kiedy ostatni raz ktoś powiedział coś, o czym myślał, że nie słyszysz i nie rozumiesz, ale możesz…
+Co jest czymś, o czym całkowicie zmieniłaś zdanie i przeszłaś od wiary w jedną rzecz do wiary w coś dokładnie przeciwnego.
+Co jest najgorszą cechą, jaką człowiek może mieć
+Jaki film był świetny, kiedy wyszedł, ale nie postarzał się dobrze.
+Jaki film zacząłeś oglądać, spodziewając się, że będzie okropny, ale w rzeczywistości był całkiem niezły.
+Jaka będzie następna rzecz retro, która wróci do popularności
+Co byś zrobił, gdybyś wiedział, że za trzy miesiące rozpocznie się trzecia wojna światowa.
+Gdybyś mógł poznać jedną prawdę o sobie, historii, świecie, a nawet wszechświecie, jaką prawdę chciałbyś poznać
+Co byś zrobił, gdybyś się w kimś głęboko zakochał w sieci, ale odkryłeś, że w rzeczywistości jest to tylko sztuczna inteligencja (robot)
+Co jest czymś, czego nikt nie chce słyszeć, ale każdy powinien
+O czym możesz mówić cały dzień
+Co jest w tobie dziwnego?
+O co ci chodzi?
+Co było najbardziej rozczarowującym zakończeniem świetnej książki / filmu / gry
+Kto jest najszczęśliwszą osobą, jaką znasz
+Co jest największą rzeczą, którą twoje podręczniki pomyliły się lub pominęły
+Jaka jest twoja ulubiona pamiątka, którą masz
+Jaki kawałek ubrania widziałeś, którego desperacko chciałeś
+Jaki jest twój najlepszy etycznie szary hack życia
+Jaki jest twój powód, by wstać rano z łóżka
+Gdyby wszystko w twoim domu miało być jednym kolorem, jaki wybrałbyś kolor
+Zakładając, że nazywasz przedmioty nieożywione, jakie są niektóre nazwy dla przedmiotów nieożywionych, które posiadasz lub posiadałeś (np. samochody, komputery, buty, itp.).
+Jakie pytanie zawsze chciałeś zadać, ale za bardzo bałeś się wyglądać głupio
+Co by powiedziała twoja etykieta ostrzegawcza, gdyby każda osoba była zobowiązana do jej posiadania
+Jaki dziwny strach z dzieciństwa nadal trzymasz się
+Jaka jest najlepsza polewa do lodów
+Co czyni kogoś “dobrym” człowiekiem
+Co jest najgłupszą rzeczą, jaką zrobiłeś w ciągu ostatnich 24 godzin?
+Gdybyś zapadł w śpiączkę i obudził się w roku 2200, co byłoby pierwszą rzeczą, którą chciałbyś wiedzieć…
+Jaka jest najlepsza decyzja, jaką kiedykolwiek podjąłeś.
+Co jest najbardziej żenujące, że wypadło z twojej torby
+Co jest najśmieszniejszą rzeczą, jaką widziałeś, gdy krewny robił…
+Co jest czymś, co tylko ktoś z miejsca, w którym dorastałeś, zrozumiałby.
+Co uczyniłoby świat bardziej interesującym, gdyby był innego koloru
+O czym myślisz pod prysznicem
+Czy kiedykolwiek pracowałeś w handlu detalicznym
+Jaki byłby trailer do filmu o twoim życiu?
+Jakim starym człowiekiem chciałbyś zostać
+Jaka jest najbliższa magii rzecz, która faktycznie istnieje?
+Co robią pary, które poważnie cię denerwują?
+Gdybyś miał wybrać swojego współmałżonka na podstawie tylko jednego pytania, jakie pytanie byś zadał
+Gdyby pieniądze nie były problemem, w jakiej firmie fajnie by było pracować.
