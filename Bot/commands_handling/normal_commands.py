@@ -10,6 +10,10 @@ from ..bot_actions import BotActions
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
 currency_converter = CurrencyRates()
+questions = []
+with open("Bot/data/questions.txt") as file:
+    for i in file.readlines():
+        questions.append(i)
 
 
 HELP_MESSAGE = """🎉Komendy🎉
@@ -32,6 +36,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów\n
+⚙ !pytanie - wysyła losowe pytanie
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
@@ -63,9 +68,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.3 + 8.4 pro 🤖
+🤖 Wersja bota: 7.4 + 8.4 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !pytanie
 🆕 !duel
 🆕 !stats
 🆕 !waluta
@@ -202,6 +208,11 @@ class Commands(BotActions):
                 new_amount = "%.2f" % (converted_currency*amount)
                 message = f"💲 {'%.2f' % amount} {from_} to {new_amount} {to}"
         await self.send_text_message(event, message)
+        
+    @logger
+    async def send_random_question(self, event):
+        question = rd.choice(questions)
+        await self.send_text_message(event, question)
 
     @logger
     async def make_disco(self, event):
