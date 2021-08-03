@@ -35,8 +35,8 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !utrudnieniawawa - pisze utrudnienia w komunikacji miejsiej w Warszawie
 ⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
-⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów\n
-⚙ !pytanie - wysyła losowe pytanie
+⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
+⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
