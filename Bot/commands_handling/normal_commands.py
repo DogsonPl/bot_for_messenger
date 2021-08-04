@@ -51,7 +51,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !top - wysyła 3 graczy którzy mają najwięcej monet
 💸 !bal - wysyła twoją liczbe dogecoinów
 💸 !bet x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
-💸 !zdrapka - koszt zdrapki to 5 dogów, można wygrać od 0 do 2000 dogecoinów 
+💸 !zdrapka - koszt zdrapki to 5 dogów, można wygrać od 0 do 1500 dogecoinów 
 💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
 💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
 💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
