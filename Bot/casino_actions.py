@@ -124,3 +124,10 @@ async def play_duel(accepting_person_fb_id):
 async def discard_duel(fb_id):
     await handling_casino_sql.delete_duels(fb_id, True)
     return "💥 Usunięto twoje gry"
+
+
+async def buy_scratch_card(event):
+    response = requests.post("http://127.0.0.1:8000/casino/buy_scratch_card_fb",
+                             data={"user_fb_id": event.author.id, "django_password": django_password})
+    message = response.json()
+    return message["message"]

@@ -84,6 +84,7 @@ class Listener(BotCore):
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,
+                         "zdrapka": self.casino_commands.send_scratch_card_message,
                          "top": self.casino_commands.send_top_players,
                          "tip": self.casino_commands.send_tip_message,
                          "register": self.casino_commands.register,
