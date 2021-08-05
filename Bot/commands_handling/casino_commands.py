@@ -126,7 +126,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 
     @logger
     async def send_player_stats(self, event):
-        won_bets, lost_bets, today_won_money, today_lost_money, scratch_profit = await handling_casino_sql.fetch_user_stats(event.author.id)
+        won_bets, lost_bets, today_won_money, today_lost_money, scratch_profit, today_scratch_bought = await handling_casino_sql.fetch_user_stats(event.author.id)
         try:
             win_ratio = str(won_bets / lost_bets)
         except TypeError:
@@ -153,6 +153,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 🟥 Przegrane dogecoiny dzisiaj: {'%.2f' % today_lost_money}
 💲 Dzisiejszy profit w betowaniu: {'%.2f' % (today_won_money+today_lost_money)}
 
+💥 Dzisiaj kupiłeś/aś: {today_scratch_bought} zdrapek
 💲 Profit na zdrapkach: {scratch_profit}
 """
         await self.send_text_message(event, message)
