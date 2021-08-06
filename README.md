@@ -2,7 +2,7 @@
 
 # Webpage: https://dogson.ovh (in beta)
 
-## To run this bot version on your machine, you have to configure website deticated to bot:  https://github.com/DogsonPl/bot_for_messenger_website_django <br> If you want to run this bot without configuring django website, check this bot version: https://github.com/DogsonPl/bot_for_messenger/tree/without_connection_with_webpage  
+## To run this bot version on your machine, you have to configure this website:  https://github.com/DogsonPl/bot_for_messenger_website_django <br> If you want to run this bot without configuring django website, check this bot version: https://github.com/DogsonPl/bot_for_messenger/tree/without_connection_with_webpage  
 
 ## Important note 1: Bot works only on Linux 
 ## Important Note 2: Bot is in Polish language. Sorry for that, but I created this bot to polish groups on messenger
@@ -57,7 +57,7 @@ Bot only answers if you have bot in friends**
 **!register** - let you play in casino games\
 **!email x** - sets your email to x\
 **!kod x** (kod = code) - write confirmation code which you should get on your email\
-**!zdrapka** (zdrapka = scratch) - get scratch card and won prize from 0 to 2500, one scratch card costs 5 dooecoins\
+**!zdrapka** (zdrapka = scratch card) - get scratch card and won prize from 0 to 2500, one scratch card costs 5 dooecoins\
 **!stats** - sends user statistic data from casino\
 **!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discard game\
 **!pytanie** - (pytanie = question) sends random question
