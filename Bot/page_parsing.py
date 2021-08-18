@@ -165,3 +165,20 @@ def download_yt_video(link):
     except KeyError:
         return "Nie można pobrać streamu na żywo", None
     return bytes_object, "video/mp4"
+
+
+async def get_info_from_wikipedia(thing_to_search):
+    async with aiohttp.ClientSession() as session:
+        html = await session.get(f"https://pl.wikipedia.org/wiki/{thing_to_search}")
+        soup = BeautifulSoup(await html.text(), "html.parser")
+    info = soup.select_one("p")
+    try:
+        return info.text
+    except AttributeError:
+        info = ""
+        data = soup.find_all("div", class_="mw-parser-output")
+        for i in data:
+            info += i.text.strip()
+        if info == "":
+            info = f"🚫 Nie można odnaleźć: {thing_to_search}"
+        return info

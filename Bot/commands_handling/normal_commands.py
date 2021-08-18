@@ -38,6 +38,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
+🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
 🔥 !disco - robi dyskoteke
@@ -72,9 +73,9 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 🤖 Wersja bota: 7.4 + 8.5 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !szukaj
 🆕 !zdrapka
 🆕 !pytanie
-🆕 !duel
 🆕 !stats
 🆕 !strona
 """
@@ -214,6 +215,16 @@ class Commands(BotActions):
     async def send_random_question(self, event):
         question = rd.choice(questions)
         await self.send_text_message(event, question)
+
+    @logger
+    async def send_search_message(self, event):
+        thing_to_search = event.message.text.split()[1:]
+        if not thing_to_search:
+            message = "💡 Po !szukaj podaj rzecz którą chcesz wyszukać"
+        else:
+            thing_to_search = "_".join(thing_to_search)
+            message = await page_parsing.get_info_from_wikipedia(thing_to_search)
+        await self.send_message_with_reply(event, message)
 
     @logger
     async def make_disco(self, event):

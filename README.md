@@ -60,4 +60,5 @@ Bot only answers if you have bot in friends**
 **!zdrapka** (zdrapka = scratch card) - get scratch card and won prize from 0 to 2500, one scratch card costs 5 dooecoins\
 **!stats** - sends user statistic data from casino\
 **!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discard game\
-**!pytanie** - (pytanie = question) sends random question
+**!pytanie** - (pytanie = question) sends random question\
+**!szukaj x** - (szukaj = search) search information about x in wikipedia (for example !szukaj python)
