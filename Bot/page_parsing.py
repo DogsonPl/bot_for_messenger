@@ -168,12 +168,13 @@ def download_yt_video(link):
 
 
 async def get_info_from_wikipedia(thing_to_search):
+    link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
     async with aiohttp.ClientSession() as session:
-        html = await session.get(f"https://pl.wikipedia.org/wiki/{thing_to_search}")
+        html = await session.get(link)
         soup = BeautifulSoup(await html.text(), "html.parser")
     info = soup.select_one("p")
     try:
-        return info.text
+        return info.text + f"\n Więcej informacji: {link}"
     except AttributeError:
         info = ""
         data = soup.find_all("div", class_="mw-parser-output")
@@ -181,4 +182,5 @@ async def get_info_from_wikipedia(thing_to_search):
             info += i.text.strip()
         if info == "":
             info = f"🚫 Nie można odnaleźć: {thing_to_search}"
+        info += f"\n Więcej informacji: {link}"
         return info
