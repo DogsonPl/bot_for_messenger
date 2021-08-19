@@ -1,4 +1,5 @@
 from io import BytesIO
+import re
 
 import feedparser
 import aiohttp
@@ -167,20 +168,28 @@ def download_yt_video(link):
     return bytes_object, "video/mp4"
 
 
-async def get_info_from_wikipedia(thing_to_search):
+async def get_info_from_wikipedia(thing_to_search, restart=True):
     link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
     async with aiohttp.ClientSession() as session:
         html = await session.get(link)
         soup = BeautifulSoup(await html.text(), "html.parser")
     info = soup.select_one("p")
     try:
-        return info.text + f"\n Więcej informacji: {link}"
+        info = info.text + f"\n Więcej informacji: {link}"
     except AttributeError:
         info = ""
         data = soup.find_all("div", class_="mw-parser-output")
         for i in data:
             info += i.text.strip()
         if info == "":
-            info = f"🚫 Nie można odnaleźć: {thing_to_search}"
-        info += f"\n Więcej informacji: {link}"
-        return info
+            if restart:
+                thing_to_search = thing_to_search.split("_")
+                for index, item in enumerate(thing_to_search[1:]):
+                    thing_to_search[index+1] = thing_to_search[index+1].lower()
+                thing_to_search = "_".join(thing_to_search)
+                info = await get_info_from_wikipedia(thing_to_search, False)
+            else:
+                info = f"🚫 Nie można odnaleźć: {thing_to_search}"
+                info += f"\n Więcej informacji: {link}"
+    info = re.sub(r"\[[0-9]\]", "", info)
+    return info

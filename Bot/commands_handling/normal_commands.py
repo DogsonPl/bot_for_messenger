@@ -222,8 +222,11 @@ class Commands(BotActions):
         if not thing_to_search:
             message = "💡 Po !szukaj podaj rzecz którą chcesz wyszukać"
         else:
-            thing_to_search = "_".join(thing_to_search)
-            message = await page_parsing.get_info_from_wikipedia(thing_to_search)
+            thing_to_search = "_".join(thing_to_search).title()
+            if len(thing_to_search) > 50:
+                message = "🚫 Za dużo znaków"
+            else:
+                message = await page_parsing.get_info_from_wikipedia(thing_to_search)
         await self.send_message_with_reply(event, message)
 
     @logger
