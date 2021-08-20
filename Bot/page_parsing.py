@@ -191,5 +191,5 @@ async def get_info_from_wikipedia(thing_to_search, restart=True):
             else:
                 info = f"🚫 Nie można odnaleźć: {thing_to_search}"
                 info += f"\n Więcej informacji: {link}"
-    info = re.sub(r"\[[0-9]\]", "", info)
+    info = re.sub(r"\[[0-9]*\]", "", info)
     return info
