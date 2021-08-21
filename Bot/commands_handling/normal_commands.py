@@ -39,6 +39,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
+🔥 !miejski x - wyszukuje podane słowo na stronie miejski
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
 🔥 !disco - robi dyskoteke
@@ -70,7 +71,7 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.4 + 8.5 pro 🤖
+🤖 Wersja bota: 7.4 + 8.6 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 !szukaj
@@ -227,6 +228,19 @@ class Commands(BotActions):
                 message = "🚫 Za dużo znaków"
             else:
                 message = await page_parsing.get_info_from_wikipedia(thing_to_search)
+        await self.send_message_with_reply(event, message)
+
+    @logger
+    async def send_miejski_message(self, event):
+        thing_to_search = event.message.text.split()[1:]
+        if not thing_to_search:
+            message = "💡 Po !miejski podaj rzecz którą chcesz wyszukać"
+        else:
+            thing_to_search = "+".join(thing_to_search).title()
+            if len(thing_to_search) > 50:
+                message = "🚫 Za dużo znaków"
+            else:
+                message = await page_parsing.get_info_from_miejski(thing_to_search)
         await self.send_message_with_reply(event, message)
 
     @logger

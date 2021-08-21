@@ -178,8 +178,7 @@ async def get_info_from_wikipedia(thing_to_search, restart=True):
         info = info.text + f"\n Więcej informacji: {link}"
     except AttributeError:
         info = ""
-        data = soup.find_all("div", class_="mw-parser-output")
-        for i in data:
+        for i in soup.find_all("div", class_="mw-parser-output"):
             info += i.text.strip()
         if info == "":
             if restart:
@@ -192,4 +191,20 @@ async def get_info_from_wikipedia(thing_to_search, restart=True):
                 info = f"🚫 Nie można odnaleźć: {thing_to_search}"
                 info += f"\n Więcej informacji: {link}"
     info = re.sub(r"\[[0-9]*\]", "", info)
+    return info
+
+
+async def get_info_from_miejski(thing_to_search):
+    link = f"https://miejski.pl/slowo-{thing_to_search}"
+    info = ""
+    async with aiohttp.ClientSession() as session:
+        html = await session.get(link)
+        soup = BeautifulSoup(await html.text(), "html.parser")
+    for i in soup.find_all("article"):
+        for j in i.find_all("p"):
+            info += j.text.strip()
+        info += "\n"
+        for j in i.find_all("blockquote"):
+            info += j.text.strip()
+        info += "\n\n"
     return info

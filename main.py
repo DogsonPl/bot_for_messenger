@@ -82,6 +82,7 @@ class Listener(BotCore):
                          "waluta": self.normal_commands.convert_currency,
                          "pytanie": self.normal_commands.send_random_question,
                          "szukaj": self.normal_commands.send_search_message,
+                         "miejski": self.normal_commands.send_miejski_message,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,
