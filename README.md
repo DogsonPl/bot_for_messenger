@@ -62,4 +62,5 @@ Bot only answers if you have bot in friends**
 **!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discard game\
 **!pytanie** - (pytanie = question) sends random question\
 **!szukaj x** - (szukaj = search) search information about x in wikipedia (for example !szukaj python)\
-**!miejski x** - search given word definition 
+**!miejski x** - search given word definition \
+**!tlumacz --lang x** - (tlumacz = translate) translate x to given language (--lang is not required, default is polish). (examples: !translate Привет, !translate --english Привет)  

@@ -2,6 +2,8 @@ import random as rd
 
 import fbchat
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
+from deep_translator import GoogleTranslator
+from deep_translator.exceptions import LanguageNotSupportedException
 
 from .logger import logger
 from .. import getting_and_editing_files, page_parsing
@@ -37,6 +39,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !pytanie - wysyła losowe pytanie\n
+⚙ !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
 🔥 !miejski x - wyszukuje podane słowo na stronie miejski
@@ -71,13 +74,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.4 + 8.6 pro 🤖
+🤖 Wersja bota: 7.4 + 8.7 pro 🤖
 
 🧾 Ostatnio do bota dodano:
-🆕 !szukaj
-🆕 !zdrapka
-🆕 !pytanie
-🆕 !stats
+🆕 !tlumacz 
+🆕 !miejski
 🆕 !strona
 """
 
@@ -242,6 +243,26 @@ class Commands(BotActions):
             else:
                 message = await page_parsing.get_info_from_miejski(thing_to_search)
         await self.send_message_with_reply(event, message)
+
+    @logger
+    async def send_translated_text(self, event):
+        try:
+            to = event.message.text.split("--")[1].split()[0]
+            text = "".join(event.message.text.split()[2:])
+        except IndexError:
+            to = "pl"
+            text = "".join(event.message.text.split()[1:])
+
+        if not text or len(text) > 3000:
+            translated_text = """💡 Po !tlumacz napisz co chcesz przetlumaczyc, np !tlumacz siema. Tekst może mieć maksymalnie 3000 znaków
+Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlumacz --english siema"""
+        else:
+            try:
+                translated_text = GoogleTranslator("auto", to).translate(text)
+            except LanguageNotSupportedException:
+                translated_text = f"🚫 {to} - nie moge znaleźć takiego języka, spróbuj wpisać pełną nazwe języka"
+
+        await self.send_text_message(event, translated_text)
 
     @logger
     async def make_disco(self, event):

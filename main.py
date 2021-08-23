@@ -83,6 +83,7 @@ class Listener(BotCore):
                          "pytanie": self.normal_commands.send_random_question,
                          "szukaj": self.normal_commands.send_search_message,
                          "miejski": self.normal_commands.send_miejski_message,
+                         "tlumacz": self.normal_commands.send_translated_text,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,
