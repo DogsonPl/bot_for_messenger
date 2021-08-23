@@ -39,7 +39,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !pytanie - wysyła losowe pytanie\n
-⚙ !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет\n
+⚙ !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
 🔥 !miejski x - wyszukuje podane słowo na stronie miejski
