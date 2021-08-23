@@ -262,6 +262,8 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             except LanguageNotSupportedException:
                 translated_text = f"🚫 {to} - nie moge znaleźć takiego języka, spróbuj wpisać pełną nazwe języka"
 
+        if not translated_text:
+            translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
         await self.send_text_message(event, translated_text)
 
     @logger
