@@ -142,12 +142,18 @@ class Listener(BotCore):
                 if event.message.text.startswith("!"):
                     command = event.message.text.split()[0][1:].lower()
                     MAIN_LOOP.create_task(self.commands[command](event))
-                else:
-                    yt_links = re.findall(r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
-                                          event.message.text)
-                    if len(yt_links) > 0:
-                        yt_link = "https://youtu.be/" + yt_links[0][0]
-                        MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event, yt_link))
+                    return
+
+                yt_links = re.findall(r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?",
+                                      event.message.text)
+                if len(yt_links) > 0:
+                    yt_link = "https://youtu.be/" + yt_links[0][0]
+                    MAIN_LOOP.create_task(self.normal_commands.send_yt_video(event, yt_link))
+                    return
+
+                if "https://vm.tiktok.com/" in event.message.text:
+                    MAIN_LOOP.create_task(self.normal_commands.send_tiktok(event))
+
             except (AttributeError, KeyError):
                 # attribute error happens when someone sends photo and message doesn't have text
                 pass

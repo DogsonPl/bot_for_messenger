@@ -74,13 +74,16 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.4 + 8.7 pro 🤖
+🤖 Wersja bota: 7.4 + 8.8 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 Pobieranie filmów po wysłaniu linku do tiktoka
 🆕 !tlumacz 
 🆕 !miejski
 🆕 !strona
 """
+
+download_tiktok = page_parsing.DownloadTiktok()
 
 
 class Commands(BotActions):
@@ -265,6 +268,16 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         if not translated_text:
             translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
         await self.send_text_message(event, translated_text)
+
+    @logger
+    async def send_tiktok(self, event):
+        self.downloading_videos += 1
+        for i in event.message.text.split():
+            if i.startswith("https://vm.tiktok.com/"):
+                video = await download_tiktok.download_tiktok(i)
+                await self.send_bytes_file(event, video, "video/mp4")
+                break
+        self.downloading_videos -= 1
 
     @logger
     async def make_disco(self, event):

@@ -1,5 +1,7 @@
 from io import BytesIO
 import re
+import requests
+from random import choice
 
 import feedparser
 import aiohttp
@@ -208,3 +210,24 @@ async def get_info_from_miejski(thing_to_search):
             info += j.text.strip()
         info += "\n\n"
     return info
+
+
+class DownloadTiktok:
+    async def download_tiktok(self, tiktok_link):
+        download_url = await self.get_tiktok_download_url(tiktok_link)
+        if download_url:
+            response = requests.get(download_url)
+            bytes_object = BytesIO()
+            bytes_object.write(response.content)
+            return bytes_object
+        return "🚫 Najprawdopodobniej podano niepoprawny link"
+
+    @staticmethod
+    async def get_tiktok_download_url(url):
+        link = False
+        async with aiohttp.ClientSession() as session:
+            response = await session.get(f"https://hamod.ga/api/tiktokWithoutWaterMark.php?u={url}")
+            if 'link' in await response.text():
+                link = await response.json(content_type=None)
+                link = link["link"]
+        return link
