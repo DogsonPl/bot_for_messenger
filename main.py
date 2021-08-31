@@ -85,6 +85,8 @@ class Listener(BotCore):
                          "miejski": self.normal_commands.send_miejski_message,
                          "tlumacz": self.normal_commands.send_translated_text,
                          "tłumacz": self.normal_commands.send_translated_text,
+                         "zdjecie": self.normal_commands.send_google_image,
+                         "zdjęcie": self.normal_commands.send_google_image,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,

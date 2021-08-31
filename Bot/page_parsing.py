@@ -231,3 +231,21 @@ class DownloadTiktok:
                 link = await response.json(content_type=None)
                 link = link["link"]
         return link
+
+
+async def get_google_image(search_query):
+    link = f"https://google.com/search?q={search_query}&tbm=isch"
+    response = requests.get(link)
+    soup = BeautifulSoup(response.text, "html.parser")
+    links = []
+    images = soup.find_all("img")
+    for i in images[1:]:  # ignore first google image
+        links.append(i["src"])
+    try:
+        download_link = choice(links)
+        response = requests.get(download_link)
+        bytes_object = BytesIO()
+        bytes_object.write(response.content)
+        return bytes_object
+    except IndexError:
+        return f"Nie odnaleziono {search_query.replace('%20', ' ')} 😔"

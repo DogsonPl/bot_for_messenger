@@ -49,6 +49,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 🔥 !powitanie 'treść' - ustawia powitanie na grupie nowego członka
 🔥 !nowyregulamin 'treść' - ustawia regulamin grupy
 🔥 !regulamin - wysyła regulamin grupy
+🔥 !zdjecie x - wysyła zdjecie x
 🔥 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 KOMENDY DO GRY KASYNO (dogecoinsy nie są prawdziwe i nie da się ich wypłacić)💰 
 💸 !register - po użyciu tej komendy możesz grać w kasyno
@@ -78,8 +79,7 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 
 🧾 Ostatnio do bota dodano:
 🆕 Pobieranie filmów po wysłaniu linku do tiktoka
-🆕 !tlumacz 
-🆕 !miejski
+🆕 !zdjecie
 🆕 !strona
 """
 
@@ -268,6 +268,19 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         if not translated_text:
             translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
         await self.send_text_message(event, translated_text)
+
+    @logger
+    async def send_google_image(self, event):
+        search_query = event.message.text.split()[1:]
+        if not search_query:
+            await self.send_text_message(event, "💡 Po ! napisz czego chcesz zdjęcie, np !szukaj pies")
+        else:
+            search_query = "%20".join(search_query)
+            if len(search_query) > 100:
+                await self.send_text_message(event, "🚫 Podano za długą fraze")
+            else:
+                image = await page_parsing.get_google_image(search_query)
+                await self.send_bytes_file(event, image, "image/png")
 
     @logger
     async def send_tiktok(self, event):
