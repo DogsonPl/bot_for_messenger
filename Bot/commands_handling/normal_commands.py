@@ -273,7 +273,7 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
     async def send_google_image(self, event):
         search_query = event.message.text.split()[1:]
         if not search_query:
-            await self.send_text_message(event, "💡 Po ! napisz czego chcesz zdjęcie, np !szukaj pies")
+            await self.send_text_message(event, "💡 Po !zdjecie napisz czego chcesz zdjęcie, np !zdjecie pies")
         else:
             search_query = "%20".join(search_query)
             if len(search_query) > 100:
