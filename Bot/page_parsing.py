@@ -1,7 +1,9 @@
 from io import BytesIO
 import re
 import requests
-from random import choice
+from random import choice, randint
+import os
+import shutil
 
 import feedparser
 import aiohttp
@@ -249,3 +251,18 @@ async def get_google_image(search_query):
         return bytes_object
     except IndexError:
         return f"Nie odnaleziono {search_query.replace('%20', ' ')} 😔"
+
+
+def download_spotify_song(song_name):
+    random_num = randint(0, 10000)
+    output_dir = f"{song_name.replace('/', '')}{random_num}"
+    os.mkdir(output_dir)
+    os.system(f"spotdl {song_name} -o ./{output_dir}")
+    try:
+        filename = os.listdir(output_dir)[1]
+    except IndexError:
+        return "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
+    with open(f"{output_dir}/{filename}", "rb") as song:
+        bytes_object = BytesIO(song.read())
+    shutil.rmtree(output_dir)
+    return bytes_object

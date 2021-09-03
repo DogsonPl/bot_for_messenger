@@ -29,14 +29,14 @@ class BotActions:
             files = await self.client.upload([("image.jpeg", file.getvalue(), filetype)])
             await event.thread.send_files(files)
         except AttributeError:
-            await self.send_text_message(event, file)
+            await self.send_message_with_reply(event, file)
 
     async def send_bytes_audio_file(self, event, file):
         try:
             files = await self.client.upload([("audio.pm3", file.getvalue(), "audio/mp3")], voice_clip=True)
             await event.thread.send_files(files)
         except AttributeError:
-            await self.send_text_message(event, file)
+            await self.send_message_with_reply(event, file)
 
     async def get_thread_info(self, thread_id):
         return await self.client.fetch_thread_info([thread_id]).__anext__()

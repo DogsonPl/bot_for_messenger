@@ -50,6 +50,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 🔥 !nowyregulamin 'treść' - ustawia regulamin grupy
 🔥 !regulamin - wysyła regulamin grupy
 🔥 !zdjecie x - wysyła zdjecie x
+🔥 !play x - bot wysyła piosenke, można wpisać nazwe piosenki albo link do spotify
 🔥 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 KOMENDY DO GRY KASYNO (dogecoinsy nie są prawdziwe i nie da się ich wypłacić)💰 
 💸 !register - po użyciu tej komendy możesz grać w kasyno
@@ -75,10 +76,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.4 + 8.8 pro 🤖
+🤖 Wersja bota: 7.4 + 8.9 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 Pobieranie filmów po wysłaniu linku do tiktoka
+🆕 !play
 🆕 !zdjecie
 🆕 !strona
 """
@@ -267,17 +269,17 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 
         if not translated_text:
             translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
-        await self.send_text_message(event, translated_text)
+        await self.send_message_with_reply(event, translated_text)
 
     @logger
     async def send_google_image(self, event):
         search_query = event.message.text.split()[1:]
         if not search_query:
-            await self.send_text_message(event, "💡 Po !zdjecie napisz czego chcesz zdjęcie, np !zdjecie pies")
+            await self.send_message_with_reply(event, "💡 Po !zdjecie napisz czego chcesz zdjęcie, np !zdjecie pies")
         else:
             search_query = "%20".join(search_query)
             if len(search_query) > 100:
-                await self.send_text_message(event, "🚫 Podano za długą fraze")
+                await self.send_message_with_reply(event, "🚫 Podano za długą fraze")
             else:
                 image = await page_parsing.get_google_image(search_query)
                 await self.send_bytes_file(event, image, "image/png")
@@ -291,6 +293,22 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
                 await self.send_bytes_file(event, video, "video/mp4")
                 break
         self.downloading_videos -= 1
+
+    @logger
+    async def send_spotify_song(self, event):
+        if self.sending_say_messages > 8:
+            await self.send_message_with_reply("🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas")
+        else:
+            song_name = event.message.text.split()[1:]
+            if not song_name:
+                await self.send_message_with_reply(event, "💡 Po !play wyślij link do piosenki, albo nazwe piosenki. Pamiętaj że wielkość liter ma znaczenie, powinna być taka sama jak w tytule piosenki na spotify")
+            else:
+                song_name = "".join(song_name)
+                if len(song_name) > 150:
+                    await self.send_message_with_reply(event, "🚫 Za długa nazwa piosenki")
+                else:
+                    song = await self.loop.run_in_executor(None, page_parsing.download_spotify_song, song_name)
+                    await self.send_bytes_audio_file(event, song)
 
     @logger
     async def make_disco(self, event):

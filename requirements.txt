@@ -14,3 +14,4 @@ bs4
 forex-python
 emoji
 deep-translator
+spotdl
