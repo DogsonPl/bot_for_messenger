@@ -297,18 +297,26 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
     @logger
     async def send_spotify_song(self, event):
         if self.sending_say_messages > 8:
-            await self.send_message_with_reply("🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas")
+            await self.send_message_with_reply(event, "🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas")
         else:
             song_name = event.message.text.split()[1:]
             if not song_name:
                 await self.send_message_with_reply(event, "💡 Po !play wyślij link do piosenki, albo nazwe piosenki. Pamiętaj że wielkość liter ma znaczenie, powinna być taka sama jak w tytule piosenki na spotify")
-            else:
-                song_name = "".join(song_name)
-                if len(song_name) > 150:
-                    await self.send_message_with_reply(event, "🚫 Za długa nazwa piosenki")
-                else:
-                    song = await self.loop.run_in_executor(None, page_parsing.download_spotify_song, song_name)
-                    await self.send_bytes_audio_file(event, song)
+                return
+            
+            song_name = "".join(song_name)
+            if len(song_name) > 150:
+                await self.send_message_with_reply(event, "🚫 Za długa nazwa piosenki")
+                return
+            
+            if "open.spotify.com/playlist" in song_name.lower() or "open.spotify.com/episode" in song_name.lower() or "open.spotify.com/artist" in song_name.lower() or "open.spotify.com/album" in song_name.lower():
+                await self.send_text_message(event, "🚫 Można wysyłać tylko linki do piosenek")
+                return
+
+            self.sending_say_messages += 2
+            song = await self.loop.run_in_executor(None, page_parsing.download_spotify_song, song_name)
+            await self.send_bytes_audio_file(event, song)
+            self.sending_say_messages -= 2
 
     @logger
     async def make_disco(self, event):
