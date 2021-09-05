@@ -122,6 +122,10 @@ async def get_public_transport_difficulties_in_warsaw():
             message += i.text + "\n"
     if message == "":
         return "🎉🎉 Brak utrudnień w Warszawie :) Więcej informacji na https://www.wtp.waw.pl"
+    if len(message) > 4000:
+        message = "Utrudnień jest tak dużo, że nie można w wiadomości zmieścić ich szczegółów. Szczegółowe informacje: https://www.wtp.waw.pl/utrudnienia/\n\n"
+        for entry in feed["entries"]:
+            message += "🚇 " + entry.title + "\n"
     return message
 
 
@@ -261,6 +265,7 @@ def download_spotify_song(song_name):
     try:
         filename = os.listdir(output_dir)[1]
     except IndexError:
+        shutil.rmtree(output_dir)
         return "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
     with open(f"{output_dir}/{filename}", "rb") as song:
         bytes_object = BytesIO(song.read())
