@@ -38,10 +38,11 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
+⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
 ⚙ !pytanie - wysyła losowe pytanie\n
-⚙ !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
+🔥 !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
 🔥 !miejski x - wyszukuje podane słowo na stronie miejski
 🔥 !film - wysyła losowy śmieszny film
 🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
@@ -76,10 +77,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.4 + 8.9 pro 🤖
+🤖 Wersja bota: 7.5 + 8.9 pro 🤖
 
 🧾 Ostatnio do bota dodano:
 🆕 Pobieranie filmów po wysłaniu linku do tiktoka
+🆕 !kocha
 🆕 !play
 🆕 !zdjecie
 🆕 !strona

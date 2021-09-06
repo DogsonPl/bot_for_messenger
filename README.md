@@ -64,5 +64,6 @@ Bot only answers if you have bot in friends**
 **!szukaj x** - (szukaj = search) search information about x in wikipedia (for example !szukaj python)\
 **!miejski x** - search given word definition\
 **!tlumacz --lang x** - (tlumacz = translate) translate x to given language (--lang is not required, default is polish). (examples: !translate Привет, !translate --english Привет)\
-**!zdjecie x** - (zdjecie = image) sends image of x (for example !image dog) 
-**!play x** - play music x (x can be song name or link to spotify)
+**!zdjecie x** - (zdjecie = image) sends image of x (for example !image dog)  
+**!play x** - play music x (x can be song name or link to spotify) \
+**!kocha @nick1 @nick** - (kocha = love) - sends how much @nick1 loves @nick2 

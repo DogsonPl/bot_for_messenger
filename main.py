@@ -106,7 +106,8 @@ class Listener(BotCore):
                          "nowyregulamin": self.group_commands.set_new_group_regulations,
                          "regulamin": self.group_commands.get_group_regulations,
                          "powitanie": self.group_commands.set_welcome_message,
-                         "everyone": self.group_commands.mention_everyone}
+                         "everyone": self.group_commands.mention_everyone,
+                         "kocha": self.group_commands.send_love_message}
 
     async def init_listening(self):
         try:

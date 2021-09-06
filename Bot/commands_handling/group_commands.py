@@ -91,6 +91,27 @@ class GroupCommands(BotActions):
         await self.send_text_message_with_mentions(event, "🎆 Zwycięzca", mention)
 
     @logger
+    @check_group_instance
+    async def send_love_message(self, event, group_info):
+        try:
+            first_person, second_person = event.message.mentions
+        except ValueError:
+            await self.send_text_message(event, "💡 Po !kocha oznacz dwie osoby, np !kocha @nick1 @nick2")
+        else:
+            love_percent = rd.randint(0, 100)
+            if love_percent <= 25:
+                emoji = "💔"
+            elif love_percent <= 50:
+                emoji = "💛"
+            elif love_percent <= 75:
+                emoji = "❤"
+            else:
+                emoji = "💝💘"
+            first_person_name = event.message.text[8:first_person.length+7]
+            second_person_name = event.message.text[9+first_person.length:8+first_person.length+second_person.length]
+            await self.send_text_message(event, f"{emoji} {first_person_name} kocha {second_person_name} w {love_percent} procentach")
+
+    @logger
     async def reply_on_person_removed(self, event):
         if self.bot_id != event.removed.id:
             # if bot is removed from group, bot can`t send removed message
