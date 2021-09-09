@@ -266,7 +266,10 @@ def download_spotify_song(song_name):
         filename = os.listdir(output_dir)[1]
     except IndexError:
         shutil.rmtree(output_dir)
-        return "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
+        message = "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
+        if "spotify" not in song_name:
+            message += "\n\nSpróbuj wysłać link do piosenki na spotify"
+        return message
     with open(f"{output_dir}/{filename}", "rb") as song:
         bytes_object = BytesIO(song.read())
     shutil.rmtree(output_dir)
