@@ -39,6 +39,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !moneta - bot rzuca monete (orzeł lub reszka)
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
+⚙ !banan @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
@@ -77,9 +78,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.5 + 8.9 pro 🤖
+🤖 Wersja bota: 7.6 + 8.9 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !banan
 🆕 Pobieranie filmów po wysłaniu linku do tiktoka
 🆕 !kocha
 🆕 !play
@@ -319,6 +321,17 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             song = await self.loop.run_in_executor(None, page_parsing.download_spotify_song, song_name)
             await self.send_bytes_audio_file(event, song)
             self.sending_say_messages -= 2
+
+    @logger
+    async def send_banana_message(self, event):
+        mentioned_person = event.message.mentions
+        banana_size = rd.randint(-100, 100)
+        if mentioned_person:
+            mentioned_person_name = event.message.text[8:event.message.mentions[0].length+7]
+            message = f"🍌 Banan {mentioned_person_name} ma {banana_size} centymetrów"
+        else:
+            message = f"🍌 Twój banan ma {banana_size} centymetrów"
+        await self.send_message_with_reply(event, message)
 
     @logger
     async def make_disco(self, event):

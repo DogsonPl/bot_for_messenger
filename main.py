@@ -88,6 +88,7 @@ class Listener(BotCore):
                          "zdjecie": self.normal_commands.send_google_image,
                          "zdjęcie": self.normal_commands.send_google_image,
                          "play": self.normal_commands.send_spotify_song,
+                         "banan": self.normal_commands.send_banana_message,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,

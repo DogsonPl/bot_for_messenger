@@ -57,13 +57,14 @@ Bot only answers if you have bot in friends**
 **!register** - let you play in casino games\
 **!email x** - sets your email to x\
 **!kod x** (kod = code) - write confirmation code which you should get on your email\
-**!zdrapka** (zdrapka = scratch card) - get scratch card and won prize from 0 to 2500, one scratch card costs 5 dooecoins\
+**!zdrapka** (zdrapka = scratch card) - get scratch card and won prize from 0 to 2500, one scratch card costs 5 dogecoins\
 **!stats** - sends user statistic data from casino\
 **!duel** - duel game, !duel x @mention create a game for x dogecoins with mentioned person, !duel akceptuj accepts game and !duel odrzuć discard game\
 **!pytanie** - (pytanie = question) sends random question\
 **!szukaj x** - (szukaj = search) search information about x in wikipedia (for example !szukaj python)\
 **!miejski x** - search given word definition\
-**!tlumacz --lang x** - (tlumacz = translate) translate x to given language (--lang is not required, default is polish). (examples: !translate Привет, !translate --english Привет)\
+**!tlumacz --lang x** - (tlumacz = translate) translate x to given language (--lang is not required, default is Polish). (examples: !translate Привет, !translate --english Привет)\
 **!zdjecie x** - (zdjecie = image) sends image of x (for example !image dog)  
 **!play x** - play music x (x can be song name or link to spotify) \
-**!kocha @nick1 @nick** - (kocha = love) - sends how much @nick1 loves @nick2 
+**!kocha @nick1 @nick** - (kocha = love) - sends how much @nick1 loves @nick2 \
+**!banan @nick1(optional)** - sends how big is your banana (or mentioned person)
