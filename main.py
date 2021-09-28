@@ -113,7 +113,7 @@ class Listener(BotCore):
     async def init_listening(self):
         try:
             await self.listening()
-        except (fbchat.NotConnected, OSError, fbchat.NotLoggedIn):
+        except (fbchat.NotConnected, OSError, fbchat.NotLoggedIn, fbchat.HTTPError):
             print("\nRestarting...\n")
             await self.session.logout()
             time.sleep(15)  # sleep in this place can reduce chance to get banned on facebook
