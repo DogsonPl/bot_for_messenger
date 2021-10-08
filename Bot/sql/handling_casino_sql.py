@@ -67,7 +67,7 @@ async def check_email_confirmation(user_fb_id, code):
                                     WHERE user_fb_id=%s;""", (user_fb_id,))
 
     else:
-        return "🚫 Zły kod"
+        return "🚫 Podano niepoprawny kod"
 
 
 async def fetch_top_three_players():
