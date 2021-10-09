@@ -53,6 +53,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 🔥 !regulamin - wysyła regulamin grupy
 🔥 !zdjecie x - wysyła zdjecie x
 🔥 !play x - bot wysyła piosenke, można wpisać nazwe piosenki albo link do spotify
+🔥 !cena x - wysyła cene podanej rzeczy
 🔥 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 KOMENDY DO GRY KASYNO (dogecoinsy nie są prawdziwe i nie da się ich wypłacić)💰 
 💸 !register - po użyciu tej komendy możesz grać w kasyno
@@ -81,11 +82,8 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 🤖 Wersja bota: 7.6 + 8.9 pro 🤖
 
 🧾 Ostatnio do bota dodano:
-🆕 !banan
-🆕 Pobieranie filmów po wysłaniu linku do tiktoka
-🆕 !kocha
+🆕 !cena
 🆕 !play
-🆕 !zdjecie
 🆕 !strona
 """
 
@@ -332,6 +330,18 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         else:
             message = f"🍌 Twój banan ma {banana_size} centymetrów"
         await self.send_message_with_reply(event, message)
+
+    @logger
+    async def send_product_price(self, event):
+        item = event.message.text[6:]
+        item_query_len = len(item)
+        if item_query_len == 0 or item_query_len > 200:
+            message = "💡 Po !cena podaj nazwe przedmiotu (np !cena twoja stara) którego cene chcesz wyszukać, może miec max 200 znaków"
+        else:
+            message = await page_parsing.check_item_price(item.replace(' ', '+'))
+            if not message:
+                message = f"🚫 Nie można odnaleźć {item} :("
+        await self.send_text_message(event, message)
 
     @logger
     async def make_disco(self, event):
