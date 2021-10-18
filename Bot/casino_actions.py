@@ -24,7 +24,7 @@ async def take_daily(event):
 async def make_bet(event):
     message_values = event.message.text.split()
     try:
-        bet_money = abs(float(message_values[1]))
+        bet_money = abs(float(message_values[1].replace(",", ".")))
         percent_to_win = abs(int(message_values[2]))
     except (ValueError, IndexError):
         return "🚫 Wygląd komendy: !bet x y, gdzie x to liczba monet które obstawiasz a y to % na wygraną"
@@ -40,7 +40,7 @@ async def make_bet(event):
 async def make_tip(event):
     try:
         mention = event.message.mentions[0]
-        money_to_give = abs(float(event.message.text.split()[1]))
+        money_to_give = abs(float(event.message.text.split()[1].replace(",", ".")))
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
 
