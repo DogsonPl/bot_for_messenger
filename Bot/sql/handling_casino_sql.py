@@ -10,8 +10,8 @@ async def insert_into_user_money(user_fb_id, money):
 
 async def register_casino_user(user_fb_id, fb_name):
     try:
-        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, won_bets, lost_bets, today_won_money, today_lost_money, total_bets, today_scratch_profit, last_time_scratch, today_scratch_bought)
-                                VALUES(%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, 0, %s, 0);""", (user_fb_id, fb_name, None))
+        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, won_bets, lost_bets, today_won_money, today_lost_money, total_bets, today_scratch_profit, last_time_scratch, today_scratch_bought, legendary_dogecoins)
+                                VALUES(%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, 0, %s, 0, 0);""", (user_fb_id, fb_name, None))
         return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh). Po więcej informacji napisz !strona"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
@@ -86,6 +86,16 @@ async def fetch_user_money(user_fb_id):
     except IndexError:
         user_money = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
     return user_money
+
+
+async def fetch_user_all_money(user_fb_id):
+    try:
+        data = await cursor.fetch_data("""SELECT money, legendary_dogecoins FROM casino_players
+                                          WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
+        user_money, legendary_dogecoins = data[0]
+    except IndexError:
+        user_money = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+    return user_money, legendary_dogecoins
 
 
 async def get_last_jackpot_results():

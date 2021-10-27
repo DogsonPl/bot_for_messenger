@@ -79,9 +79,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.6 + 8.9 pro 🤖
+🤖 Wersja bota: 7.6 + 8.10 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 LEGENDARNE DOGI, WIĘCEJ INFO PO UŻYCIU KOMENDY !bal
 🆕 !cena
 🆕 !play
 🆕 !strona

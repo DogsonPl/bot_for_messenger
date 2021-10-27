@@ -30,10 +30,15 @@ class CasinoCommands(BotActions):
 
     @logger
     async def send_user_money(self, event):
-        user_money = await handling_casino_sql.fetch_user_money(event.author.id)
+        user_money, legendary_dogecoins = await handling_casino_sql.fetch_user_all_money(event.author.id)
         try:
             user_money_formatted = floor(user_money*100)/100
-            message = f"🏦 Posiadasz obecnie {user_money_formatted} dc"
+            legendary_dogecoins_formatted = floor(legendary_dogecoins*100)/100
+            message = f"""🏦 Posiadasz obecnie:
+{user_money_formatted} dogecoinów
+{legendary_dogecoins_formatted} legendarnych dogecoinów
+
+💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów"""
         except TypeError:
             message = user_money
 
