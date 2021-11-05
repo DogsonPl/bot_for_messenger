@@ -3,7 +3,7 @@ import random as rd
 import fbchat
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
 from deep_translator import GoogleTranslator
-from deep_translator.exceptions import LanguageNotSupportedException
+from deep_translator.exceptions import LanguageNotSupportedException, NotValidPayload
 
 from .logger import logger
 from .. import getting_and_editing_files, page_parsing
@@ -269,6 +269,8 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
                 translated_text = GoogleTranslator("auto", to).translate(text)
             except LanguageNotSupportedException:
                 translated_text = f"🚫 {to} - nie moge znaleźć takiego języka, spróbuj wpisać pełną nazwe języka"
+            except NotValidPayload:
+                translated_text = "🚫 Nie można przetłumaczyć tego tekstu"
 
         if not translated_text:
             translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
