@@ -52,8 +52,13 @@ class CasinoCommands(BotActions):
     @logger
     async def send_top_players(self, event):
         message = "3 użytkowników z najwiekszą liczbą dogecoinów:\n"
-        top_users = await handling_casino_sql.fetch_top_three_players()
+        top_users, top_legendary_users = await handling_casino_sql.fetch_top_three_players()
         for user, medal in zip(top_users, MEDALS):
+            username = user[1] if user[1] else user[0]
+            message += f"{medal} {username}: {int(user[2])} dc\n"
+
+        message += "\n3 użytkowników z największą ilością legendarnych dogecoinów:\n"
+        for user, medal in zip(top_legendary_users, MEDALS):
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
         await self.send_text_message(event, message)

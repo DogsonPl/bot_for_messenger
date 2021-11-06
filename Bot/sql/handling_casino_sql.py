@@ -75,7 +75,11 @@ async def fetch_top_three_players():
                                            FROM casino_players
                                            LEFT JOIN login_user ON casino_players.user_id = login_user.id
                                            ORDER BY money DESC LIMIT 3;""")
-    return top_users
+    top_legendary_users = await cursor.fetch_data("""SELECT casino_players.fb_name, login_user.username, casino_players.legendary_dogecoins 
+                                                     FROM casino_players
+                                                     LEFT JOIN login_user ON casino_players.user_id = login_user.id
+                                                     ORDER BY legendary_dogecoins DESC LIMIT 3;""")
+    return top_users, top_legendary_users
 
 
 async def fetch_user_money(user_fb_id):
