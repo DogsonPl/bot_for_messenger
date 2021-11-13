@@ -79,9 +79,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.6 + 8.10 pro 🤖
+🤖 Wersja bota: 7.6 + 8.11 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+✅ Poprawiono tłumaczenie (!tlumacz)
 🆕 LEGENDARNE DOGI, WIĘCEJ INFO PO UŻYCIU KOMENDY !bal
 🆕 !cena
 🆕 !play
@@ -256,10 +257,10 @@ class Commands(BotActions):
     async def send_translated_text(self, event):
         try:
             to = event.message.text.split("--")[1].split()[0]
-            text = "".join(event.message.text.split()[2:])
+            text = " ".join(event.message.text.split()[2:])
         except IndexError:
             to = "pl"
-            text = "".join(event.message.text.split()[1:])
+            text = " ".join(event.message.text.split()[1:])
 
         if not text or len(text) > 3000:
             translated_text = """💡 Po !tlumacz napisz co chcesz przetlumaczyc, np !tlumacz siema. Tekst może mieć maksymalnie 3000 znaków
