@@ -221,15 +221,52 @@ async def get_info_from_miejski(thing_to_search):
 class DownloadTiktok:
     async def download_tiktok(self, tiktok_link):
         download_url = await self.get_tiktok_download_url(tiktok_link)
-        if download_url:
+        if download_url and download_url != "https://musicallydown.page.link/app":
             response = requests.get(download_url)
             bytes_object = BytesIO()
             bytes_object.write(response.content)
             return bytes_object
         return "🚫 Najprawdopodobniej podano niepoprawny link"
 
+    async def get_tiktok_download_url(self, tiktok_link):
+        link = ""
+        post_data, cookies = await self.get_required_post_data(tiktok_link)
+        response = requests.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
+        soup = BeautifulSoup(response.text, "html.parser")
+        for i in soup.find_all("a"):
+            try:
+                link = i["href"]
+            except KeyError:
+                continue
+            if link.startswith("https://"):
+                break
+        return link
+
     @staticmethod
-    async def get_tiktok_download_url(url):
+    async def get_required_post_data(tiktok_link):
+        url_name = ""
+        key_name = ""
+        key = ""
+        response = requests.get("https://musicaldown.com/")
+        soup = BeautifulSoup(response.text, "html.parser")
+        for i in soup.find_all("form"):
+            for j in i.find_all('input'):
+                if not url_name:
+                    url_name = j["name"]
+                else:
+                    key_name = j["name"]
+                    key = j["value"]
+                    break
+
+        post_data = {url_name: tiktok_link, key_name: key, "verify": "1"}
+        cookies = {"session_data": response.cookies["session_data"]}
+        return post_data, cookies
+
+    @staticmethod
+    async def _get_tiktok_download_url_deprecated(url):
+        """
+        depercated function, page has been banned
+        """
         link = False
         async with aiohttp.ClientSession() as session:
             response = await session.get(f"https://hamod.ga/api/tiktokWithoutWaterMark.php?u={url}")
