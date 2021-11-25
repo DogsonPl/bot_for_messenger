@@ -38,7 +38,9 @@ class CasinoCommands(BotActions):
 {user_money_formatted} dogecoinów
 {legendary_dogecoins_formatted} legendarnych dogecoinów
 
-💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów"""
+💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów
+
+🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
         except TypeError:
             message = user_money
 
@@ -61,6 +63,8 @@ class CasinoCommands(BotActions):
         for user, medal in zip(top_legendary_users, MEDALS):
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
+
+        message += "\n🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"
         await self.send_text_message(event, message)
 
     @logger
