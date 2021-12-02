@@ -10,8 +10,14 @@ async def insert_into_user_money(user_fb_id, money):
 
 async def register_casino_user(user_fb_id, fb_name):
     try:
-        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, won_bets, lost_bets, today_won_money, today_lost_money, total_bets, today_scratch_profit, last_time_scratch, today_scratch_bought, legendary_dogecoins)
-                                VALUES(%s, %s, 0, 0, 0, 0, 0, 0, 0, 0, 0, %s, 0, 0);""", (user_fb_id, fb_name, None))
+        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, 
+                                                           won_bets, lost_bets, biggest_win,
+                                                           last_time_scratch, today_scratch_bought, legendary_dogecoins, total_scratch_bought, 
+                                                           last_season_dogecoins, best_season, season_first_place, season_second_place, season_third_place)
+                                VALUES(%s, %s, 0, 0, 0, 
+                                       0, 0, 0,
+                                       %s, 0, 0, 0,
+                                       0, 0, 0, 0, 0);""", (user_fb_id, fb_name, None))
         return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh). Po więcej informacji napisz !strona"
     except pymysql.IntegrityError:
         return "🚫 Masz już założone konto"
@@ -130,14 +136,15 @@ async def fetch_user_tickets(user_fb_id):
     return data
 
 
-async def fetch_user_stats(user_fb_id):
+async def fetch_user_profil_data(user_fb_id):
     try:
-        data = await cursor.fetch_data("""SELECT won_bets, lost_bets, today_won_money, today_lost_money, today_scratch_profit, today_scratch_bought FROM casino_players
-                                           WHERE user_fb_id = %s;""", (user_fb_id,))
-        won_bets, lost_bets, today_won_money, today_lost_money, today_scratch_profit, today_scratch_bought = data[0]
+        data = await cursor.fetch_data("""SELECT won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place
+                                          FROM casino_players
+                                          WHERE user_fb_id = %s;""", (user_fb_id,))
+        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place = data[0]
     except (ValueError, IndexError):
-        won_bets, lost_bets, today_won_money, today_lost_money, today_scratch_profit, today_scratch_bought = "No data", "No data", "No data", "No data", "No data", "No data"
-    return won_bets, lost_bets, today_won_money, today_lost_money, today_scratch_profit, today_scratch_bought
+        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place = ["No data" for _ in range(9)]
+    return won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place
 
 
 async def create_duel(duel_creator, wage, opponent):

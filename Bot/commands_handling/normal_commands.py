@@ -68,7 +68,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 💸 !duel - gra duel, po więcej informacji napisz !duel
 💸 !email x - ustaw swój email jako x
 💸 !kod x - wpisz kod potwierdzający którego otrzymano na email
-💸 !stats - wysyła twoje statystyki
+💸 !profil- wysyła twoje statystyki
 """
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
@@ -79,10 +79,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.6 + 8.11 pro 🤖
+🤖 Wersja bota: 7.7 + 9.0 pro 🤖
 
 🧾 Ostatnio do bota dodano:
-✅ Poprawiono tłumaczenie (!tlumacz)
+🆕 !profil (zamiast !stats)
 🆕 LEGENDARNE DOGI, WIĘCEJ INFO PO UŻYCIU KOMENDY !bal
 🆕 !cena
 🆕 !play

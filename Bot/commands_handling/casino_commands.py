@@ -140,6 +140,8 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 
     @logger
     async def send_player_stats(self, event):
+        await self.send_message_with_reply(event, "Komenda zamieniona na !profil")
+        return
         won_bets, lost_bets, today_won_money, today_lost_money, scratch_profit, today_scratch_bought = await handling_casino_sql.fetch_user_stats(event.author.id)
         try:
             win_ratio = str(won_bets / lost_bets)
@@ -171,6 +173,34 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 💲 Profit na zdrapkach: {scratch_profit}
 """
         await self.send_text_message(event, message)
+
+    @logger
+    async def send_player_profil(self, event):
+        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place = await handling_casino_sql.fetch_user_profil_data(event.author.id)
+        total_bets = lost_bets+won_bets
+        legendary_dogecoins_gained = 0
+        if last_season_dogecoins > 100:
+            legendary_dogecoins_gained = last_season_dogecoins-100
+        won_bets_percent = str((won_bets/total_bets)*100)[0:5]
+        message = f""" Twój profil (komenda w trakcie tworzenia)
+🤯 Twoje osiągiecia: soon
+
+🤯 Twoja największa wygrana w becie: {float('%.2f' % biggest_win)}
+
+🤯 Twoja ilość dogów na koniec poprzedniego sezonu: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
+
+🤯 Twój najlepszy sezon: {float('%.2f' % best_season)} dogów
+
+🤯 Na koniec sezonu byłeś:
+🥇 {season_first_place} razy
+🥈 {season_second_place} razy
+🥉 {season_third_place} razy
+
+🤯 Wykonałeś łącznie {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
+
+🤯 Kupiono łącznie {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek"""
+
+        await self.send_message_with_reply(event, message)
 
 
 async def send_confirmation_email(event):

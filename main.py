@@ -103,6 +103,8 @@ class Listener(BotCore):
                          "kod": self.casino_commands.check_email_verification_code,
                          "stats": self.casino_commands.send_player_stats,
                          "duel": self.casino_commands.send_duel_message,
+                         "profile": self.casino_commands.send_player_profil,
+                         "profil": self.casino_commands.send_player_profil,
                          "ruletka": self.group_commands.delete_random_person,
                          "luckymember": self.group_commands.send_message_with_random_mention,
                          "nowyregulamin": self.group_commands.set_new_group_regulations,
@@ -114,7 +116,7 @@ class Listener(BotCore):
     async def init_listening(self):
         try:
             await self.listening()
-        except (fbchat.NotConnected, OSError, fbchat.NotLoggedIn, fbchat.HTTPError):
+        except (fbchat.NotConnected, fbchat.NotLoggedIn, fbchat.HTTPError, UnicodeDecodeError, OSError):
             print("\nRestarting...\n")
             await self.session.logout()
             time.sleep(15)  # sleep in this place can reduce chance to get banned on facebook
