@@ -147,6 +147,7 @@ class Listener(BotCore):
     async def handle_message_event(self, event):
         if event.author.id != self.bot_id:
             try:
+                save_message(event)
                 if event.message.text.startswith("!"):
                     command = event.message.text.split()[0][1:].lower()
                     MAIN_LOOP.create_task(self.commands[command](event))
@@ -171,6 +172,11 @@ async def main():
     await bot.login()
     MAIN_LOOP.create_task(bot.init_listening())
     MAIN_LOOP.create_task(task_scheduler.init())
+
+
+def save_message(event):
+    with open(f"{event.thread.id}.txt", "a") as file:
+        file.write(str(event.message.text)+"\n")
 
 
 if __name__ == '__main__':

@@ -182,26 +182,24 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         if last_season_dogecoins > 100:
             legendary_dogecoins_gained = last_season_dogecoins-100
         won_bets_percent = str((won_bets/total_bets)*100)[0:5]
-        message = f""" Twój profil (komenda w trakcie tworzenia)
-🤯 Twoje osiągiecia: soon
+        message = f"""👤 Profil (komenda w trakcie tworzenia)
+        
+🏆 Twoje osiągiecia: soon
 
-🤯 Wygrano łącznie {'%.2f' % won_dc} dogecoinów
-🤯 Przegrano łącznie {'%.2f' % lost_dc} dogecoinów
+📈 Wygrano łącznie {'%.2f' % won_dc} dogecoinów
+📉 Przegrano łącznie {'%.2f' % lost_dc} dogecoinów
+🔝 Twoja największa wygrana w becie: {float('%.2f' % biggest_win)}
 
-🤯 Twoja największa wygrana w becie: {float('%.2f' % biggest_win)}
+🤑 Wykonałeś łącznie {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
+💰 Kupiono łącznie {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek
 
-🤯 Twoja ilość dogów na koniec poprzedniego sezonu: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
+💲 Twoja ilość dogów na koniec poprzedniego sezonu: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
+🎖️ Twój najlepszy sezon: {float('%.2f' % best_season)} dogów
 
-🤯 Twój najlepszy sezon: {float('%.2f' % best_season)} dogów
-
-🤯 Na koniec sezonu byłeś:
+👑 Na koniec sezonu byłeś:
 🥇 {season_first_place} razy
 🥈 {season_second_place} razy
-🥉 {season_third_place} razy
-
-🤯 Wykonałeś łącznie {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
-
-🤯 Kupiono łącznie {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek"""
+🥉 {season_third_place} razy"""
 
         await self.send_message_with_reply(event, message)
 
