@@ -8,21 +8,6 @@ async def insert_into_user_money(user_fb_id, money):
                             WHERE user_fb_id = %s;""", (money, user_fb_id))
 
 
-async def register_casino_user(user_fb_id, fb_name):
-    try:
-        await cursor.execute("""INSERT INTO casino_players(user_fb_id, fb_name, money, take_daily, daily_strike, 
-                                                           won_bets, lost_bets, biggest_win, won_dc, lost_dc,
-                                                           last_time_scratch, today_scratch_bought, legendary_dogecoins, total_scratch_bought, 
-                                                           last_season_dogecoins, best_season, season_first_place, season_second_place, season_third_place)
-                                VALUES(%s, %s, 0, 0, 0, 
-                                       0, 0, 0, 0, 0
-                                       %s, 0, 0, 0,
-                                       0, 0, 0, 0, 0);""", (user_fb_id, fb_name, None))
-        return "✅ Pomyślnie się zarejestrowano. Jest możliwa integracja ze stroną www (https://dogson.ovh). Po więcej informacji napisz !strona"
-    except pymysql.IntegrityError:
-        return "🚫 Masz już założone konto"
-
-
 async def reset_old_confirmations_emails():
     await cursor.execute("""DELETE FROM pending_emails_confirmations
                             WHERE creation_time < NOW() - INTERVAL 1 HOUR;""")

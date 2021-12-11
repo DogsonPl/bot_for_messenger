@@ -1,5 +1,7 @@
 from math import floor
+import requests
 
+from ..parse_config import django_password
 from .logger import logger
 from ..bot_actions import BotActions
 from .. import casino_actions
@@ -93,7 +95,9 @@ class CasinoCommands(BotActions):
     @logger
     async def register(self, event):
         name = await self.get_thread_info(event.author.id)
-        message = await handling_casino_sql.register_casino_user(event.author.id, name.name)
+        response = requests.post("http://127.0.0.1:8000/casino/create_account",
+                                 data={"fb_name": name.name, "user_fb_id": event.author.id, "django_password": django_password})
+        message = response.json()["message"]
         await self.send_message_with_reply(event, message)
 
     @logger
