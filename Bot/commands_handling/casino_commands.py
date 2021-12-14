@@ -143,42 +143,6 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         await self.send_text_message_with_mentions(event, message, mention)
 
     @logger
-    async def send_player_stats(self, event):
-        await self.send_message_with_reply(event, "Komenda zamieniona na !profil")
-        return
-        won_bets, lost_bets, today_won_money, today_lost_money, scratch_profit, today_scratch_bought = await handling_casino_sql.fetch_user_stats(event.author.id)
-        try:
-            win_ratio = str(won_bets / lost_bets)
-        except TypeError:
-            message = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
-        except ZeroDivisionError:
-            message = "🚫 Nie wykonałeś/aś jeszcze żadnych betów. Użyj komendy !bet"
-        else:
-            bets_num = won_bets+lost_bets
-            win_ratio_formatted, dec = win_ratio.split(".")
-            win_ratio_formatted += "."
-            if dec.startswith("0"):
-                win_ratio_formatted += dec[:4]
-            else:
-                for i in dec[:4]:
-                    win_ratio_formatted += i
-                    if i == 0:
-                        break
-            message = f"""🔢 Wykonałeś/aś obecnie: {bets_num} betów
-📈 Wygrałeś/aś: {won_bets} razy
-📉 Przegrałeś/aś: {lost_bets} razy
-🕹 Stosunek wygrane/przegrane bety: {win_ratio_formatted}
-
-🟩 Wygrane dogecoiny dzisiaj: {'%.2f' % today_won_money}
-🟥 Przegrane dogecoiny dzisiaj: {'%.2f' % today_lost_money}
-💲 Dzisiejszy profit w betowaniu: {'%.2f' % (today_won_money+today_lost_money)}
-
-💥 Dzisiaj kupiłeś/aś: {today_scratch_bought} zdrapek
-💲 Profit na zdrapkach: {scratch_profit}
-"""
-        await self.send_text_message(event, message)
-
-    @logger
     async def send_player_profil(self, event):
         won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = await handling_casino_sql.fetch_user_profil_data(event.author.id)
         total_bets = lost_bets+won_bets

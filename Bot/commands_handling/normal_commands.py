@@ -40,6 +40,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
 ⚙ !banan @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
+⚙ !lyrics twórca, tytuł piosenki
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
@@ -79,12 +80,12 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.7 + 9.0 pro 🤖
+🤖 Wersja bota: 7.8 + 9.0 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !lyrics
 🆕 !profil (zamiast !stats)
 🆕 LEGENDARNE DOGI, WIĘCEJ INFO PO UŻYCIU KOMENDY !bal
-🆕 !cena
 🆕 !play
 🆕 !strona
 """
@@ -346,6 +347,24 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             if not message:
                 message = f"🚫 Nie można odnaleźć {item} :("
         await self.send_text_message(event, message)
+
+    @logger
+    async def send_song_lyrics(self, event):
+        try:
+            args = event.message.text.split(",")
+            creator_ = args[0].split()[1:]
+            creator = " ".join(creator_).replace(" ", "-")
+            song_name = args[1].replace(" ", "-").replace("(", "-").replace(")", "")
+        except IndexError:
+            lyrics = "💡 Wygląd komendy: !lyrics twórca, tytuł piosenki (nie używaj polskich znaków)\nPrzykład: !tworca chivas, mam na twarzy krew i tym razem nie jest sztuczna"
+        else:
+            lyrics = await page_parsing.get_lyrics(creator, song_name)
+            if not lyrics:
+                lyrics = "😢 Nie udało się odnaleźć tekstu do piosenki"
+            if len(lyrics) > 3000:
+                lyrics = lyrics[0:3500]
+                lyrics += "\n\n[...] Za długi tekst piosenki (messenger ogranicza wielkość wiadomości"
+        await self.send_text_message(event, lyrics)
 
     @logger
     async def make_disco(self, event):

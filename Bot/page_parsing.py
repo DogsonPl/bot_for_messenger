@@ -328,3 +328,15 @@ async def check_item_price(item):
             break
 
     return message
+
+
+async def get_lyrics(creator, song_name):
+    lyrics = ""
+    async with aiohttp.ClientSession() as session:
+        link = f"https://genius.com/{creator}{song_name}-lyrics"
+        response = await session.get(link)
+        soup = BeautifulSoup(await response.text(), "html.parser")
+    for i in soup.find_all("div"):
+        if i.get("data-lyrics-container"):
+            lyrics += i.get_text(separator="\n")
+    return lyrics
