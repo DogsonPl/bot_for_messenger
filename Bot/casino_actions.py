@@ -89,9 +89,10 @@ async def make_new_duel(duel_creator, wage, opponent):
     if duel_creator_money < wage:
         message = f"🚫 Nie masz wystarczająco monet (Posiadasz ich: {'%.2f' % duel_creator_money})"
     else:
-        message = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
-        duel_creator_money -= float(wage)
-        await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
+        message, created = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
+        if created:
+            duel_creator_money -= float(wage)
+            await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
     return message
 
 

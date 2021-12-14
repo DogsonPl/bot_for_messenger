@@ -137,10 +137,12 @@ async def create_duel(duel_creator, wage, opponent):
         await cursor.execute("""INSERT INTO duels(wage, duel_creator, opponent)
                                 VALUES(%s, %s, %s);""", (wage, duel_creator, opponent))
         message = "🕛 Oczekiwanie na akceptacje gry... (twój przeciwnik musi wpisać !duel akceptuj)"
+        created = True
     except pymysql.IntegrityError:
         message = """🚫 Możesz tworzyć jedną grę jednocześnie, jeśli chcesz ją anulować napisz !duel odrzuć. 
 Również osoba z która chcesz grać nie może mieć żadnych gier w trakcie"""
-    return message
+        created = False
+    return message, created
 
 
 async def fetch_duel_info(opponent):
