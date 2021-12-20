@@ -145,12 +145,19 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
     @logger
     async def send_player_profil(self, event):
         won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = await handling_casino_sql.fetch_user_profil_data(event.author.id)
-        total_bets = lost_bets+won_bets
-        legendary_dogecoins_gained = 0
-        if last_season_dogecoins > 100:
-            legendary_dogecoins_gained = last_season_dogecoins-100
-        won_bets_percent = str((won_bets/total_bets)*100)[0:5]
-        message = f"""👤 Profil (komenda w trakcie tworzenia)
+        if won_bets == "No data":
+            message = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        else:
+            total_bets = lost_bets+won_bets
+            legendary_dogecoins_gained = 0
+            if last_season_dogecoins > 100:
+                legendary_dogecoins_gained = last_season_dogecoins-100
+            try:
+                won_bets_percent = str((won_bets/total_bets)*100)[0:5]
+            except ZeroDivisionError:
+                won_bets_percent = 0
+
+            message = f"""👤 Profil (komenda w trakcie tworzenia)
         
 🏆 Twoje osiągiecia: soon
 
@@ -167,7 +174,9 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 👑 Na koniec sezonu byłeś:
 🥇 {season_first_place} razy
 🥈 {season_second_place} razy
-🥉 {season_third_place} razy"""
+🥉 {season_third_place} razy
+
+🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
 
         await self.send_message_with_reply(event, message)
 
