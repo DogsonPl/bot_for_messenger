@@ -104,6 +104,8 @@ class Listener(BotCore):
                          "kod": self.casino_commands.check_email_verification_code,
                          "duel": self.casino_commands.send_duel_message,
                          "profil": self.casino_commands.send_player_profil,
+                         "osiagniecia": self.casino_commands.send_achievements,
+                         "osiągnięcia": self.casino_commands.send_achievements,
                          "ruletka": self.group_commands.delete_random_person,
                          "luckymember": self.group_commands.send_message_with_random_mention,
                          "nowyregulamin": self.group_commands.set_new_group_regulations,

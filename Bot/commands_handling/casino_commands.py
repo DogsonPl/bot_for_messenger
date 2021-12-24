@@ -159,7 +159,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 
             message = f"""👤 Profil (komenda w trakcie tworzenia)
         
-🏆 Twoje osiągiecia: soon
+🏆 Twoje osiągiecia: użyj komendy !osiągniecia
 
 📈 Wygrano łącznie {'%.2f' % won_dc} dogecoinów
 📉 Przegrano łącznie {'%.2f' % lost_dc} dogecoinów
@@ -178,6 +178,15 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 
 🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
 
+        await self.send_message_with_reply(event, message)
+
+    @logger
+    async def send_achievements(self, event):
+        data = await handling_casino_sql.fetch_user_achievements(event.author.id)
+        message = ""
+        for i in data:
+            message += f"""{i[0]} - {i[1]}
+Twoje punkty: {i[2]} (Poziom osiągnięcia: {i[3]})\n\n"""
         await self.send_message_with_reply(event, message)
 
 

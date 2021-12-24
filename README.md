@@ -66,7 +66,8 @@ Bot only answers if you have bot in friends**
 **!tlumacz --lang x** - (tlumacz = translate) translate x to given language (--lang is not required, default is Polish). (examples: !translate Привет, !translate --english Привет)\
 **!zdjecie x** - (zdjecie = image) sends image of x (for example !image dog)  
 **!play x** - play music x (x can be song name or link to spotify) \
-**!kocha @nick1 @nick** - (kocha = love) - sends how much @nick1 loves @nick2 \
-**!cena x** - (cena = price) - sends price of given item (for example !cena shiba inu) \
+**!kocha @nick1 @nick** - (kocha = love) sends how much @nick1 loves @nick2 \
+**!cena x** - (cena = price) sends price of given item (for example !cena shiba inu) \
 **!banan @nick1(optional)** - sends how big is your banana (or mentioned person) \
+**!osiągnięcia** - (osiągniecią = achievements) sends player achievements \
 **!lyrics creator; song_name** - sends lyrics given song

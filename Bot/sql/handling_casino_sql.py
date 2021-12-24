@@ -158,3 +158,14 @@ async def delete_duels(fb_id, give_money_back=False):
                                 SET money = money+wage;""")
     await cursor.execute("""DELETE FROM duels
                             WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))
+
+
+async def fetch_user_achievements(user_fb_id):
+    data = await cursor.fetch_data("""SELECT name, description, player_score, achievement_level 
+                                      FROM achievements_players_link_table
+                                      INNER JOIN achievements
+                                      ON achievements_players_link_table.achievement_id=achievements.id
+                                      INNER JOIN casino_players 
+                                      ON achievements_players_link_table.player_id=casino_players.id 
+                                      WHERE user_fb_id = %s;""", (user_fb_id,))
+    return data
