@@ -34,9 +34,10 @@ class CasinoCommands(BotActions):
     async def send_user_money(self, event):
         user_money, legendary_dogecoins = await handling_casino_sql.fetch_user_all_money(event.author.id)
         try:
+            user_money_formatted = floor(user_money * 100) / 100
             legendary_dogecoins_formatted = floor(legendary_dogecoins*100)/100
             message = f"""🏦 Posiadasz obecnie:
-{float(user_money)} dogecoinów
+{user_money_formatted} dogecoinów
 {legendary_dogecoins_formatted} legendarnych dogecoinów
 
 💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów
