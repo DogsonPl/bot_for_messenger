@@ -1,5 +1,7 @@
 import asyncio
 import io
+import pytz
+from datetime import datetime
 
 import pexpect
 import aioschedule
@@ -42,10 +44,17 @@ async def run_db_backup():
     loop.run_in_executor(None, make_db_backup)
 
 
+async def reset_duels():
+    now = datetime.now(tz=pytz.timezone('Europe/Warsaw'))
+    if now.day == 1:
+        await handling_casino_sql.delete_duels_new_season()
+
+
 async def tasks_scheduler():
     aioschedule.every().day.at("4:00").do(run_db_backup)
     aioschedule.every().day.at("14:20").do(run_db_backup)
     aioschedule.every().day.at("0:01").do(last_jackpot_data.get_last_jackpot_data)
+    aioschedule.every().day.at("00:00").do(reset_duels)
     aioschedule.every(4).minutes.do(handling_casino_sql.reset_old_confirmations_emails)
     while True:
         loop.create_task(aioschedule.run_pending())

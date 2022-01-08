@@ -169,3 +169,7 @@ async def fetch_user_achievements(user_fb_id):
                                       ON achievements_players_link_table.player_id=casino_players.id 
                                       WHERE user_fb_id = %s;""", (user_fb_id,))
     return data
+
+
+async def delete_duels_new_season():
+    await cursor.execute("""DELETE FROM duels;""")
