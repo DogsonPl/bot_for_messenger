@@ -70,4 +70,5 @@ Bot only answers if you have bot in friends**
 **!cena x** - (cena = price) sends price of given item (for example !cena shiba inu) \
 **!banan @nick1(optional)** - sends how big is your banana (or mentioned person) \
 **!osiągnięcia** - (osiągniecią = achievements) sends player achievements \
-**!lyrics creator; song_name** - sends lyrics given song
+**!lyrics creator; song_name** - sends lyrics given song \
+**!stan @nick** - sends your or mentioned person state of sobriety 

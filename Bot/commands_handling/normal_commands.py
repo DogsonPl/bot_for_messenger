@@ -40,7 +40,8 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
 ⚙ !banan @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
-⚙ !lyrics twórca, tytuł piosenki
+⚙ !lyrics twórca, tytuł piosenki - wysyła tekst piosenki
+⚙ !stan @nick - wysyła twój stan albo oznaczonej osoby
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
 🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
@@ -84,6 +85,7 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 🤖 Wersja bota: 7.9 + 10.0 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !stan
 🆕 !osiągnięcia
 🆕 !lyrics
 🆕 !profil (zamiast !stats)
@@ -91,6 +93,13 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 """
 
 download_tiktok = page_parsing.DownloadTiktok()
+
+MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Zjadł całą lodówke i zamówił dwie duże pizze",
+                      "Pierdoli coś o kosmitach", "Słodko śpi", "Badtrip :(", "Spierdala przed policją",
+                      "Jara właśnie", "Gotuje wesołe ciasteczka", "Mati *kaszle* widać po *kaszle* mnie?",
+                      "Mocno wyjebało, nie ma kontaktu, nie ma kontaktu", "Jest w swoim świecie", "xDDDDDDDDDDDDDDD",
+                      "Wali wiadro", "Wesoły", "Najwyższy/a w pokoju", "Mówi że lubi jeździć na rowerze samochodem",
+                      "*kaszlnięcie*, *kaszlnięcie*, *kaszlnięcie*", "Kometa wpadła do buzi, poterzny bul"]
 
 
 class Commands(BotActions):
@@ -303,7 +312,7 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 
     @logger
     async def send_spotify_song(self, event):
-        if self.sending_say_messages > 8:
+        if self.sending_say_messages > 5:
             await self.send_message_with_reply(event, "🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas")
         else:
             song_name = event.message.text.split()[1:]
@@ -356,7 +365,7 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             creator = " ".join(creator_).replace(" ", "-")
             song_name = args[1].replace(" ", "-").replace("(", "-").replace(")", "")
         except IndexError:
-            lyrics = "💡 Wygląd komendy: !lyrics twórca, tytuł piosenki (nie używaj polskich znaków)\nPrzykład: !tworca chivas, mam na twarzy krew i tym razem nie jest sztuczna"
+            lyrics = "💡 Wygląd komendy: !lyrics twórca, tytuł piosenki (nie używaj polskich znaków)\nPrzykład: !lyrics chivas, mam na twarzy krew i tym razem nie jest sztuczna"
         else:
             lyrics = await page_parsing.get_lyrics(creator, song_name)
             if not lyrics:
@@ -365,6 +374,22 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
                 lyrics = lyrics[0:3500]
                 lyrics += "\n\n[...] Za długi tekst piosenki (messenger ogranicza wielkość wiadomości"
         await self.send_text_message(event, lyrics)
+
+    @logger
+    async def send_stan_message(self, event):
+        mentioned_person = event.message.mentions
+        promils = round(rd.uniform(0, 5), 2)
+        marijuana_message = rd.choice(MARIJUANA_MESSAGES)
+        if mentioned_person:
+            mentioned_person_name = event.message.text[7:event.message.mentions[0].length+6]
+            message = f"""🍻 Stan {mentioned_person_name}
+Promile: {promils}‰ 
+Zjaranie: {marijuana_message}"""
+        else:
+            message = f"""🍻 Twój stan:
+Promile: {promils}‰ 
+Zjaranie: {marijuana_message}"""
+        await self.send_text_message(event, message)
 
     @logger
     async def make_disco(self, event):
