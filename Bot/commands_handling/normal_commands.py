@@ -94,10 +94,10 @@ BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
 
 download_tiktok = page_parsing.DownloadTiktok()
 
-MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Zjadł całą lodówke i zamówił dwie duże pizze",
+MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Niezłe gastro, zjadł/a całą lodówke i zamówił/a dwie duże pizze",
                       "Pierdoli coś o kosmitach", "Słodko śpi", "Badtrip :(", "Spierdala przed policją",
                       "Jara właśnie", "Gotuje wesołe ciasteczka", "Mati *kaszle* widać po *kaszle* mnie?",
-                      "Mocno wyjebało, nie ma kontaktu, nie ma kontaktu", "Jest w swoim świecie", "xDDDDDDDDDDDDDDD",
+                      "Mocno wyjebało, nie ma kontaktu", "Jest w swoim świecie", "xDDDDDDDDDDDDDDD", "JD - jest z nim/nią dobrze"
                       "Wali wiadro", "Wesoły", "Najwyższy/a w pokoju", "Mówi że lubi jeździć na rowerze samochodem",
                       "*kaszlnięcie*, *kaszlnięcie*, *kaszlnięcie*", "Kometa wpadła do buzi, poterzny bul"]
 
@@ -378,17 +378,16 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
     @logger
     async def send_stan_message(self, event):
         mentioned_person = event.message.mentions
-        promils = round(rd.uniform(0, 5), 2)
+        alcohol_level = round(rd.uniform(0, 5), 2)
         marijuana_message = rd.choice(MARIJUANA_MESSAGES)
         if mentioned_person:
             mentioned_person_name = event.message.text[7:event.message.mentions[0].length+6]
-            message = f"""🍻 Stan {mentioned_person_name}
-Promile: {promils}‰ 
-Zjaranie: {marijuana_message}"""
+            message = f"✨ Stan {mentioned_person_name}: ✨"
         else:
-            message = f"""🍻 Twój stan:
-Promile: {promils}‰ 
-Zjaranie: {marijuana_message}"""
+            message = f"✨ Twój stan: ✨"
+        message += f"""
+🍻 Promile: {alcohol_level}‰ 
+☘ Zjaranie: {marijuana_message}"""
         await self.send_text_message(event, message)
 
     @logger
