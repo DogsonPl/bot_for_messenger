@@ -90,7 +90,7 @@ class Listener(BotCore):
                          "play": self.normal_commands.send_spotify_song,
                          "banan": self.normal_commands.send_banana_message,
                          "cena": self.normal_commands.send_product_price,
-                         "lyrics": self.normal_commands.send_song_lyrics,
+                         "tekst": self.normal_commands.send_song_lyrics,
                          "stan": self.normal_commands.send_stan_message,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,

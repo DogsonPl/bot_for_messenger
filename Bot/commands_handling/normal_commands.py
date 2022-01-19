@@ -40,7 +40,7 @@ HELP_MESSAGE = """🎉Komendy🎉
 ⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
 ⚙ !banan @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
-⚙ !lyrics twórca, tytuł piosenki - wysyła tekst piosenki
+⚙ !tekst tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
 ⚙ !stan @nick - wysyła twój stan albo oznaczonej osoby
 ⚙ !pytanie - wysyła losowe pytanie\n
 💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
@@ -82,14 +82,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, m
 💴 Psc: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.9 + 10.0 pro 🤖
+🤖 Wersja bota: 7.10 + 10.0 pro 🤖
 
 🧾 Ostatnio do bota dodano:
+🆕 !tekst zamiast !lyrics, inna budowa komendy i lepsze jej działanie, po więcej info napisz !tekst
 🆕 !stan
-🆕 !osiągnięcia
-🆕 !lyrics
-🆕 !profil (zamiast !stats)
-🆕 !play
 """
 
 download_tiktok = page_parsing.DownloadTiktok()
@@ -359,20 +356,25 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 
     @logger
     async def send_song_lyrics(self, event):
+        lyrics = "💡 Wygląd komendy: !tekst tytuł piosenki; twórca\nPrzykład: !lyrics mam na twarzy krew i tym razem nie jest sztuczna; chivas"
+        args = event.message.text.split(";")
         try:
-            args = event.message.text.split(",")
-            creator_ = args[0].split()[1:]
-            creator = " ".join(creator_).replace(" ", "-")
-            song_name = args[1].replace(" ", "-").replace("(", "-").replace(")", "")
+            song_name_ = args[0].split()[1:]
+            song_name = " ".join(song_name_).replace(" ", "+")
         except IndexError:
-            lyrics = "💡 Wygląd komendy: !lyrics twórca, tytuł piosenki (nie używaj polskich znaków)\nPrzykład: !lyrics chivas, mam na twarzy krew i tym razem nie jest sztuczna"
-        else:
+            song_name = False
+        try:
+            creator = args[1].replace(" ", "+")
+        except IndexError:
+            creator = ""
+
+        if song_name:
             lyrics = await page_parsing.get_lyrics(creator, song_name)
             if not lyrics:
                 lyrics = "😢 Nie udało się odnaleźć tekstu do piosenki"
-            if len(lyrics) > 3000:
-                lyrics = lyrics[0:3500]
-                lyrics += "\n\n[...] Za długi tekst piosenki (messenger ogranicza wielkość wiadomości"
+            if len(lyrics) > 4000:
+                lyrics = lyrics[0:4000]
+                lyrics += "\n\n[...] Za długi tekst piosenki (messenger ogranicza wielkość wiadomości)"
         await self.send_text_message(event, lyrics)
 
     @logger
