@@ -18,73 +18,74 @@ with open("Bot/data/questions.txt") as file:
         questions.append(i)
 
 
-HELP_MESSAGE = """🎉Komendy🎉
-⚙ !help - wysyła komendy
-⚙ !strona - wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość snchronizowania dogecoinów
-⚙ !wersja - wysyła wersje bota + to co ostatnio dodano do bota
-⚙ !wsparcie - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
-⚙ !tworca - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
-⚙ !id - wysyła twoje id
-⚙ !koronawirus - wysyła informacje o koroawirusie na świecie
-⚙ !koronawiruspl - wysyła informacje o koronawirusie w polsce
-⚙ !mem - wysyła losowego mema
-⚙ !luckymember - losuje losowego członka grupy
-⚙ !ruletka - usuwa losowego członka grupy (bot musi mieć admina)
-⚙ !pogoda x - wysyła pogode w danym miejscu (wpisz np: !pogoda Warszawa)
-⚙ !nick x - zmienia twój nick na x (np '!nick coś' usatwi twoj nick na 'coś')
-⚙ !everyone - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobe ale tak naprawde oznaczony jest każdy)
-⚙ !utrudnieniawroclaw - pisze utrudnienia w komunikacji miejskiej we Wrocławiu (ostatnie dwa posty MPK Wrocław)
-⚙ !utrudnieniawawa - pisze utrudnienia w komunikacji miejsiej w Warszawie
-⚙ !utrudnienialodz - pisze utrudnienia w komunikacji miejskiej w Łodzi
-⚙ !moneta - bot rzuca monete (orzeł lub reszka)
-⚙ !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
-⚙ !kocha @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
-⚙ !banan @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
-⚙ !tekst tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
-⚙ !stan @nick - wysyła twój stan albo oznaczonej osoby
-⚙ !pytanie - wysyła losowe pytanie\n
-💎DODATKOWE KOMENDY ZA ZAKUP WERSJI PRO💎
-🔥 !szukaj x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
-🔥 !tlumacz --jezyk x - tlumaczy tekst na podany jezyk (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
-🔥 !miejski x - wyszukuje podane słowo na stronie miejski
-🔥 !film - wysyła losowy śmieszny film
-🔥 !tvpis x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
-🔥 !disco - robi dyskoteke
-🔥 !powitanie 'treść' - ustawia powitanie na grupie nowego członka
-🔥 !nowyregulamin 'treść' - ustawia regulamin grupy
-🔥 !regulamin - wysyła regulamin grupy
-🔥 !zdjecie x - wysyła zdjecie x
-🔥 !play x - bot wysyła piosenke, można wpisać nazwe piosenki albo link do spotify
-🔥 !cena x - wysyła cene podanej rzeczy
-🔥 !say 'wiadomosc'- ivona mówi to co się napisze po !say\n
-💰 KOMENDY DO GRY KASYNO (dogecoinsy nie są prawdziwe i nie da się ich wypłacić)💰 
-💸 !register - po użyciu tej komendy możesz grać w kasyno
-💸 !daily - daje codziennie darmowe dogecoins
-💸 !top - wysyła 3 graczy którzy mają najwięcej monet
-💸 !bal - wysyła twoją liczbe dogecoinów
-💸 !bet x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
-💸 !zdrapka - koszt zdrapki to 5 dogów, można wygrać od 0 do 2500 dogecoinów 
-💸 !tip x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
-💸 !jackpot - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
-💸 !jackpotbuy x - kupuje x ticketów (jeden ticket = 1 dogecoin)
-💸 !duel - gra duel, po więcej informacji napisz !duel
-💸 !email x - ustaw swój email jako x
-💸 !kod x - wpisz kod potwierdzający którego otrzymano na email
-💸 !profil- wysyła twoje statystyki 
-💸 !osiągnięcia - wysyła twoje osiągnięcia
+HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
+⚙ !𝙝𝙚𝙡𝙥 - wysyła komendy
+⚙ !𝙨𝙩𝙧𝙤𝙣𝙖- wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość snchronizowania dogecoinów
+⚙ !𝙬𝙚𝙧𝙨𝙟𝙖 - wysyła wersje bota + to co ostatnio dodano do bota
+⚙ !𝙬𝙨𝙥𝙖𝙧𝙘𝙞𝙚 - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
+⚙ !𝙩𝙬𝙤𝙧𝙘𝙖 - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
+⚙ !𝙞𝙙 - wysyła twoje id
+⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨 - wysyła informacje o koroawirusie na świecie
+⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨𝙥𝙡 - wysyła informacje o koronawirusie w polsce
+⚙ !𝙢𝙚𝙢 - wysyła losowego mema
+⚙ !𝙡𝙪𝙘𝙠𝙮𝙢𝙚𝙢𝙗𝙚𝙧 - losuje losowego członka grupy
+⚙ !𝙧𝙪𝙡𝙚𝙩𝙠𝙖 - usuwa losowego członka grupy (bot musi mieć admina)
+⚙ !𝙥𝙤𝙜𝙤𝙙𝙖 x - wysyła pogode w danym miejscu (wpisz np: !pogoda Warszawa)
+⚙ !𝙣𝙞𝙘𝙠 x - zmienia twój nick na x (np '!nick coś' usatwi twoj nick na 'coś')
+⚙ !𝙚𝙫𝙚𝙧𝙮𝙤𝙣𝙚 - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobe ale tak naprawde oznaczony jest każdy)
+⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙧𝙤𝙘𝙡𝙖𝙬 - pisze utrudnienia w komunikacji miejskiej we Wrocławiu (ostatnie dwa posty MPK Wrocław)
+⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙖𝙬𝙖 - pisze utrudnienia w komunikacji miejsiej w Warszawie
+⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙡𝙤𝙙𝙯 - pisze utrudnienia w komunikacji miejskiej w Łodzi
+⚙ !𝙢𝙤𝙣𝙚𝙩𝙖 - bot rzuca monete (orzeł lub reszka)
+⚙ !𝙬𝙖𝙡𝙪𝙩𝙖 ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
+⚙ !𝙠𝙤𝙘𝙝𝙖 @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
+⚙ !𝙗𝙖𝙣𝙖𝙣 @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
+⚙ !𝙩𝙚𝙠𝙨𝙩 tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
+⚙ !𝙨𝙩𝙖𝙣 @nick - wysyła twój stan albo oznaczonej osoby
+⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie\n
+💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
+🔥 !𝙨𝙯𝙪𝙠𝙖𝙟 x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
+🔥 !𝙩𝙡𝙪𝙢𝙖𝙘𝙯 --jezyk x - tłumaczy tekst na podany język (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
+🔥 !𝙢𝙞𝙚𝙟𝙨𝙠𝙞 x - wyszukuje podane słowo na stronie miejski
+🔥 !𝙛𝙞𝙡𝙢 - wysyła losowy śmieszny film
+🔥 !𝙩𝙫𝙥𝙞𝙨 x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
+🔥 !𝙙𝙞𝙨𝙘𝙤 - robi dyskoteke
+🔥 !𝙥𝙤𝙬𝙞𝙩𝙖𝙣𝙞𝙚 'treść' - ustawia powitanie na grupie nowego członka
+🔥 !𝙣𝙤𝙬𝙮𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 'treść' - ustawia regulamin grupy
+🔥 !𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 - wysyła regulamin grupy
+🔥 !𝙯𝙙𝙟𝙚𝙘𝙞𝙚 x - wysyła zdjecie x
+🔥 !𝙥𝙡𝙖𝙮 x - bot wysyła piosenke, można wpisać nazwe piosenki albo link do spotify
+🔥 !𝙘𝙚𝙣𝙖 x - wysyła cene podanej rzeczy
+🔥 !𝙨𝙖𝙮 'wiadomosc'- ivona mówi to co się napisze po !say\n
+💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
+💸 !𝙧𝙚𝙜𝙞𝙨𝙩𝙚𝙧 - po użyciu tej komendy możesz grać w kasyno
+💸 !𝙙𝙖𝙞𝙡𝙮 - daje codziennie darmowe dogecoins
+💸 !𝙩𝙤𝙥 - wysyła 3 graczy którzy mają najwięcej monet
+💸 !𝙗𝙖𝙡 - wysyła twoją liczbe dogecoinów
+💸 !𝙗𝙚𝙩 x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
+💸 !𝙯𝙙𝙧𝙖𝙥𝙠𝙖 - koszt zdrapki to 5 dogów, można wygrać od 0 do 2500 dogecoinów 
+💸 !𝙩𝙞𝙥 x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
+💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩 - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
+💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩𝙗𝙪𝙮 x - kupuje x ticketów (jeden ticket = 1 dogecoin)
+💸 !𝙙𝙪𝙚𝙡 - gra duel, po więcej informacji napisz !duel
+💸 !𝙚𝙢𝙖𝙞𝙡 x - ustaw swój email jako x
+💸 !𝙠𝙤𝙙 x - wpisz kod potwierdzający którego otrzymano na email
+💸 !𝙥𝙧𝙤𝙛𝙞𝙡 - wysyła twoje statystyki 
+💸 !𝙤𝙨𝙞𝙖𝙜𝙣𝙞𝙚𝙘𝙞𝙖 - wysyła twoje osiągnięcia
 """
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
 
-SUPPORT_INFO_MESSAGE = """🧧💰💎 Jeśli chcesz wspomóc prace nad botem, możesz wysłac donejta. Za każdą pomoc wielkie dzieki 💎💰🧧!
-💴 Paypal: paypal.me/DogsonPL
-💴 Konto bankowe: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
-💴 Psc: wyślij kod na pv do !tworca"""
+SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬𝐳 𝐰𝐬𝐩𝐨𝐦𝐨𝐜 𝐩𝐫𝐚𝐜𝐞 𝐧𝐚𝐝 𝐛𝐨𝐭𝐞𝐦, 𝐦𝐨𝐳𝐞𝐬𝐳 𝐰𝐲𝐬𝐥𝐚𝐜 𝐝𝐨𝐧𝐞𝐣𝐭𝐚. 𝐙𝐚 𝐤𝐚𝐳𝐝𝐚 𝐩𝐨𝐦𝐨𝐜 𝐰𝐢𝐞𝐥𝐤𝐢𝐞 𝐝𝐳𝐢𝐞𝐤𝐢 💎💰🧧!
+💴 𝙋𝙖𝙮𝙥𝙖𝙡: paypal.me/DogsonPL
+💴 𝙆𝙤𝙣𝙩𝙤 𝙗𝙖𝙣𝙠𝙤𝙬𝙚: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
+💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
-BOT_VERSION_MESSAGE = """❤DZIĘKUJĘ ZA ZAKUP WERSJI PRO!❤
-🤖 Wersja bota: 7.10 + 10.0 pro 🤖
+BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
+🤖 𝙒𝙚𝙧𝙨𝙟𝙖 𝙗𝙤𝙩𝙖: 8.0 + 10.0 pro 🤖
 
-🧾 Ostatnio do bota dodano:
+🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 Ładniejsze wiadomości
 🆕 !tekst zamiast !lyrics, inna budowa komendy i lepsze jej działanie, po więcej info napisz !tekst
 🆕 !stan
 """
@@ -386,10 +387,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             mentioned_person_name = event.message.text[7:event.message.mentions[0].length+6]
             message = f"✨ Stan {mentioned_person_name}: ✨"
         else:
-            message = f"✨ Twój stan: ✨"
+            message = f"✨ 𝐓𝐰𝐨𝐣 𝐬𝐭𝐚𝐧: ✨"
         message += f"""
-🍻 Promile: {alcohol_level}‰ 
-☘ Zjaranie: {marijuana_message}"""
+🍻 𝙋𝙧𝙤𝙢𝙞𝙡𝙚: {alcohol_level}‰ 
+☘ 𝙕𝙟𝙖𝙧𝙖𝙣𝙞𝙚: {marijuana_message}"""
         await self.send_text_message(event, message)
 
     @logger
