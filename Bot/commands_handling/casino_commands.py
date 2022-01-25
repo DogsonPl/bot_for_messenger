@@ -55,13 +55,13 @@ class CasinoCommands(BotActions):
 
     @logger
     async def send_top_players(self, event):
-        message = "3 użytkowników z najwiekszą liczbą dogecoinów:\n"
+        message = "𝟯 𝘂𝘇𝘆𝘁𝗸𝗼𝘄𝗻𝗶𝗸𝗼𝘄 𝘇 𝗻𝗮𝗷𝘄𝗶𝗲𝗸𝘀𝘇𝗮 𝗹𝗶𝗰𝘇𝗯𝗮 𝗱𝗼𝗴𝗲𝗰𝗼𝗶𝗻𝗼𝘄:\n"
         top_users, top_legendary_users = await handling_casino_sql.fetch_top_three_players()
         for user, medal in zip(top_users, MEDALS):
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
 
-        message += "\n3 użytkowników z największą ilością legendarnych dogecoinów:\n"
+        message += "\n𝟯 𝘂𝘇𝘆𝘁𝗸𝗼𝘄𝗻𝗶𝗸𝗼𝘄 𝘇 𝗻𝗮𝗷𝘄𝗶𝗮𝗸𝘀𝘇𝗮 𝗹𝗶𝗰𝘇𝗯𝗮 𝗹𝗲𝗴𝗲𝗻𝗱𝗮𝗿𝗻𝘆𝗰𝗵 𝗱𝗼𝗴𝗲𝗰𝗼𝗶𝗻𝗼𝘄:\n"
         for user, medal in zip(top_legendary_users, MEDALS):
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
@@ -157,21 +157,21 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
             except ZeroDivisionError:
                 won_bets_percent = 0
 
-            message = f"""👤 Profil (komenda w trakcie tworzenia)
+            message = f"""👤 𝐏𝐫𝐨𝐟𝐢𝐥
         
-🏆 Twoje osiągiecia: użyj komendy !osiągniecia
+🏆 𝗧𝘄𝗼𝗷𝗲 𝗼𝘀𝗶𝗮𝗴𝗶𝗲𝗰𝗶𝗮: użyj komendy !osiągniecia
 
-📈 Wygrano łącznie {'%.2f' % won_dc} dogecoinów
-📉 Przegrano łącznie {'%.2f' % lost_dc} dogecoinów
-🔝 Twoja największa wygrana w becie: {float('%.2f' % biggest_win)}
+📈 𝐖𝐲𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % won_dc} dogecoinów
+📉 𝐏𝐫𝐳𝐞𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % lost_dc} dogecoinów
+🔝 𝐓𝐰𝐨𝐣𝐚 𝐧𝐚𝐣𝐰𝐢ę𝐤𝐬𝐳𝐚 𝐰𝐲𝐠𝐫𝐚𝐧𝐚 𝐰 𝐛𝐞𝐜𝐢𝐞: {float('%.2f' % biggest_win)}
 
-🤑 Wykonałeś łącznie {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
-💰 Kupiono łącznie {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek
+🤑 𝐖𝐲𝐤𝐨𝐧𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
+💰 𝐊𝐮𝐩𝐢𝐨𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek
 
-💲 Twoja ilość dogów na koniec poprzedniego sezonu: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
-🎖️ Twój najlepszy sezon: {float('%.2f' % best_season)} dogów
+💲 𝐓𝐰𝐨𝐣𝐚 𝐢𝐥𝐨𝐬𝐜 𝐝𝐨𝐠𝐨𝐰 𝐧𝐚 𝐤𝐨𝐧𝐢𝐞𝐜 𝐩𝐨𝐩𝐫𝐳𝐞𝐝𝐧𝐢𝐞𝐠𝐨 𝐬𝐞𝐳𝐨𝐧𝐮: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
+🎖️ 𝐓𝐰𝐨𝐣 𝐧𝐚𝐣𝐥𝐞𝐩𝐬𝐳𝐲 𝐬𝐞𝐳𝐨𝐧: {float('%.2f' % best_season)} dogów
 
-👑 Na koniec sezonu byłeś:
+👑 𝐍𝐚 𝐤𝐨𝐧𝐢𝐞𝐜 𝐬𝐞𝐳𝐨𝐧𝐮 𝐛𝐲ł𝐞𝐬/𝐚𝐬:
 🥇 {season_first_place} razy
 🥈 {season_second_place} razy
 🥉 {season_third_place} razy

@@ -82,7 +82,7 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝙒𝙚𝙧𝙨𝙟𝙖 𝙗𝙤𝙩𝙖: 8.0 + 10.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 8.0 + 10.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 🆕 Ładniejsze wiadomości
@@ -387,10 +387,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             mentioned_person_name = event.message.text[7:event.message.mentions[0].length+6]
             message = f"✨ Stan {mentioned_person_name}: ✨"
         else:
-            message = f"✨ 𝐓𝐰𝐨𝐣 𝐬𝐭𝐚𝐧: ✨"
+            message = f"✨ 𝗧𝘄𝗼𝗷 𝘀𝘁𝗮𝗻: ✨"
         message += f"""
-🍻 𝙋𝙧𝙤𝙢𝙞𝙡𝙚: {alcohol_level}‰ 
-☘ 𝙕𝙟𝙖𝙧𝙖𝙣𝙞𝙚: {marijuana_message}"""
+🍻 𝐏𝐫𝐨𝐦𝐢𝐥𝐞: {alcohol_level}‰ 
+☘ 𝐙𝐣𝐚𝐫𝐚𝐧𝐢𝐞: {marijuana_message}"""
         await self.send_text_message(event, message)
 
     @logger
