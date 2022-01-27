@@ -166,7 +166,7 @@ def download_yt_video(link):
         return "🚫 Nie mogę znaleźć video", None
     bytes_object = BytesIO()
     try:
-        video = video.streams.first()
+        video = video.streams.filter(progressive=True, file_extension="mp4").order_by("resolution").desc().first()
     except pytube.exceptions.VideoUnavailable:
         return "Bot nie może pobrać video, ponieważ jest niedostępne w danym ragionie", None
     try:
