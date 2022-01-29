@@ -4,6 +4,7 @@ import requests
 from random import choice, randint
 import os
 import shutil
+from requests.exceptions import MissingSchema
 
 import feedparser
 import aiohttp
@@ -222,10 +223,13 @@ class DownloadTiktok:
     async def download_tiktok(self, tiktok_link):
         download_url = await self.get_tiktok_download_url(tiktok_link)
         if download_url and download_url != "https://musicallydown.page.link/app":
-            response = requests.get(download_url)
-            bytes_object = BytesIO()
-            bytes_object.write(response.content)
-            return bytes_object
+            try:
+                response = requests.get(download_url)
+                bytes_object = BytesIO()
+                bytes_object.write(response.content)
+                return bytes_object
+            except MissingSchema:
+                return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać"
         return "🚫 Najprawdopodobniej podano niepoprawny link"
 
     async def get_tiktok_download_url(self, tiktok_link):
