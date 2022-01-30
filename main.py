@@ -92,6 +92,7 @@ class Listener(BotCore):
                          "cena": self.normal_commands.send_product_price,
                          "tekst": self.normal_commands.send_song_lyrics,
                          "stan": self.normal_commands.send_stan_message,
+                         "tablica": self.normal_commands.send_registration_number_info,
                          "bet": self.casino_commands.send_bet_message,
                          "daily": self.casino_commands.send_daily_money_message,
                          "bal": self.casino_commands.send_user_money,

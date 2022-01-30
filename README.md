@@ -71,4 +71,5 @@ Bot only answers if you have bot in friends**
 **!banan @nick1(optional)** - sends how big is your banana (or mentioned person) \
 **!osiągnięcia** - (osiągniecią = achievements) sends player achievements \
 **!tekst song name; creator** - sends lyrics given song \
-**!stan @nick** - sends your or mentioned person state of sobriety 
+**!stan @nick** - sends your or mentioned person state of sobriety \
+**!tablica vehicle_registration_number** - sends info about vehicle with given registration number 

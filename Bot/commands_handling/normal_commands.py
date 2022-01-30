@@ -42,6 +42,7 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 ⚙ !𝙗𝙖𝙣𝙖𝙣 @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
 ⚙ !𝙩𝙚𝙠𝙨𝙩 tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
 ⚙ !𝙨𝙩𝙖𝙣 @nick - wysyła twój stan albo oznaczonej osoby
+⚙ !𝙩𝙖𝙗𝙡𝙞𝙘𝙖 x  - wysyła informacje o podanym numerze rejestracyjnym pojazdu
 ⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie\n
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
 🔥 !𝙨𝙯𝙪𝙠𝙖𝙟 x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
@@ -82,9 +83,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 8.0 + 10.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 8.1 + 10.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 !tablica
 🆕 Ładniejsze wiadomości
 🆕 !tekst zamiast !lyrics, inna budowa komendy i lepsze jej działanie, po więcej info napisz !tekst
 🆕 !stan
@@ -392,6 +394,16 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 🍻 𝐏𝐫𝐨𝐦𝐢𝐥𝐞: {alcohol_level}‰ 
 ☘ 𝐙𝐣𝐚𝐫𝐚𝐧𝐢𝐞: {marijuana_message}"""
         await self.send_text_message(event, message)
+
+    @logger
+    async def send_registration_number_info(self, event):
+        try:
+            registration_number = "".join(event.message.text.split()[1:])
+        except IndexError:
+            registration_number_info = "💡 Po !tablica podaj numer rejestracyjny"
+        else:
+            registration_number_info = await page_parsing.get_vehicle_registration_number_info(registration_number)
+        await self.send_text_message(event, registration_number_info)
 
     @logger
     async def make_disco(self, event):

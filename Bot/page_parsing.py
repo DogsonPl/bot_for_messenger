@@ -359,3 +359,32 @@ async def get_lyrics(creator, song_name):
             # song was not found
             pass
     return lyrics
+
+
+async def get_vehicle_registration_number_info(registration_num):
+    async with aiohttp.ClientSession() as session:
+        link = f"https://tablica-rejestracyjna.pl/{registration_num}"
+        response = await session.get(link)
+        if response.status != 200:
+            return "🚫 Nie odnaleziono podanej tablicy rejestracyjnej, przykładowa tablica to k1dis (!tablica k1dis)"
+        soup = BeautifulSoup(await response.text(), "html.parser")
+
+    if soup.find("h3").text == "Wybrane komentarze":
+        return "🚫 Nie odnaleziono podanej tablicy rejestracyjnej, przykładowa tablica to k1dis (!tablica k1dis)"
+
+    vehicle_registration_number_info = "𝗜𝗻𝗳𝗼𝗿𝗺𝗮𝗰𝗷𝗲 𝗼 𝘁𝗮𝗯𝗹𝗶𝗰𝘆:\n"
+    for i in soup.find_all(itemprop="contentLocation"):
+        vehicle_registration_number_info += i.text + "\n"
+    vehicle = soup.find(itemprop="description")
+    if vehicle:
+        vehicle = vehicle.text
+    else:
+        vehicle = "Nieznany pojazd"
+    vehicle_registration_number_info += f"Pojazd: {vehicle}\n"
+
+    vehicle_registration_number_info += "\n𝗞𝗼𝗺𝗲𝗻𝘁𝗮𝗿𝘇𝗲:\n"
+    for i in soup.find_all(class_="comment"):
+        vehicle_registration_number_info += i.find(class_="text").text.strip() + "\n********\n"
+        if len(vehicle_registration_number_info) > 1000:
+            break
+    return vehicle_registration_number_info
