@@ -306,7 +306,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         for i in event.message.text.split():
             if i.startswith("https://vm.tiktok.com/"):
                 video = await download_tiktok.download_tiktok(i)
-                await self.send_bytes_file(event, video, "video/mp4")
+                try:
+                    await self.send_bytes_file(event, video, "video/mp4")
+                except fbchat.HTTPError:
+                    await self.send_message_with_reply(event, "🚫 Facebook zablokował wysłanie tiktoka, spróbuj jeszcze raz")
                 break
         self.downloading_videos -= 1
 
