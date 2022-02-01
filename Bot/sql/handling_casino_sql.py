@@ -90,6 +90,7 @@ async def fetch_user_all_money(user_fb_id):
         user_money, legendary_dogecoins = data[0]
     except IndexError:
         user_money = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
+        legendary_dogecoins = None
     return user_money, legendary_dogecoins
 
 
