@@ -1,7 +1,7 @@
 from io import BytesIO
 import re
 import requests
-from random import choice, randint
+from random import choice
 import os
 import shutil
 from requests.exceptions import MissingSchema
@@ -299,21 +299,26 @@ async def get_google_image(search_query):
 
 
 def download_spotify_song(song_name):
-    random_num = randint(0, 10000)
-    output_dir = f"{song_name.replace('/', '')}{random_num}"
-    os.mkdir(output_dir)
-    os.system(f"spotdl {song_name} -o ./{output_dir}")
+    output_dir = os.path.join("Bot/media/music/", song_name.replace('/', ''))
+    if not os.path.exists(output_dir):
+        try:
+            os.mkdir(output_dir)
+            os.system(f"spotdl {song_name} -o ./{output_dir}")
+            os.remove(os.path.join(output_dir, ".spotdl-cache"))
+            os.listdir(output_dir)[0]  # check if song has been downloaded, if not this line raise IndexError
+        except (FileNotFoundError, IndexError):
+            shutil.rmtree(output_dir)
+            message = "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
+            if "spotify" not in song_name:
+                message += "\n\nSpróbuj wysłać link do piosenki na spotify"
+            return message
+
     try:
-        filename = os.listdir(output_dir)[1]
+        filename = os.listdir(output_dir)[0]
     except IndexError:
-        shutil.rmtree(output_dir)
-        message = "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
-        if "spotify" not in song_name:
-            message += "\n\nSpróbuj wysłać link do piosenki na spotify"
-        return message
-    with open(f"{output_dir}/{filename}", "rb") as song:
+        return "🚫 Piosenka najprawdopoodbniej była przed chwilą pobierana i nie została znaleziona"
+    with open(os.path.join(output_dir, filename), "rb") as song:
         bytes_object = BytesIO(song.read())
-    shutil.rmtree(output_dir)
     return bytes_object
 
 
