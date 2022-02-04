@@ -42,7 +42,9 @@ class CasinoCommands(BotActions):
 
 💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów
 
-🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
+🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona
+
+Dogi można kupić pisząc do twórcy (komenda !tworca)"""
         except TypeError:
             message = user_money
 
