@@ -38,3 +38,8 @@ config_parser.read("config.cfg", "UTF-8")
 django_password = config_parser.get("django_password", "django_password")
 if django_password == "":
     raise Exception("You have to configure your django_password in a config file")
+
+
+weather_api_key = config_parser.get("weather", "key")
+if weather_api_key == "":
+    raise Exception("You have to configure your weather api key on https://openweathermap.org/api")

@@ -11,8 +11,10 @@ import aiohttp
 from bs4 import BeautifulSoup
 import pytube
 
+from Bot.parse_config import weather_api_key
 
-WEATHER_API_URL = "http://api.openweathermap.org/data/2.5/weather?appid=48cf48dbb3891862735dd16b01a3a62f&lang=pl&units=metric&q="
+
+WEATHER_API_URL = f"http://api.openweathermap.org/data/2.5/weather?appid={weather_api_key}&lang=pl&units=metric&q="
 COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
 COVID_IN_POLAND_URL = "https://coronavirus-19-api.herokuapp.com/countries/poland"
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
