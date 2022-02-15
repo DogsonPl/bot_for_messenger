@@ -15,7 +15,7 @@ from Bot import task_scheduler
 
 
 class BotCore:
-    COOKIES_FILE_PATH = "Bot//data//cookies.json"
+    COOKIES_FILE_PATH = "cookies.json"
 
     def __init__(self):
         self.session = None
