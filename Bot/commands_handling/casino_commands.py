@@ -19,6 +19,15 @@ DUEL_HELP_MESSAGE = """💡 Użycie komendy:
 class CasinoCommands(BotActions):
     def __init__(self, loop, bot_id, client):
         super().__init__(loop, bot_id, client)
+        self.shop_items_message = ""
+
+    async def get_shop_items(self):
+        self.shop_items_message = """Żeby kupić dany przedmiot, napisz !sklep x, gdzie x to numer przedmiotu (ceny są podane w legendarnych dogecoinach, które otrzymuje się na koniec sezonu)
+Wszystkie przedmioty w sklepie:\n\n"""
+        shop_items = await handling_casino_sql.get_shop_items()
+        for i in shop_items:
+            self.shop_items_message += f"""{i[0]} - cena: {i[1]}
+{i[2]}\n\n"""
 
     @logger
     async def send_daily_money_message(self, event):
@@ -189,6 +198,15 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         for i in data:
             message += f"""{i[0]} - {i[1]}
 Twoje punkty: {i[2]} (Poziom osiągnięcia: {i[3]})\n\n"""
+        await self.send_message_with_reply(event, message)
+
+    @logger
+    async def send_shop_message(self, event):
+        try:
+            item_id = event.message.text.split()[1]
+            message = await casino_actions.shop(event, item_id)
+        except IndexError:
+            message = self.shop_items_message
         await self.send_message_with_reply(event, message)
 
 

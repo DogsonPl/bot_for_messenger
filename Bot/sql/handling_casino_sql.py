@@ -174,3 +174,8 @@ async def fetch_user_achievements(user_fb_id):
 
 async def delete_duels_new_season():
     await cursor.execute("""DELETE FROM duels;""")
+
+
+async def get_shop_items():
+    data = await cursor.fetch_data("""SELECT id, cost, description FROM shop;""")
+    return data

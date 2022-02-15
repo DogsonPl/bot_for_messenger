@@ -59,6 +59,7 @@ class Listener(BotCore):
         self.normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client)
         self.group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client)
         self.casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client)
+        MAIN_LOOP.create_task(self.casino_commands.get_shop_items())
         self.commands = {"help": self.normal_commands.send_help_message,
                          "pomoc": self.normal_commands.send_help_message,
                          "mem": self.normal_commands.send_random_meme,
@@ -108,6 +109,7 @@ class Listener(BotCore):
                          "profil": self.casino_commands.send_player_profil,
                          "osiagniecia": self.casino_commands.send_achievements,
                          "osiągnięcia": self.casino_commands.send_achievements,
+                         "sklep": self.casino_commands.send_shop_message,
                          "ruletka": self.group_commands.delete_random_person,
                          "luckymember": self.group_commands.send_message_with_random_mention,
                          "nowyregulamin": self.group_commands.set_new_group_regulations,

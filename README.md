@@ -72,4 +72,5 @@ Bot only answers if you have bot in friends**
 **!osiągnięcia** - (osiągniecią = achievements) sends player achievements \
 **!tekst song name; creator** - sends lyrics given song \
 **!stan @nick** - sends your or mentioned person state of sobriety \
-**!tablica vehicle_registration_number** - sends info about vehicle with given registration number 
+**!tablica vehicle_registration_number** - sends info about vehicle with given registration number \
+**!sklep** - opens casino shop

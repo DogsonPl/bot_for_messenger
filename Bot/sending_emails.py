@@ -31,6 +31,7 @@ class SmptConnection:
         except aiosmtplib.errors.SMTPServerDisconnected:
             await self.connect()
             await self.send_mail(receiver, message)
+            return f"✅ Wysłano email z kodem do {receiver}"
 
     @staticmethod
     async def create_message(receiver, code):
