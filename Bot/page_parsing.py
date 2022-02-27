@@ -395,3 +395,25 @@ async def get_vehicle_registration_number_info(registration_num):
         if len(vehicle_registration_number_info) > 1000:
             break
     return vehicle_registration_number_info
+
+
+
+
+ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-rosja-ukraina-odparty-atak-na-kijow-relacja-na-zywo/ztv0qk4"
+
+async def ukraine():
+    response = requests.get(ukraine_link)
+    soup = BeautifulSoup(response.text, "html.parser")
+    message = ""
+    for i in soup.find_all("ul", class_="firstList"):
+        for j in i.find_all("li"):
+            message += f"❗ {j.text}\n"
+
+    message += "\n\n"
+    for i in soup.find_all("div", class_="messageItem textItem"):
+        if i.text.strip().startswith("{{"):
+            continue
+        message += i.text.strip() + "\n"
+        if len(message) > 3500:
+            break
+    return message

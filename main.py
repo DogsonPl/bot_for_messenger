@@ -116,7 +116,8 @@ class Listener(BotCore):
                          "regulamin": self.group_commands.get_group_regulations,
                          "powitanie": self.group_commands.set_welcome_message,
                          "everyone": self.group_commands.mention_everyone,
-                         "kocha": self.group_commands.send_love_message}
+                         "kocha": self.group_commands.send_love_message,
+                         "ukraina": self.normal_commands.ukraine}
 
     async def init_listening(self):
         try:

@@ -9,14 +9,17 @@ class BotActions:
 
     @staticmethod
     async def send_text_message(event, message_text):
+        message_text += "\n🇺🇦 #StandWithUkraine (komenda !ukraina)"
         await event.thread.send_text(message_text)
 
     @staticmethod
     async def send_text_message_with_mentions(event, message_text, mentions):
+        message_text += "\n🇺🇦 #StandWithUkraine (komenda !ukraina)"
         await event.thread.send_text(message_text, mentions=mentions)
 
     @staticmethod
     async def send_message_with_reply(event, message_text):
+        message_text += "\n🇺🇦 #StandWithUkraine (komenda !ukraina)"
         await event.thread.send_text(message_text, reply_to_id=event.message.id)
 
     async def send_file(self, event, file_path, filetype):

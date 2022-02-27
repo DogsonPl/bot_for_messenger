@@ -426,3 +426,8 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             await event.thread.set_nickname(user_id=event.author.id, nickname=" ".join(event.message.text.split()[1:]))
         except fbchat.InvalidParameters:
             await self.send_text_message(event, "🚫 Wpisano za długi nick")
+
+    @logger
+    async def ukraine(self, event):
+        message = await page_parsing.ukraine()
+        await self.send_text_message(event, message)
