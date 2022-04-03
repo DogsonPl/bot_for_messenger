@@ -399,7 +399,7 @@ async def get_vehicle_registration_number_info(registration_num):
 
 
 
-ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-rosja-ukraina-odparty-atak-na-kijow-relacja-na-zywo/ztv0qk4"
+ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-rosja-ukraina-wybuchy-w-oddalonym-od-polski-o-100-km-lucku-relacja/hqwy3ws"
 
 async def ukraine():
     response = requests.get(ukraine_link)

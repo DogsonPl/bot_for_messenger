@@ -139,3 +139,10 @@ async def shop(event, item_id):
                              data={"user_fb_id": event.author.id, "django_password": django_password, "item_id": item_id})
     message = response.json()
     return message["message"]
+
+
+async def make_slots_game(event):
+    response = requests.post("http://127.0.0.1:8000/casino/slots_fb",
+                             data={"user_fb_id": event.author.id, "django_password": django_password})
+    message = response.json()
+    return message["message"]

@@ -74,6 +74,7 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 💸 !𝙥𝙧𝙤𝙛𝙞𝙡 - wysyła twoje statystyki 
 💸 !𝙤𝙨𝙞𝙖𝙜𝙣𝙞𝙚𝙘𝙞𝙖 - wysyła twoje osiągnięcia
 💸 !𝙨𝙠𝙡𝙚𝙥 - sklep do kupowania różnych rzeczy za legendarne dogecoiny
+💸 !𝙨𝙡𝙤𝙩𝙨 - kasyno gra slots, koszt 5 dogow
 """
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
@@ -84,12 +85,12 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 8.1 + 11.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 8.1 + 12.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 !slots
 🆕 !sklep
 🆕 !tablica
-🆕 !tekst zamiast !lyrics, inna budowa komendy i lepsze jej działanie, po więcej info napisz !tekst
 """
 
 download_tiktok = page_parsing.DownloadTiktok()

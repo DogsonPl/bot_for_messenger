@@ -73,4 +73,5 @@ Bot only answers if you have bot in friends**
 **!tekst song name; creator** - sends lyrics given song \
 **!stan @nick** - sends your or mentioned person state of sobriety \
 **!tablica vehicle_registration_number** - sends info about vehicle with given registration number \
-**!sklep** - opens casino shop
+**!sklep** - opens casino shop \
+**!slots** - slots casino game

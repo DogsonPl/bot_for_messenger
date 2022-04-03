@@ -209,6 +209,11 @@ Twoje punkty: {i[2]} (Poziom osiągnięcia: {i[3]})\n\n"""
             message = self.shop_items_message
         await self.send_message_with_reply(event, message)
 
+    @logger
+    async def send_slots_message(self, event):
+        message = await casino_actions.make_slots_game(event)
+        await self.send_message_with_reply(event, message)
+
 
 async def send_confirmation_email(event):
     try:

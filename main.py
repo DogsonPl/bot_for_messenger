@@ -110,6 +110,7 @@ class Listener(BotCore):
                          "osiagniecia": self.casino_commands.send_achievements,
                          "osiągnięcia": self.casino_commands.send_achievements,
                          "sklep": self.casino_commands.send_shop_message,
+                         "slots": self.casino_commands.send_slots_message,
                          "ruletka": self.group_commands.delete_random_person,
                          "luckymember": self.group_commands.send_message_with_random_mention,
                          "nowyregulamin": self.group_commands.set_new_group_regulations,
