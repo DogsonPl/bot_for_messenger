@@ -72,7 +72,7 @@ Dogi można kupić pisząc do twórcy (komenda !tworca)"""
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
 
-        message += "\n𝟯 𝘂𝘇𝘆𝘁𝗸𝗼𝘄𝗻𝗶𝗸𝗼𝘄 𝘇 𝗻𝗮𝗷𝘄𝗶𝗮𝗸𝘀𝘇𝗮 𝗹𝗶𝗰𝘇𝗯𝗮 𝗹𝗲𝗴𝗲𝗻𝗱𝗮𝗿𝗻𝘆𝗰𝗵 𝗱𝗼𝗴𝗲𝗰𝗼𝗶𝗻𝗼𝘄:\n"
+        message += "\n𝟯 𝘂𝘇𝘆𝘁𝗸𝗼𝘄𝗻𝗶𝗸𝗼𝘄 𝘇 𝗻𝗮𝗷𝘄𝗶𝗲𝗸𝘀𝘇𝗮 𝗹𝗶𝗰𝘇𝗯𝗮 𝗹𝗲𝗴𝗲𝗻𝗱𝗮𝗿𝗻𝘆𝗰𝗵 𝗱𝗼𝗴𝗲𝗰𝗼𝗶𝗻𝗼𝘄:\n"
         for user, medal in zip(top_legendary_users, MEDALS):
             username = user[1] if user[1] else user[0]
             message += f"{medal} {username}: {int(user[2])} dc\n"
