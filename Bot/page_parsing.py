@@ -179,8 +179,11 @@ def download_yt_video(link):
     return bytes_object, "video/mp4"
 
 
-async def get_info_from_wikipedia(thing_to_search, restart=True):
-    link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
+async def get_info_from_wikipedia(thing_to_search, restart=True, polish=True):
+    if polish:
+        link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
+    else:
+        link = f"https://wikipedia.org/wiki/{thing_to_search}"
     async with aiohttp.ClientSession() as session:
         html = await session.get(link)
         soup = BeautifulSoup(await html.text(), "html.parser")
@@ -199,8 +202,11 @@ async def get_info_from_wikipedia(thing_to_search, restart=True):
                 thing_to_search = "_".join(thing_to_search)
                 info = await get_info_from_wikipedia(thing_to_search, False)
             else:
-                info = f"🚫 Nie można odnaleźć: {thing_to_search}"
-                info += f"\n Więcej informacji: {link}"
+                if not polish:
+                    info = f"🚫 Nie można odnaleźć: {thing_to_search}"
+                    info += f"\n Więcej informacji: {link}"
+                else:
+                    info = await get_info_from_wikipedia(thing_to_search, False, False)
     info = re.sub(r"\[[0-9]*\]", "", info)
     return info
 
