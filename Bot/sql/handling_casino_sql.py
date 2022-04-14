@@ -46,12 +46,18 @@ async def check_email_confirmation(user_fb_id, code):
             return "✅ Twój nowy email został ustawiony (jeśli wcześniej użyłeś komendy !register)"
         except pymysql.err.IntegrityError:
             email = data[0][1]
-            user_fb_name, = await cursor.fetch_data("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
-            user_fb_name = user_fb_name[0]
+            old_player, = await cursor.fetch_data("""SELECT fb_name, id FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
+            user_fb_name, old_player_id = old_player
             await cursor.execute("""UPDATE casino_players SET user_fb_id = NULL, money = 0 
                                     WHERE user_fb_id=%s;""", (user_fb_id,))
             await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name = %s
-                                    WHERE email= %s;""", (user_fb_id, user_fb_name, email))
+                                    WHERE email = %s;""", (user_fb_id, user_fb_name, email))
+            await cursor.execute("""UPDATE achievements_players_link_table JOIN casino_players 
+                                    ON achievements_players_link_table.player_id = casino_players.id 
+                                    SET achievements_players_link_table.player_id = (SELECT casino_players.id 
+                                                                                  FROM casino_players 
+                                                                                  WHERE email = %s) 
+                                    WHERE achievements_players_link_table.player_id=%s;""", (email, old_player_id))
             return "✅ Połączono się z twoim kontem na stronie"
         finally:
             await cursor.execute("""DELETE FROM pending_emails_confirmations
