@@ -405,13 +405,13 @@ async def get_vehicle_registration_number_info(registration_num):
 
 
 
-ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-rosja-ukraina-39-dzien-inwazji-relacja-na-zywo/1fc93lj"
+ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-w-ukrainie-ruszyla-rosyjska-ofensywa-na-wschodzie-relacja-na-zywo/104fhpn"
 
 async def ukraine():
     response = requests.get(ukraine_link)
     soup = BeautifulSoup(response.text, "html.parser")
     message = ""
-    for i in soup.find_all("ul", class_="firstList"):
+    for i in soup.find_all("div", class_="description"):
         for j in i.find_all("li"):
             message += f"❗ {j.text}\n"
 
