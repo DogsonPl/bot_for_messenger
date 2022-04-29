@@ -6,8 +6,12 @@ import aiofiles
 
 def check_sent_messages_in_thread(function):
     async def wrapper(self, event, *kwargs):
-        if self.sent_messages_in_thread[event.thread.id] < 20:
-            self.sent_messages_in_thread[event.thread.id] += 1
+        try:
+            if self.sent_messages_in_thread[event.thread.id] < 20:
+                self.sent_messages_in_thread[event.thread.id] += 1
+                return await function(self, event, *kwargs)
+        except KeyError:
+            self.sent_messages_in_thread[event.thread.id] = 1
             return await function(self, event, *kwargs)
     return wrapper
 
