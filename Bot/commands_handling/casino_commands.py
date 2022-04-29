@@ -17,8 +17,8 @@ DUEL_HELP_MESSAGE = """💡 Użycie komendy:
 
 
 class CasinoCommands(BotActions):
-    def __init__(self, loop, bot_id, client):
-        super().__init__(loop, bot_id, client)
+    def __init__(self, loop, bot_id, client, threads):
+        super().__init__(loop, bot_id, client, threads)
         self.shop_items_message = ""
 
     async def get_shop_items(self):

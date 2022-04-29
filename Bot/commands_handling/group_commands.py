@@ -28,8 +28,8 @@ def check_group_instance(function):
 
 
 class GroupCommands(BotActions):
-    def __init__(self, loop, bot_id, client):
-        super().__init__(loop, bot_id, client)
+    def __init__(self, loop, bot_id, client, threads):
+        super().__init__(loop, bot_id, client, threads)
 
     @logger
     @check_group_instance

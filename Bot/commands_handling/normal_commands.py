@@ -104,12 +104,12 @@ MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Niezłe gastro, zja
 
 
 class Commands(BotActions):
-    def __init__(self, loop, bot_id, client):
+    def __init__(self, loop, bot_id, client, threads):
         self.get_weather = page_parsing.GetWeather().get_weather
         self.downloading_videos = 0
         self.sending_say_messages = 0
         self.chats_where_making_disco = []
-        super().__init__(loop, bot_id, client)
+        super().__init__(loop, bot_id, client, threads)
 
     @logger
     async def send_help_message(self, event):

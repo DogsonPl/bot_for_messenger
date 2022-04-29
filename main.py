@@ -56,9 +56,13 @@ class Listener(BotCore):
         self.commands = None
 
     async def init_commands(self):
-        self.normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client)
-        self.group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client)
-        self.casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client)
+        threads_ = self.client.fetch_threads(None)
+        threads = []
+        async for i in threads_:
+            threads.append(i.id)
+        self.normal_commands = Commands(MAIN_LOOP, self.bot_id, self.client, threads)
+        self.group_commands = GroupCommands(MAIN_LOOP, self.bot_id, self.client, threads)
+        self.casino_commands = CasinoCommands(MAIN_LOOP, self.bot_id, self.client, threads)
         MAIN_LOOP.create_task(self.casino_commands.get_shop_items())
         self.commands = {"help": self.normal_commands.send_help_message,
                          "pomoc": self.normal_commands.send_help_message,
