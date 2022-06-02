@@ -405,21 +405,14 @@ async def get_vehicle_registration_number_info(registration_num):
 
 
 
-ukraine_link = "https://wiadomosci.onet.pl/swiat/wojna-w-ukrainie-ruszyla-rosyjska-ofensywa-na-wschodzie-relacja-na-zywo/104fhpn"
+ukraine_link = "https://www.rp.pl/swiat/art36435301-wojna-rosji-z-ukraina"
 
 async def ukraine():
     response = requests.get(ukraine_link)
     soup = BeautifulSoup(response.text, "html.parser")
     message = ""
-    for i in soup.find_all("div", class_="description"):
-        for j in i.find_all("li"):
-            message += f"❗ {j.text}\n"
-
-    message += "\n\n"
-    for i in soup.find_all("div", class_="messageItem textItem"):
-        if i.text.strip().startswith("{{"):
-            continue
-        message += i.text.strip() + "\n"
+    for i in soup.find_all("div", class_="liveHeader live--header"):
+        message += i.text.strip().replace("\n", " ") + "\n"
         if len(message) > 3500:
             break
     return message
