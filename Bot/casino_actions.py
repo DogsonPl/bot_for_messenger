@@ -146,3 +146,11 @@ async def make_slots_game(event):
                              data={"user_fb_id": event.author.id, "django_password": django_password})
     message = response.json()
     return message["message"]
+
+
+async def register(event, user):
+    response = requests.post("http://127.0.0.1:8000/casino/create_account",
+                             data={"fb_name": user.name, "user_fb_id": event.author.id,
+                                   "django_password": django_password})
+    message = response.json()["message"]
+    return message

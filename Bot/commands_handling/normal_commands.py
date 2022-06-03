@@ -1,4 +1,5 @@
 import random as rd
+import asyncio
 
 import fbchat
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
@@ -7,7 +8,7 @@ from deep_translator.exceptions import LanguageNotSupportedException, NotValidPa
 
 from .logger import logger
 from .. import getting_and_editing_files, page_parsing
-from ..bot_actions import BotActions
+from .bot_actions import BotActions
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
@@ -105,41 +106,41 @@ MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Niezłe gastro, zja
 
 
 class Commands(BotActions):
-    def __init__(self, loop, bot_id, client, threads):
+    def __init__(self, client: fbchat.Client, bot_id: str, loop: asyncio.AbstractEventLoop):
         self.get_weather = page_parsing.GetWeather().get_weather
         self.downloading_videos = 0
         self.sending_say_messages = 0
         self.chats_where_making_disco = []
-        super().__init__(loop, bot_id, client, threads)
+        super().__init__(client, bot_id, loop)
 
     @logger
-    async def send_help_message(self, event):
+    async def send_help_message(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, HELP_MESSAGE)
 
     @logger
-    async def send_link_to_creator_account(self, event):
+    async def send_link_to_creator_account(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, LINK_TO_MY_FB_ACCOUNT_MESSAGE)
 
     @logger
-    async def send_support_info(self, event):
+    async def send_support_info(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, SUPPORT_INFO_MESSAGE)
 
     @logger
-    async def send_bot_version(self, event):
+    async def send_bot_version(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, BOT_VERSION_MESSAGE)
 
     @logger
-    async def send_user_id(self, event):
+    async def send_user_id(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, f"🆔 Twoje id to {event.author.id}")
 
     @logger
-    async def send_webpage_link(self, event):
+    async def send_webpage_link(self, event: fbchat.MessageEvent):
         await self.send_text_message(event, """🔗 Link do strony www: https://dogson.ovh. Strona jest w wersji beta
 
 Żeby połączyć swoje dane z kasynem że stroną, ustaw w  bocie email za pomocą komendy !email, a potem załóż konto na stronie bota na ten sam email""")
 
     @logger
-    async def send_weather(self, event):
+    async def send_weather(self, event: fbchat.MessageEvent):
         city = " ".join(event.message.text.split()[1:])
         if not city:
             message = "🚫 Po !pogoda podaj miejscowość z której chcesz mieć pogode, np !pogoda warszawa"
@@ -148,53 +149,53 @@ class Commands(BotActions):
         await self.send_text_message(event, message)
 
     @logger
-    async def send_covid_info(self, event):
+    async def send_covid_info(self, event: fbchat.MessageEvent):
         covid_info = await page_parsing.get_coronavirus_info()
         await self.send_text_message(event, covid_info)
 
     @logger
-    async def send_covid_pl_info(self, event):
+    async def send_covid_pl_info(self, event: fbchat.MessageEvent):
         covid_pl_info = await page_parsing.get_coronavirus_pl_info()
         await self.send_text_message(event, covid_pl_info)
 
     @logger
-    async def send_public_transport_difficulties_in_warsaw(self, event):
+    async def send_public_transport_difficulties_in_warsaw(self, event: fbchat.MessageEvent):
         difficulties_in_warsaw = await page_parsing.get_public_transport_difficulties_in_warsaw()
         await self.send_text_message(event, difficulties_in_warsaw)
 
     @logger
-    async def send_public_transport_difficulties_in_wroclaw(self, event):
+    async def send_public_transport_difficulties_in_wroclaw(self, event: fbchat.MessageEvent):
         difficulties_in_wroclaw = await page_parsing.get_public_transport_difficulties_in_wroclaw()
         await self.send_text_message(event, difficulties_in_wroclaw)
 
     @logger
-    async def send_public_transport_difficulties_in_lodz(self, event):
+    async def send_public_transport_difficulties_in_lodz(self, event: fbchat.MessageEvent):
         difficulties_in_lodz = await page_parsing.get_public_transport_difficulties_in_lodz()
         await self.send_text_message(event, difficulties_in_lodz)
 
     @logger
-    async def send_random_meme(self, event):
+    async def send_random_meme(self, event: fbchat.MessageEvent):
         meme_path, filetype = await getting_and_editing_files.get_random_meme()
         await self.send_file(event, meme_path, filetype)
 
     @logger
-    async def send_random_film(self, event):
+    async def send_random_film(self, event: fbchat.MessageEvent):
         film_path, filetype = await getting_and_editing_files.get_random_film()
         await self.send_file(event, film_path, filetype)
 
     @logger
-    async def send_random_coin_side(self, event):
+    async def send_random_coin_side(self, event: fbchat.MessageEvent):
         film_path, filetype = await getting_and_editing_files.make_coin_flip()
         await self.send_file(event, film_path, filetype)
 
     @logger
-    async def send_tvpis_image(self, event):
+    async def send_tvpis_image(self, event: fbchat.MessageEvent):
         text = event.message.text[6:]
         image, filetype = await self.loop.run_in_executor(None, getting_and_editing_files.edit_tvpis_image, text)
         await self.send_bytes_file(event, image, filetype)
 
     @logger
-    async def send_tts(self, event):
+    async def send_tts(self, event: fbchat.MessageEvent):
         if self.sending_say_messages > 8:
             await self.send_text_message(event, "🚫 Bot obecnie wysyła za dużo wiadomości głosowych, poczekaj")
         else:
@@ -205,7 +206,7 @@ class Commands(BotActions):
             self.sending_say_messages -= 1
 
     @logger
-    async def send_yt_video(self, event, yt_link):
+    async def send_yt_video(self, event: fbchat.MessageEvent, yt_link: str):
         if self.downloading_videos > 8:
             await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo filmów. Spróbuj ponownie później")
         else:
@@ -216,7 +217,7 @@ class Commands(BotActions):
             self.downloading_videos -= 1
 
     @logger
-    async def convert_currency(self, event):
+    async def convert_currency(self, event: fbchat.MessageEvent):
         message_data = event.message.text.split()
         try:
             amount = float(message_data[1])
@@ -235,12 +236,12 @@ class Commands(BotActions):
         await self.send_text_message(event, message)
         
     @logger
-    async def send_random_question(self, event):
+    async def send_random_question(self, event: fbchat.MessageEvent):
         question = rd.choice(questions)
         await self.send_text_message(event, question)
 
     @logger
-    async def send_search_message(self, event):
+    async def send_search_message(self, event: fbchat.MessageEvent):
         thing_to_search = event.message.text.split()[1:]
         if not thing_to_search:
             message = "💡 Po !szukaj podaj rzecz którą chcesz wyszukać"
@@ -250,10 +251,10 @@ class Commands(BotActions):
                 message = "🚫 Za dużo znaków"
             else:
                 message = await page_parsing.get_info_from_wikipedia(thing_to_search)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_miejski_message(self, event):
+    async def send_miejski_message(self, event: fbchat.MessageEvent):
         thing_to_search = event.message.text.split()[1:]
         if not thing_to_search:
             message = "💡 Po !miejski podaj rzecz którą chcesz wyszukać"
@@ -263,10 +264,10 @@ class Commands(BotActions):
                 message = "🚫 Za dużo znaków"
             else:
                 message = await page_parsing.get_info_from_miejski(thing_to_search)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_translated_text(self, event):
+    async def send_translated_text(self, event: fbchat.MessageEvent):
         try:
             to = event.message.text.split("--")[1].split()[0]
             text = " ".join(event.message.text.split()[2:])
@@ -287,23 +288,24 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 
         if not translated_text:
             translated_text = "🚫 Nie można przetłumaczyć znaku który został podany"
-        await self.send_message_with_reply(event, translated_text)
+        await self.send_text_message(event, translated_text, reply_to_id=event.message.id)
 
     @logger
-    async def send_google_image(self, event):
+    async def send_google_image(self, event: fbchat.MessageEvent):
         search_query = event.message.text.split()[1:]
         if not search_query:
-            await self.send_message_with_reply(event, "💡 Po !zdjecie napisz czego chcesz zdjęcie, np !zdjecie pies")
+            await self.send_text_message(event, "💡 Po !zdjecie napisz czego chcesz zdjęcie, np !zdjecie pies",
+                                         reply_to_id=event.message.id)
         else:
             search_query = "%20".join(search_query)
             if len(search_query) > 100:
-                await self.send_message_with_reply(event, "🚫 Podano za długą fraze")
+                await self.send_text_message(event, "🚫 Podano za długą fraze", reply_to_id=event.message.id)
             else:
                 image = await page_parsing.get_google_image(search_query)
                 await self.send_bytes_file(event, image, "image/png")
 
     @logger
-    async def send_tiktok(self, event):
+    async def send_tiktok(self, event: fbchat.MessageEvent):
         self.downloading_videos += 1
         for i in event.message.text.split():
             if i.startswith("https://vm.tiktok.com/"):
@@ -311,23 +313,26 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
                 try:
                     await self.send_bytes_file(event, video, "video/mp4")
                 except fbchat.HTTPError:
-                    await self.send_message_with_reply(event, "🚫 Facebook zablokował wysłanie tiktoka, spróbuj jeszcze raz")
+                    await self.send_text_message(event, "🚫 Facebook zablokował wysłanie tiktoka, spróbuj jeszcze raz",
+                                                 reply_to_id=event.message.id)
                 break
         self.downloading_videos -= 1
 
     @logger
-    async def send_spotify_song(self, event):
+    async def send_spotify_song(self, event: fbchat.MessageEvent):
         if self.sending_say_messages > 5:
-            await self.send_message_with_reply(event, "🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas")
+            await self.send_text_message(event, "🚫 Bot obecnie pobiera za dużo piosenek, poczekaj spróbuj ponownie za jakiś czas",
+                                         reply_to_id=event.message.id)
         else:
             song_name = event.message.text.split()[1:]
             if not song_name:
-                await self.send_message_with_reply(event, "💡 Po !play wyślij link do piosenki, albo nazwe piosenki. Pamiętaj że wielkość liter ma znaczenie, powinna być taka sama jak w tytule piosenki na spotify")
+                await self.send_text_message(event, "💡 Po !play wyślij link do piosenki, albo nazwe piosenki. Pamiętaj że wielkość liter ma znaczenie, powinna być taka sama jak w tytule piosenki na spotify",
+                                             reply_to_id=event.message.id)
                 return
             
             song_name = "".join(song_name)
             if len(song_name) > 150:
-                await self.send_message_with_reply(event, "🚫 Za długa nazwa piosenki")
+                await self.send_text_message(event, "🚫 Za długa nazwa piosenki", reply_to_id=event.message.id)
                 return
             
             if "open.spotify.com/playlist" in song_name.lower() or "open.spotify.com/episode" in song_name.lower() or "open.spotify.com/artist" in song_name.lower() or "open.spotify.com/album" in song_name.lower():
@@ -340,7 +345,7 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             self.sending_say_messages -= 2
 
     @logger
-    async def send_banana_message(self, event):
+    async def send_banana_message(self, event: fbchat.MessageEvent):
         mentioned_person = event.message.mentions
         banana_size = rd.randint(-100, 100)
         if mentioned_person:
@@ -348,10 +353,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             message = f"🍌 Banan {mentioned_person_name} ma {banana_size} centymetrów"
         else:
             message = f"🍌 Twój banan ma {banana_size} centymetrów"
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_product_price(self, event):
+    async def send_product_price(self, event: fbchat.MessageEvent):
         item = event.message.text[6:]
         item_query_len = len(item)
         if item_query_len == 0 or item_query_len > 200:
@@ -360,10 +365,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             message = await page_parsing.check_item_price(item.replace(' ', '+'))
             if not message:
                 message = f"🚫 Nie można odnaleźć {item} :("
-        await self.send_text_message(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_song_lyrics(self, event):
+    async def send_song_lyrics(self, event: fbchat.MessageEvent):
         lyrics = "💡 Wygląd komendy: !tekst tytuł piosenki; twórca\nPrzykład: !lyrics mam na twarzy krew i tym razem nie jest sztuczna; chivas"
         args = event.message.text.split(";")
         try:
@@ -383,10 +388,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             if len(lyrics) > 4000:
                 lyrics = lyrics[0:4000]
                 lyrics += "\n\n[...] Za długi tekst piosenki (messenger ogranicza wielkość wiadomości)"
-        await self.send_text_message(event, lyrics)
+        await self.send_text_message(event, lyrics, reply_to_id=event.message.id)
 
     @logger
-    async def send_stan_message(self, event):
+    async def send_stan_message(self, event: fbchat.MessageEvent):
         mentioned_person = event.message.mentions
         alcohol_level = round(rd.uniform(0, 5), 2)
         marijuana_message = rd.choice(MARIJUANA_MESSAGES)
@@ -398,10 +403,10 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         message += f"""
 🍻 𝐏𝐫𝐨𝐦𝐢𝐥𝐞: {alcohol_level}‰ 
 ☘ 𝐙𝐣𝐚𝐫𝐚𝐧𝐢𝐞: {marijuana_message}"""
-        await self.send_text_message(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_registration_number_info(self, event):
+    async def send_registration_number_info(self, event: fbchat.MessageEvent):
         try:
             registration_number = "".join(event.message.text.split()[1:])
         except IndexError:
@@ -411,7 +416,7 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         await self.send_text_message(event, registration_number_info)
 
     @logger
-    async def make_disco(self, event):
+    async def make_disco(self, event: fbchat.MessageEvent):
         thread_id = event.thread.id
         if thread_id in self.chats_where_making_disco:
             await self.send_text_message(event, "🎇🎈 Rozkręcam właśnie imprezę")
@@ -423,13 +428,13 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             self.chats_where_making_disco.remove(thread_id)
 
     @logger
-    async def change_nick(self, event):
+    async def change_nick(self, event: fbchat.MessageEvent):
         try:
             await event.thread.set_nickname(user_id=event.author.id, nickname=" ".join(event.message.text.split()[1:]))
         except fbchat.InvalidParameters:
-            await self.send_text_message(event, "🚫 Wpisano za długi nick")
+            await self.send_text_message(event, "🚫 Wpisano za długi nick", reply_to_id=event.message.id)
 
     @logger
-    async def ukraine(self, event):
+    async def ukraine(self, event: fbchat.MessageEvent):
         message = await page_parsing.ukraine()
         await self.send_text_message(event, message)

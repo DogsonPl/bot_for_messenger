@@ -1,9 +1,10 @@
 from math import floor
-import requests
+import asyncio
 
-from ..parse_config import django_password
+import fbchat
+
 from .logger import logger
-from ..bot_actions import BotActions
+from .bot_actions import BotActions
 from .. import casino_actions
 from ..sql import handling_casino_sql
 from ..sending_emails import smpt_connection, get_confirmation_code
@@ -17,9 +18,10 @@ DUEL_HELP_MESSAGE = """💡 Użycie komendy:
 
 
 class CasinoCommands(BotActions):
-    def __init__(self, loop, bot_id, client, threads):
-        super().__init__(loop, bot_id, client, threads)
-        self.shop_items_message = ""
+    shop_items_message: str = "Brak danych"
+
+    def __init__(self, client: fbchat.Client, bot_id: str, loop: asyncio.AbstractEventLoop):
+        super().__init__(client, bot_id, loop)
 
     async def get_shop_items(self):
         self.shop_items_message = """Żeby kupić dany przedmiot, napisz !sklep x, gdzie x to numer przedmiotu (ceny są podane w legendarnych dogecoinach, które otrzymuje się na koniec sezonu)
@@ -30,17 +32,17 @@ Wszystkie przedmioty w sklepie:\n\n"""
 {i[2]}\n\n"""
 
     @logger
-    async def send_daily_money_message(self, event):
+    async def send_daily_money_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.take_daily(event)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_bet_message(self, event):
+    async def send_bet_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.make_bet(event)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_user_money(self, event):
+    async def send_user_money(self, event: fbchat.MessageEvent):
         user_money, legendary_dogecoins = await handling_casino_sql.fetch_user_all_money(event.author.id)
         try:
             user_money_formatted = floor(user_money * 100) / 100
@@ -56,16 +58,15 @@ Wszystkie przedmioty w sklepie:\n\n"""
 Dogi można kupić pisząc do twórcy (komenda !tworca)"""
         except TypeError:
             message = user_money
-
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_tip_message(self, event):
+    async def send_tip_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.make_tip(event)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_top_players(self, event):
+    async def send_top_players(self, event: fbchat.MessageEvent):
         message = "𝟯 𝘂𝘇𝘆𝘁𝗸𝗼𝘄𝗻𝗶𝗸𝗼𝘄 𝘇 𝗻𝗮𝗷𝘄𝗶𝗲𝗸𝘀𝘇𝗮 𝗹𝗶𝗰𝘇𝗯𝗮 𝗱𝗼𝗴𝗲𝗰𝗼𝗶𝗻𝗼𝘄:\n"
         top_users, top_legendary_users = await handling_casino_sql.fetch_top_three_players()
         for user, medal in zip(top_users, MEDALS):
@@ -81,7 +82,7 @@ Dogi można kupić pisząc do twórcy (komenda !tworca)"""
         await self.send_text_message(event, message)
 
     @logger
-    async def send_jackpot_info(self, event):
+    async def send_jackpot_info(self, event: fbchat.MessageEvent):
         ticket_number, user_tickets, last_prize, last_winner = await casino_actions.jackpot_info(event)
         message = f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
 🎫 Twoja liczba biletów: {user_tickets}
@@ -94,25 +95,23 @@ Dogi można kupić pisząc do twórcy (komenda !tworca)"""
         await self.send_text_message(event, message)
 
     @logger
-    async def send_jackpot_ticket_bought_message(self, event):
+    async def send_jackpot_ticket_bought_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.buy_jackpot_ticket(event)
-        await self.send_text_message(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_scratch_card_message(self, event):
+    async def send_scratch_card_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.buy_scratch_card(event)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def register(self, event):
-        name = await self.get_thread_info(event.author.id)
-        response = requests.post("http://127.0.0.1:8000/casino/create_account",
-                                 data={"fb_name": name.name, "user_fb_id": event.author.id, "django_password": django_password})
-        message = response.json()["message"]
-        await self.send_message_with_reply(event, message)
+    async def send_register_message(self, event: fbchat.MessageEvent):
+        user = await self.get_thread_info(event.author.id)
+        message = await casino_actions.register(event, user)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def get_email(self, event):
+    async def send_user_email(self, event: fbchat.MessageEvent):
         user_email = await handling_casino_sql.get_user_email(event.author.id)
         if user_email is None:
             message = await send_confirmation_email(event)
@@ -124,7 +123,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         await self.send_text_message(event, message)
 
     @logger
-    async def check_email_verification_code(self, event):
+    async def send_email_verification_code_message(self, event: fbchat.MessageEvent):
         try:
             code = event.message.text.split()[1]
             message = await handling_casino_sql.check_email_confirmation(event.author.id, code)
@@ -133,7 +132,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         await self.send_text_message(event, message)
 
     @logger
-    async def send_duel_message(self, event):
+    async def send_duel_message(self, event: fbchat.MessageEvent):
         mention = None
         args = event.message.text.split()[1:]
         if len(args) == 0:
@@ -151,10 +150,10 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
                     message = DUEL_HELP_MESSAGE
                 else:
                     message = await casino_actions.make_new_duel(event.author.id, wage, opponent)
-        await self.send_text_message_with_mentions(event, message, mention)
+        await self.send_text_message(event, message, mentions=mention, reply_to_id=event.message.id)
 
     @logger
-    async def send_player_profil(self, event):
+    async def send_player_profil(self, event: fbchat.MessageEvent):
         won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = await handling_casino_sql.fetch_user_profil_data(event.author.id)
         if won_bets == "No data":
             message = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
@@ -188,34 +187,33 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 🥉 {season_third_place} razy
 
 🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
-
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_achievements(self, event):
+    async def send_achievements(self, event: fbchat.MessageEvent):
         data = await handling_casino_sql.fetch_user_achievements(event.author.id)
         message = ""
         for i in data:
             message += f"""{i[0]} - {i[1]}
 Twoje punkty: {i[2]} (Poziom osiągnięcia: {i[3]})\n\n"""
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_shop_message(self, event):
+    async def send_shop_message(self, event: fbchat.MessageEvent):
         try:
             item_id = event.message.text.split()[1]
             message = await casino_actions.shop(event, item_id)
         except IndexError:
             message = self.shop_items_message
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
-    async def send_slots_message(self, event):
+    async def send_slots_message(self, event: fbchat.MessageEvent):
         message = await casino_actions.make_slots_game(event)
-        await self.send_message_with_reply(event, message)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
 
-async def send_confirmation_email(event):
+async def send_confirmation_email(event: fbchat.MessageEvent):
     try:
         email = event.message.text.split()[1]
     except IndexError:
