@@ -16,3 +16,4 @@ emoji
 deep-translator
 spotdl
 pytz
+cloudscraper

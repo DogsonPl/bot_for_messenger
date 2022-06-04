@@ -10,6 +10,7 @@ import feedparser
 import aiohttp
 from bs4 import BeautifulSoup
 import pytube
+import cloudscraper
 
 from Bot.parse_config import weather_api_key
 
@@ -229,10 +230,11 @@ async def get_info_from_miejski(thing_to_search):
 
 class DownloadTiktok:
     async def download_tiktok(self, tiktok_link):
-        download_url = await self.get_tiktok_download_url(tiktok_link)
+        scraper = cloudscraper.create_scraper()
+        download_url = await self.get_tiktok_download_url(tiktok_link, scraper)
         if download_url and download_url != "https://musicallydown.page.link/app":
             try:
-                response = requests.get(download_url)
+                response = scraper.get(download_url)
                 bytes_object = BytesIO()
                 bytes_object.write(response.content)
                 return bytes_object
@@ -240,10 +242,10 @@ class DownloadTiktok:
                 return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać"
         return "🚫 Najprawdopodobniej podano niepoprawny link"
 
-    async def get_tiktok_download_url(self, tiktok_link):
+    async def get_tiktok_download_url(self, tiktok_link, scraper):
         link = ""
-        post_data, cookies = await self.get_required_post_data(tiktok_link)
-        response = requests.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
+        post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
+        response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("a"):
             try:
@@ -255,11 +257,11 @@ class DownloadTiktok:
         return link
 
     @staticmethod
-    async def get_required_post_data(tiktok_link):
+    async def get_required_post_data(tiktok_link, scraper):
         url_name = ""
         key_name = ""
         key = ""
-        response = requests.get("https://musicaldown.com/")
+        response = scraper.get("https://musicaldown.com/")
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("form"):
             for j in i.find_all('input'):
