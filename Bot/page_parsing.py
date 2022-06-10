@@ -5,6 +5,7 @@ from random import choice
 import os
 import shutil
 from requests.exceptions import MissingSchema
+from typing import Tuple, Union
 
 import feedparser
 import aiohttp
@@ -37,7 +38,7 @@ class GetWeather:
                       "13d": "🌨", "13n": "🌨",
                       "50d": "🌫", "50n": "🌫"}
 
-    async def get_weather(self, city):
+    async def get_weather(self, city: str) -> str:
         async with aiohttp.ClientSession() as session:
             html = await session.get(WEATHER_API_URL + city)
         json_data = await html.json()
@@ -77,7 +78,7 @@ class GetWeather:
             return "🌡"
 
 
-async def get_coronavirus_info():
+async def get_coronavirus_info() -> str:
     async with aiohttp.ClientSession() as session:
         html = await session.get(COVID_IN_WORLD_URL)
     data = await html.json()
@@ -93,7 +94,7 @@ async def get_coronavirus_info():
         return API_ERROR_MESSAGE
 
 
-async def get_coronavirus_pl_info():
+async def get_coronavirus_pl_info() -> str:
     async with aiohttp.ClientSession() as session:
         html = await session.get(COVID_IN_POLAND_URL)
     data = await html.json()
@@ -114,7 +115,7 @@ async def get_coronavirus_pl_info():
         return API_ERROR_MESSAGE
 
 
-async def get_public_transport_difficulties_in_warsaw():
+async def get_public_transport_difficulties_in_warsaw() -> str:
     feed = feedparser.parse(DIFFICULTIES_IN_WARSAW_URL)
     message = ""
     for entry in feed['entries']:
@@ -133,7 +134,7 @@ async def get_public_transport_difficulties_in_warsaw():
     return message
 
 
-async def get_public_transport_difficulties_in_wroclaw():
+async def get_public_transport_difficulties_in_wroclaw() -> str:
     # todo make parsing compatible with newer version of facebook
     async with aiohttp.ClientSession() as session:
         html = await session.get(DIFFICULTIES_IN_WROCLAW_URL)
@@ -145,7 +146,7 @@ async def get_public_transport_difficulties_in_wroclaw():
     return message
 
 
-async def get_public_transport_difficulties_in_lodz():
+async def get_public_transport_difficulties_in_lodz() -> str:
     async with aiohttp.ClientSession() as session:
         html = await session.get(DIFFICULTIES_IN_LODZ_URL)
         soup = BeautifulSoup(await html.text(), "html.parser")
@@ -161,7 +162,7 @@ async def get_public_transport_difficulties_in_lodz():
     return message
 
 
-def download_yt_video(link):
+def download_yt_video(link: str) -> Tuple[Union[BytesIO, str], Union[str, None]]:
     video = pytube.YouTube(link)
     try:
         if video.length > 260:
@@ -180,7 +181,7 @@ def download_yt_video(link):
     return bytes_object, "video/mp4"
 
 
-async def get_info_from_wikipedia(thing_to_search, restart=True, polish=True):
+async def get_info_from_wikipedia(thing_to_search: str, restart: bool = True, polish: bool = True) -> str:
     if polish:
         link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
     else:
@@ -212,7 +213,7 @@ async def get_info_from_wikipedia(thing_to_search, restart=True, polish=True):
     return info
 
 
-async def get_info_from_miejski(thing_to_search):
+async def get_info_from_miejski(thing_to_search: str) -> str:
     link = f"https://miejski.pl/slowo-{thing_to_search}"
     info = ""
     async with aiohttp.ClientSession() as session:
@@ -229,7 +230,7 @@ async def get_info_from_miejski(thing_to_search):
 
 
 class DownloadTiktok:
-    async def download_tiktok(self, tiktok_link):
+    async def download_tiktok(self, tiktok_link: str) -> Union[BytesIO, str]:
         scraper = cloudscraper.create_scraper()
         download_url = await self.get_tiktok_download_url(tiktok_link, scraper)
         if download_url and download_url != "https://musicallydown.page.link/app":
@@ -242,7 +243,7 @@ class DownloadTiktok:
                 return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać"
         return "🚫 Najprawdopodobniej podano niepoprawny link"
 
-    async def get_tiktok_download_url(self, tiktok_link, scraper):
+    async def get_tiktok_download_url(self, tiktok_link: str, scraper: cloudscraper.CloudScraper) -> str:
         link = ""
         post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
         response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
@@ -257,7 +258,7 @@ class DownloadTiktok:
         return link
 
     @staticmethod
-    async def get_required_post_data(tiktok_link, scraper):
+    async def get_required_post_data(tiktok_link: str, scraper: cloudscraper.CloudScraper) -> Tuple[dict, dict]:
         url_name = ""
         key_name = ""
         key = ""
@@ -277,7 +278,7 @@ class DownloadTiktok:
         return post_data, cookies
 
     @staticmethod
-    async def _get_tiktok_download_url_deprecated(url):
+    async def _get_tiktok_download_url_deprecated(url: str) -> str:
         """
         depercated function, page has been banned
         """
@@ -290,7 +291,7 @@ class DownloadTiktok:
         return link
 
 
-async def get_google_image(search_query):
+async def get_google_image(search_query: str) -> Union[BytesIO, str]:
     link = f"https://google.com/search?q={search_query}&tbm=isch"
     response = requests.get(link)
     soup = BeautifulSoup(response.text, "html.parser")
@@ -308,7 +309,7 @@ async def get_google_image(search_query):
         return f"Nie odnaleziono {search_query.replace('%20', ' ')} 😔"
 
 
-def download_spotify_song(song_name):
+def download_spotify_song(song_name: str) -> Union[BytesIO, str]:
     output_dir = os.path.join("Bot/media/music/", song_name.replace('/', ''))
     if not os.path.exists(output_dir):
         try:
@@ -332,7 +333,7 @@ def download_spotify_song(song_name):
     return bytes_object
 
 
-async def check_item_price(item):
+async def check_item_price(item: str) -> str:
     link = f"https://www.skapiec.pl/szukaj/w_calym_serwisie/{item}"
     async with aiohttp.ClientSession() as session:
         html = await session.get(link)
@@ -345,11 +346,10 @@ async def check_item_price(item):
         message += product_name.text.strip() + "\n" + price.text.strip() + "\n\n"
         if i == 4:  # show only first five items
             break
-
     return message
 
 
-async def get_lyrics(creator, song_name):
+async def get_lyrics(creator: str, song_name: str) -> str:
     lyrics = ""
     async with aiohttp.ClientSession() as session:
         link = f"https://tekstowo.pl/szukaj,wykonawca,{creator},tytul,{song_name}"
@@ -376,7 +376,7 @@ async def get_lyrics(creator, song_name):
     return lyrics
 
 
-async def get_vehicle_registration_number_info(registration_num):
+async def get_vehicle_registration_number_info(registration_num: str) -> str:
     async with aiohttp.ClientSession() as session:
         link = f"https://tablica-rejestracyjna.pl/{registration_num}"
         response = await session.get(link)

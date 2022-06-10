@@ -1,8 +1,9 @@
 import random as rd
 import requests
 from decimal import Decimal, getcontext
+from typing import Tuple, List, Union
 
-from fbchat import Mention
+import fbchat
 
 from .sql import handling_casino_sql
 from .parse_config import django_password
@@ -11,17 +12,17 @@ from .task_scheduler import last_jackpot_data
 
 getcontext().prec = 20
 
-DJANGO_PASSWORD = django_password
+DJANGO_PASSWORD: str = django_password
 
 
-async def take_daily(event):
+async def take_daily(event: fbchat.MessageEvent) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/set_daily_fb",
                              data={"fb_user_id": event.author.id, "django_password": django_password})
     message = response.json()
     return message["message"]
 
 
-async def make_bet(event):
+async def make_bet(event: fbchat.MessageEvent) -> str:
     message_values = event.message.text.split()
     try:
         bet_money = abs(float(message_values[1].replace(",", ".")))
@@ -37,7 +38,7 @@ async def make_bet(event):
     return message
 
 
-async def make_tip(event):
+async def make_tip(event: fbchat.MessageEvent) -> str:
     try:
         mention = event.message.mentions[0]
         money_to_give = abs(float(event.message.text.split()[1].replace(",", ".")))
@@ -62,7 +63,7 @@ async def make_tip(event):
     return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
 
 
-async def buy_jackpot_ticket(event):
+async def buy_jackpot_ticket(event: fbchat.MessageEvent) -> str:
     try:
         tickets_to_buy = abs(int(event.message.text.split()[1]))
     except (IndexError, ValueError, TypeError):
@@ -74,13 +75,13 @@ async def buy_jackpot_ticket(event):
     return response["message"]
 
 
-async def jackpot_info(event):
+async def jackpot_info(event: fbchat.MessageEvent):
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
     return ticket_number, user_tickets, last_jackpot_data.last_prize, last_jackpot_data.last_winner
 
 
-async def make_new_duel(duel_creator, wage, opponent):
+async def make_new_duel(duel_creator: str, wage: float, opponent: str) -> str:
     duel_creator_money = await handling_casino_sql.fetch_user_money(duel_creator)
     try:
         duel_creator_money = float(duel_creator_money)
@@ -96,7 +97,7 @@ async def make_new_duel(duel_creator, wage, opponent):
     return message
 
 
-async def play_duel(accepting_person_fb_id):
+async def play_duel(accepting_person_fb_id: str) -> Tuple[str, Union[List[fbchat.Mention]], None]:
     mention = None
     accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
     try:
@@ -117,38 +118,38 @@ async def play_duel(accepting_person_fb_id):
             winner_money += Decimal(wage*2)
             await handling_casino_sql.insert_into_user_money(winner, winner_money)
             message = f"✨ Osoba która wygrała {'%.2f' % float(wage*2)} dogecoinów"
-            mention = [Mention(thread_id=winner, offset=0, length=45)]
+            mention = [fbchat.Mention(thread_id=winner, offset=0, length=45)]
             await handling_casino_sql.delete_duels(duel_creator)
     return message, mention
 
 
-async def discard_duel(fb_id):
+async def discard_duel(fb_id: str) -> str:
     await handling_casino_sql.delete_duels(fb_id, True)
     return "💥 Usunięto twoje gry"
 
 
-async def buy_scratch_card(event):
+async def buy_scratch_card(event: fbchat.MessageEvent) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/buy_scratch_card_fb",
                              data={"user_fb_id": event.author.id, "django_password": django_password})
     message = response.json()
     return message["message"]
 
 
-async def shop(event, item_id):
+async def shop(event: fbchat.MessageEvent, item_id: str) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/shop_fb",
                              data={"user_fb_id": event.author.id, "django_password": django_password, "item_id": item_id})
     message = response.json()
     return message["message"]
 
 
-async def make_slots_game(event):
+async def make_slots_game(event: fbchat.MessageEvent) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/slots_fb",
                              data={"user_fb_id": event.author.id, "django_password": django_password})
     message = response.json()
     return message["message"]
 
 
-async def register(event, user):
+async def register(event: fbchat.MessageEvent, user: fbchat.UserData) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/create_account",
                              data={"fb_name": user.name, "user_fb_id": event.author.id,
                                    "django_password": django_password})

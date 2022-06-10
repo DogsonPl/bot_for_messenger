@@ -1,39 +1,40 @@
 from io import BytesIO
 import random as rd
 import os
+from typing import List, Tuple, Union
 
 from gtts import gTTS
 from PIL import Image, ImageDraw, ImageFont
 import emoji
 
-MEMES_DIR = "Bot//media//memes"
-FILMS_DIR = "Bot//media//films"
-MONEY_FLIP_DIR = "Bot//media//orzel_reszka"
+MEMES_DIR: str = "Bot//media//memes"
+FILMS_DIR: str = "Bot//media//films"
+MONEY_FLIP_DIR: str = "Bot//media//orzel_reszka"
 
-MEMES_FILES = [os.path.join(MEMES_DIR, i) for i in os.listdir(MEMES_DIR)]
-FILMS_FILES = [os.path.join(FILMS_DIR, i) for i in os.listdir(FILMS_DIR)]
-COIN_FLIP_FILES = [os.path.join(MONEY_FLIP_DIR, i) for i in os.listdir(MONEY_FLIP_DIR)]
+MEMES_FILES: List[str] = [os.path.join(MEMES_DIR, i) for i in os.listdir(MEMES_DIR)]
+FILMS_FILES: List[str] = [os.path.join(FILMS_DIR, i) for i in os.listdir(FILMS_DIR)]
+COIN_FLIP_FILES: List[str] = [os.path.join(MONEY_FLIP_DIR, i) for i in os.listdir(MONEY_FLIP_DIR)]
 FONT = ImageFont.truetype("Bot//media//fonts/FallingSkySemibold-Bn7B.otf", 15)
 
 EMOJI_LIST = emoji.UNICODE_EMOJI_ENGLISH
 
 
-async def get_random_meme():
+async def get_random_meme() -> Tuple[str, str]:
     drawn_meme = rd.choice(MEMES_FILES)
     return drawn_meme, "image/png"
 
 
-async def get_random_film():
+async def get_random_film() -> Tuple[str, str]:
     drawn_film = rd.choice(FILMS_FILES)
     return drawn_film, "video/mp4"
 
 
-async def make_coin_flip():
+async def make_coin_flip() -> Tuple[str, str]:
     selected = rd.choice(COIN_FLIP_FILES)
     return selected, "image/png"
 
 
-def edit_tvpis_image(text):
+def edit_tvpis_image(text) -> Tuple[Union[BytesIO, str], Union[str, None]]:
     if text == "":
         return "🚫 Napisz coś po !tvpis, np !tvpis jebać pis", None
 
@@ -48,7 +49,7 @@ def edit_tvpis_image(text):
     return bytes_image, "image/jpeg"
 
 
-def get_tts(text):
+def get_tts(text: str) -> Union[BytesIO, str]:
     for i in text:
         if i in EMOJI_LIST:
             max_len = 150

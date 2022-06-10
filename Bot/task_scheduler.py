@@ -12,7 +12,7 @@ from .parse_config import get_database_config
 
 
 BACKUP_PATH = "bot_database_backup.sql"
-HOST, USER, PASSWORD, DATABASE_NAME, PORT = loop.run_until_complete(get_database_config())
+db_config = loop.run_until_complete(get_database_config())
 
 
 class LastJackpotData:
@@ -28,9 +28,10 @@ class LastJackpotData:
 
 def make_db_backup():
     with io.open(BACKUP_PATH, 'w', encoding="UTF-8") as file:
-        command = pexpect.spawn(f"mysqldump -h {HOST} -u {USER} -p '{DATABASE_NAME}'", encoding="UTF-8")
+        command = pexpect.spawn(f"mysqldump -h {db_config.host} -u {db_config.user} -p '{db_config.database_name}'",
+                                encoding="UTF-8")
         command.expect("Enter password: ")
-        command.sendline(PASSWORD)
+        command.sendline(db_config.password)
         while not command.eof():
             chunk = command.readline()
             file.write(chunk)

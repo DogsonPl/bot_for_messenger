@@ -1,13 +1,15 @@
 import threading
 import time
 
+import fbchat
+
 from .commands_handling.casino_commands import CasinoCommands
 from .commands_handling.group_commands import GroupCommands
 from .commands_handling.normal_commands import Commands
 
 
 class BotCommands(CasinoCommands, GroupCommands, Commands):
-    def __init__(self, loop, bot_id, client, threads):
+    def __init__(self, loop, bot_id: str, client: fbchat.Client, threads: list):
         super().__init__(client, bot_id, loop)
         self.sent_messages_in_thread = {}
         for i in threads:

@@ -34,8 +34,8 @@ class BotCore:
             self.session = await fbchat.Session.from_cookies(self.cookies)
             print("Logged using cookies")
         except (fbchat.NotLoggedIn, AttributeError):
-            mail, password = await get_login_data()
-            self.session = await fbchat.Session.login(mail, password)
+            login_data = await get_login_data()
+            self.session = await fbchat.Session.login(login_data.mail, login_data.password)
             print("Logged using mail and password")
             MAIN_LOOP.create_task(self.save_cookies())
         finally:
@@ -136,7 +136,7 @@ class Listener(BotCore):
             await self.session.logout()
             raise SystemError("Bot works only on Linux")
 
-    async def set_sequence_id(self, listener):
+    async def set_sequence_id(self, listener: fbchat.Listener):
         self.client.sequence_id_callback = listener.set_sequence_id
         await self.client.fetch_threads(limit=None).__anext__()
 
@@ -154,7 +154,7 @@ class Listener(BotCore):
             elif isinstance(event, fbchat.PersonRemoved):
                 MAIN_LOOP.create_task(self.bot_commands.reply_on_person_removed(event))
 
-    async def handle_message_event(self, event):
+    async def handle_message_event(self, event: fbchat.MessageEvent):
         if event.author.id != self.bot_id:
             try:
                 if event.message.text.startswith("!"):

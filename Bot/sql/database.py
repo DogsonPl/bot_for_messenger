@@ -13,12 +13,14 @@ class Database:
 
     @staticmethod
     async def connect_to_db():
-        host, user, password, database_name, port = await get_database_config()
+        db_config = await get_database_config()
         try:
-            pool_connection = await aiomysql.create_pool(host=host, user=user, password=password, port=int(port),
-                                                         autocommit=True, db=database_name, maxsize=100, loop=loop)
+            pool_connection = await aiomysql.create_pool(host=db_config.host, user=db_config.user,
+                                                         password=db_config.password, port=db_config.port,
+                                                         autocommit=True, db=db_config.database_name,
+                                                         maxsize=100, loop=loop)
         except pymysql.err.OperationalError:
-            raise Exception(f"Have you installed mysql on your computer and created database '{database_name}'?")
+            raise Exception(f"Have you installed mysql on your computer and created database '{db_config.database_name}'?")
         return pool_connection
 
     @staticmethod

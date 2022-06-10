@@ -1,16 +1,32 @@
 from configparser import ConfigParser
+from dataclasses import dataclass
 
 
-async def get_login_data():
+@dataclass
+class LoginData:
+    mail: str
+    password: str
+
+
+async def get_login_data() -> LoginData:
     mail = config_parser.get("login", "mail")
     password = config_parser.get("login", "password")
     if mail == "" or password == "":
         raise Exception("You have to set login data in a config file")
     else:
-        return mail, password
+        return LoginData(mail, password)
 
 
-async def get_database_config():
+@dataclass
+class DatabaseConfig:
+    host: str
+    user: str
+    password: str
+    database_name: str
+    port: int
+
+
+async def get_database_config() -> DatabaseConfig:
     host = config_parser.get("database", "host")
     user = config_parser.get("database", "user")
     password = config_parser.get("database", "password")
@@ -19,17 +35,24 @@ async def get_database_config():
     if host == "" or user == "" or database_name == "" and port == "":
         raise Exception("You have to set database data in a config file")
     else:
-        return host, user, password, database_name, port
+        return DatabaseConfig(host, user, password, database_name, int(port))
 
 
-async def get_smpt_config():
+@dataclass
+class SmtpConfig:
+    hostname: str
+    mail: str
+    password: str
+
+
+async def get_smpt_config() -> SmtpConfig:
     hostname = config_parser.get("smpt", "hostname")
     mail = config_parser.get("smpt", "mail")
     password = config_parser.get("smpt", "password")
     if hostname == "" or mail == "" or password == "":
         raise Exception("You have to set SMPT data in a config file")
     else:
-        return hostname, mail, password
+        return SmtpConfig(hostname, mail, password)
 
 
 config_parser = ConfigParser()
