@@ -154,16 +154,16 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
 
     @logger
     async def send_player_profil(self, event: fbchat.MessageEvent):
-        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = await handling_casino_sql.fetch_user_profil_data(event.author.id)
-        if won_bets == "No data":
+        profil_data = await handling_casino_sql.fetch_user_profil_data(event.author.id)
+        if profil_data.won_bets == "No data":
             message = "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne"
         else:
-            total_bets = lost_bets+won_bets
+            total_bets = profil_data.lost_bets+profil_data.won_bets
             legendary_dogecoins_gained = 0
-            if last_season_dogecoins > 100:
-                legendary_dogecoins_gained = last_season_dogecoins-100
+            if profil_data.last_season_dogecoins > 100:
+                legendary_dogecoins_gained = profil_data.last_season_dogecoins-100
             try:
-                won_bets_percent = str((won_bets/total_bets)*100)[0:5]
+                won_bets_percent = str((profil_data.won_bets/total_bets)*100)[0:5]
             except ZeroDivisionError:
                 won_bets_percent = 0
 
@@ -171,20 +171,20 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
         
 🏆 𝗧𝘄𝗼𝗷𝗲 𝗼𝘀𝗶𝗮𝗴𝗶𝗲𝗰𝗶𝗮: użyj komendy !osiągniecia
 
-📈 𝐖𝐲𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % won_dc} dogecoinów
-📉 𝐏𝐫𝐳𝐞𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % lost_dc} dogecoinów
-🔝 𝐓𝐰𝐨𝐣𝐚 𝐧𝐚𝐣𝐰𝐢ę𝐤𝐬𝐳𝐚 𝐰𝐲𝐠𝐫𝐚𝐧𝐚 𝐰 𝐛𝐞𝐜𝐢𝐞: {float('%.2f' % biggest_win)}
+📈 𝐖𝐲𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % profil_data.won_dc} dogecoinów
+📉 𝐏𝐫𝐳𝐞𝐠𝐫𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {'%.2f' % profil_data.lost_dc} dogecoinów
+🔝 𝐓𝐰𝐨𝐣𝐚 𝐧𝐚𝐣𝐰𝐢ę𝐤𝐬𝐳𝐚 𝐰𝐲𝐠𝐫𝐚𝐧𝐚 𝐰 𝐛𝐞𝐜𝐢𝐞: {float('%.2f' % profil_data.biggest_win)}
 
-🤑 𝐖𝐲𝐤𝐨𝐧𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {total_bets} betów, w tym {won_bets} wygranych ({won_bets_percent} %)
-💰 𝐊𝐮𝐩𝐢𝐨𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {total_scratch_bought} zdrapek, dzisiaj {today_scratch_bought} zdrapek
+🤑 𝐖𝐲𝐤𝐨𝐧𝐚𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {total_bets} betów, w tym {profil_data.won_bets} wygranych ({won_bets_percent} %)
+💰 𝐊𝐮𝐩𝐢𝐨𝐧𝐨 𝐥𝐚𝐜𝐳𝐧𝐢𝐞 {profil_data.total_scratch_bought} zdrapek, dzisiaj {profil_data.today_scratch_bought} zdrapek
 
-💲 𝐓𝐰𝐨𝐣𝐚 𝐢𝐥𝐨𝐬𝐜 𝐝𝐨𝐠𝐨𝐰 𝐧𝐚 𝐤𝐨𝐧𝐢𝐞𝐜 𝐩𝐨𝐩𝐫𝐳𝐞𝐝𝐧𝐢𝐞𝐠𝐨 𝐬𝐞𝐳𝐨𝐧𝐮: {float('%.2f' % last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
-🎖️ 𝐓𝐰𝐨𝐣 𝐧𝐚𝐣𝐥𝐞𝐩𝐬𝐳𝐲 𝐬𝐞𝐳𝐨𝐧: {float('%.2f' % best_season)} dogów
+💲 𝐓𝐰𝐨𝐣𝐚 𝐢𝐥𝐨𝐬𝐜 𝐝𝐨𝐠𝐨𝐰 𝐧𝐚 𝐤𝐨𝐧𝐢𝐞𝐜 𝐩𝐨𝐩𝐫𝐳𝐞𝐝𝐧𝐢𝐞𝐠𝐨 𝐬𝐞𝐳𝐨𝐧𝐮: {float('%.2f' % profil_data.last_season_dogecoins)} (otrzymano {float('%.2f' % legendary_dogecoins_gained)} legendarnych dogów)
+🎖️ 𝐓𝐰𝐨𝐣 𝐧𝐚𝐣𝐥𝐞𝐩𝐬𝐳𝐲 𝐬𝐞𝐳𝐨𝐧: {float('%.2f' % profil_data.best_season)} dogów
 
 👑 𝐍𝐚 𝐤𝐨𝐧𝐢𝐞𝐜 𝐬𝐞𝐳𝐨𝐧𝐮 𝐛𝐲ł𝐞𝐬/𝐚𝐬:
-🥇 {season_first_place} razy
-🥈 {season_second_place} razy
-🥉 {season_third_place} razy
+🥇 {profil_data.season_first_place} razy
+🥈 {profil_data.season_second_place} razy
+🥉 {profil_data.season_third_place} razy
 
 🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
         await self.send_text_message(event, message, reply_to_id=event.message.id)

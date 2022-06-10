@@ -22,8 +22,8 @@ class LastJackpotData:
 
     async def get_last_jackpot_data(self):
         _last_jackpot_data = await handling_casino_sql.get_last_jackpot_results()
-        self.last_winner = _last_jackpot_data[0] if _last_jackpot_data[0] else _last_jackpot_data[1]
-        self.last_prize = _last_jackpot_data[2]
+        self.last_winner = _last_jackpot_data.username if _last_jackpot_data.username else _last_jackpot_data.fb_name
+        self.last_prize = _last_jackpot_data.prize
 
 
 def make_db_backup():

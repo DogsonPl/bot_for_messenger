@@ -1,8 +1,13 @@
+from decimal import Decimal
+from typing import Union, List, Tuple
+from dataclasses import dataclass
+
 import pymysql
+
 from .database import cursor
 
 
-async def insert_into_user_money(user_fb_id, money):
+async def insert_into_user_money(user_fb_id: str, money: Decimal):
     await cursor.execute("""UPDATE casino_players 
                             SET money = %s
                             WHERE user_fb_id = %s;""", (money, user_fb_id))
@@ -13,7 +18,7 @@ async def reset_old_confirmations_emails():
                             WHERE creation_time < NOW() - INTERVAL 1 HOUR;""")
 
 
-async def new_email_confirmation(user_fb_id, email, code):
+async def new_email_confirmation(user_fb_id: str, email: str, code: int) -> bool:
     try:
         await cursor.execute("""INSERT INTO pending_emails_confirmations(user_fb_id, email, confirmation_code)
                                 VALUES(%s, %s, %s);""", (user_fb_id, email, code))
@@ -22,9 +27,9 @@ async def new_email_confirmation(user_fb_id, email, code):
         return True
 
 
-async def get_user_email(user_fb_id):
+async def get_user_email(user_fb_id: str) -> Union[str, bool]:
     email = await cursor.fetch_data("""SELECT email FROM casino_players 
-                            WHERE user_fb_id=%s;""", (user_fb_id,))
+                                       WHERE user_fb_id=%s;""", (user_fb_id,))
     try:
         email = email[0][0]
     except IndexError:
@@ -32,7 +37,7 @@ async def get_user_email(user_fb_id):
     return email
 
 
-async def check_email_confirmation(user_fb_id, code):
+async def check_email_confirmation(user_fb_id: str, code: int) -> str:
     data = await cursor.fetch_data("""SELECT user_fb_id, email, confirmation_code FROM pending_emails_confirmations
                                       WHERE (user_fb_id=%s) AND (confirmation_code=%s);""", (user_fb_id, code))
     if len(data) == 1:
@@ -61,7 +66,7 @@ async def check_email_confirmation(user_fb_id, code):
         return "🚫 Podano niepoprawny kod"
 
 
-async def fetch_top_three_players():
+async def fetch_top_three_players() -> Tuple[List, List]:
     top_users = await cursor.fetch_data("""SELECT casino_players.fb_name, login_user.username, casino_players.money 
                                            FROM casino_players
                                            LEFT JOIN login_user ON casino_players.user_id = login_user.id
@@ -73,7 +78,7 @@ async def fetch_top_three_players():
     return top_users, top_legendary_users
 
 
-async def fetch_user_money(user_fb_id):
+async def fetch_user_money(user_fb_id: str) -> Union[Decimal, str]:
     try:
         data = await cursor.fetch_data("""SELECT money FROM casino_players
                                           WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
@@ -83,7 +88,7 @@ async def fetch_user_money(user_fb_id):
     return user_money
 
 
-async def fetch_user_all_money(user_fb_id):
+async def fetch_user_all_money(user_fb_id) -> Tuple[Decimal, Decimal]:
     try:
         data = await cursor.fetch_data("""SELECT money, legendary_dogecoins FROM casino_players
                                           WHERE user_fb_id = %s LIMIT 1;""", (user_fb_id,))
@@ -94,16 +99,23 @@ async def fetch_user_all_money(user_fb_id):
     return user_money, legendary_dogecoins
 
 
-async def get_last_jackpot_results():
+@dataclass
+class LastJackpotResults:
+    username: str
+    fb_name: str
+    prize: float
+
+
+async def get_last_jackpot_results() -> LastJackpotResults:
     data, = await cursor.fetch_data("""SELECT username, fb_name, prize FROM jackpots_results
                                       INNER JOIN casino_players ON jackpots_results.winner_id=casino_players.id
                                       LEFT JOIN login_user ON casino_players.user_id=login_user.id
                                       ORDER BY jackpots_results.id DESC
                                       LIMIT 1;""")
-    return data
+    return LastJackpotResults(data[0], data[1], data[2])
 
 
-async def fetch_tickets_number():
+async def fetch_tickets_number() -> int:
     data = await cursor.fetch_data("""SELECT SUM(tickets) FROM jackpot;""")
     data = data[0][0]
     if data is None:
@@ -111,7 +123,7 @@ async def fetch_tickets_number():
     return data
 
 
-async def fetch_user_tickets(user_fb_id):
+async def fetch_user_tickets(user_fb_id: str) -> int:
     try:
         data = await cursor.fetch_data("""SELECT tickets FROM jackpot
                                           INNER JOIN casino_players ON jackpot.player_id=casino_players.id
@@ -122,18 +134,32 @@ async def fetch_user_tickets(user_fb_id):
     return data
 
 
-async def fetch_user_profil_data(user_fb_id):
+@dataclass
+class UserProfile:
+    won_bets: int
+    lost_bets: int
+    today_scratch_bought: int
+    best_season: float
+    biggest_win: float
+    last_season_dogecoins: float
+    total_scratch_bought: int
+    season_first_place: int
+    season_second_place: int
+    season_third_place: int
+    won_dc: float
+    lost_dc: float
+
+async def fetch_user_profil_data(user_fb_id) -> UserProfile:
     try:
-        data = await cursor.fetch_data("""SELECT won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc
+        data, = await cursor.fetch_data("""SELECT won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc
                                           FROM casino_players
                                           WHERE user_fb_id = %s;""", (user_fb_id,))
-        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = data[0]
     except (ValueError, IndexError):
-        won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc = ["No data" for _ in range(12)]
-    return won_bets, lost_bets, today_scratch_bought, best_season, biggest_win, last_season_dogecoins, total_scratch_bought, season_first_place, season_second_place, season_third_place, won_dc, lost_dc
+        data = ["No data" for _ in range(12)]
+    return UserProfile(*data)
 
 
-async def create_duel(duel_creator, wage, opponent):
+async def create_duel(duel_creator: str, wage: float, opponent: str) -> Tuple[str, bool]:
     try:
         await cursor.execute("""INSERT INTO duels(wage, duel_creator, opponent)
                                 VALUES(%s, %s, %s);""", (wage, duel_creator, opponent))
@@ -146,13 +172,13 @@ Również osoba z która chcesz grać nie może mieć żadnych gier w trakcie"""
     return message, created
 
 
-async def fetch_duel_info(opponent):
+async def fetch_duel_info(opponent: str):
     data = await cursor.fetch_data("""SELECT wage, duel_creator, opponent FROM duels
                                       WHERE opponent = %s;""", (opponent,))
     return data
 
 
-async def delete_duels(fb_id, give_money_back=False):
+async def delete_duels(fb_id: str, give_money_back=False):
     if give_money_back:
         await cursor.execute("""UPDATE casino_players
                                 INNER JOIN duels wage ON casino_players.user_fb_id = duel_creator
