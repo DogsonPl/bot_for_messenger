@@ -37,3 +37,19 @@ async def fetch_welcome_message(event: fbchat.MessageEvent) -> Union[str, None]:
     except IndexError:
         message = None
     return message
+
+
+async def get_user_flags_wins(user_fb_id: str):
+    data = await cursor.fetch_data("""SELECT flags_points FROM casino_players
+                                      WHERE user_fb_id = %s;""", (user_fb_id, ))
+    try:
+        flags_wins = data[0][0]
+    except IndexError:
+        flags_wins = 0
+    return flags_wins
+
+
+async def set_user_flags_wins(user_fb_id: str, wins: int):
+    await cursor.execute("""UPDATE casino_players
+                            SET flags_points = %s 
+                            WHERE user_fb_id = %s;""", (wins, user_fb_id))

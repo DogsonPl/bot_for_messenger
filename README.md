@@ -69,9 +69,10 @@ Bot only answers if you have bot in friends**
 **!kocha @nick1 @nick** - (kocha = love) sends how much @nick1 loves @nick2 \
 **!cena x** - (cena = price) sends price of given item (for example !cena shiba inu) \
 **!banan @nick1(optional)** - sends how big is your banana (or mentioned person) \
-**!osiągnięcia** - (osiągniecią = achievements) sends player achievements \
+**!osiągnięcia** - (osiągniecia = achievements) sends player achievements \
 **!tekst song name; creator** - sends lyrics given song \
 **!stan @nick** - sends your or mentioned person state of sobriety \
 **!tablica vehicle_registration_number** - sends info about vehicle with given registration number \
 **!sklep** - opens casino shop \
-**!slots** - slots casino game
+**!slots** - slots casino game \
+**!flagi** (flagi = flags) - play in guess the flag

@@ -1,14 +1,19 @@
 import random as rd
 import asyncio
+import json
+from datetime import datetime, timedelta
+from typing import Union, Tuple
 
 import fbchat
 from forex_python.converter import CurrencyRates, RatesNotAvailableError
 from deep_translator import GoogleTranslator
 from deep_translator.exceptions import LanguageNotSupportedException, NotValidPayload
+from dataclasses import dataclass
 
 from .logger import logger
 from .. import getting_and_editing_files, page_parsing
 from .bot_actions import BotActions
+from ..sql import handling_group_sql
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
@@ -21,52 +26,53 @@ with open("Bot/data/questions.txt") as file:
 
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 ⚙ !𝙝𝙚𝙡𝙥 - wysyła komendy
-⚙ !𝙨𝙩𝙧𝙤𝙣𝙖- wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość snchronizowania dogecoinów
+⚙ !𝙨𝙩𝙧𝙤𝙣𝙖- wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość synchronizowania dogecoinów
 ⚙ !𝙬𝙚𝙧𝙨𝙟𝙖 - wysyła wersje bota + to co ostatnio dodano do bota
 ⚙ !𝙬𝙨𝙥𝙖𝙧𝙘𝙞𝙚 - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
 ⚙ !𝙩𝙬𝙤𝙧𝙘𝙖 - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
 ⚙ !𝙞𝙙 - wysyła twoje id
-⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨 - wysyła informacje o koroawirusie na świecie
+⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨 - wysyła informacje o koronawirusie na świecie
 ⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨𝙥𝙡 - wysyła informacje o koronawirusie w polsce
 ⚙ !𝙢𝙚𝙢 - wysyła losowego mema
 ⚙ !𝙡𝙪𝙘𝙠𝙮𝙢𝙚𝙢𝙗𝙚𝙧 - losuje losowego członka grupy
 ⚙ !𝙧𝙪𝙡𝙚𝙩𝙠𝙖 - usuwa losowego członka grupy (bot musi mieć admina)
 ⚙ !𝙥𝙤𝙜𝙤𝙙𝙖 x - wysyła pogode w danym miejscu (wpisz np: !pogoda Warszawa)
-⚙ !𝙣𝙞𝙘𝙠 x - zmienia twój nick na x (np '!nick coś' usatwi twoj nick na 'coś')
-⚙ !𝙚𝙫𝙚𝙧𝙮𝙤𝙣𝙚 - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobe ale tak naprawde oznaczony jest każdy)
+⚙ !𝙣𝙞𝙘𝙠 x - zmienia twój nick na x (np '!nick coś' ustawi twój nick na 'coś')
+⚙ !𝙚𝙫𝙚𝙧𝙮𝙤𝙣𝙚 - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobę ale tak naprawdę oznaczony jest każdy)
 ⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙧𝙤𝙘𝙡𝙖𝙬 - pisze utrudnienia w komunikacji miejskiej we Wrocławiu (ostatnie dwa posty MPK Wrocław)
-⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙖𝙬𝙖 - pisze utrudnienia w komunikacji miejsiej w Warszawie
+⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙖𝙬𝙖 - pisze utrudnienia w komunikacji miejskiej w Warszawie
 ⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙡𝙤𝙙𝙯 - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !𝙢𝙤𝙣𝙚𝙩𝙖 - bot rzuca monete (orzeł lub reszka)
 ⚙ !𝙬𝙖𝙡𝙪𝙩𝙖 ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
 ⚙ !𝙠𝙤𝙘𝙝𝙖 @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
-⚙ !𝙗𝙖𝙣𝙖𝙣 @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznacozny)
+⚙ !𝙗𝙖𝙣𝙖𝙣 @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznaczony)
 ⚙ !𝙩𝙚𝙠𝙨𝙩 tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
 ⚙ !𝙨𝙩𝙖𝙣 @nick - wysyła twój stan albo oznaczonej osoby
 ⚙ !𝙩𝙖𝙗𝙡𝙞𝙘𝙖 x  - wysyła informacje o podanym numerze rejestracyjnym pojazdu
-⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie\n
+⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie
+⚙ !𝙛𝙡𝙖𝙜𝙞 - wysyła flagę i trzeba zgadnąć kraj. Gdy na grupie jest nieodgadnięta flaga napisz !flagi nazwa_kraju\n
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
 🔥 !𝙨𝙯𝙪𝙠𝙖𝙟 x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
 🔥 !𝙩𝙡𝙪𝙢𝙖𝙘𝙯 --jezyk x - tłumaczy tekst na podany język (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
 🔥 !𝙢𝙞𝙚𝙟𝙨𝙠𝙞 x - wyszukuje podane słowo na stronie miejski
 🔥 !𝙛𝙞𝙡𝙢 - wysyła losowy śmieszny film
 🔥 !𝙩𝙫𝙥𝙞𝙨 x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
-🔥 !𝙙𝙞𝙨𝙘𝙤 - robi dyskoteke
+🔥 !𝙙𝙞𝙨𝙘𝙤 - robi dyskotekę
 🔥 !𝙥𝙤𝙬𝙞𝙩𝙖𝙣𝙞𝙚 'treść' - ustawia powitanie na grupie nowego członka
 🔥 !𝙣𝙤𝙬𝙮𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 'treść' - ustawia regulamin grupy
 🔥 !𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 - wysyła regulamin grupy
-🔥 !𝙯𝙙𝙟𝙚𝙘𝙞𝙚 x - wysyła zdjecie x
-🔥 !𝙥𝙡𝙖𝙮 x - bot wysyła piosenke, można wpisać nazwe piosenki albo link do spotify
+🔥 !𝙯𝙙𝙟𝙚𝙘𝙞𝙚 x - wysyła zdjęcie x
+🔥 !𝙥𝙡𝙖𝙮 x - bot wysyła piosenkę, można wpisać nazwę piosenki albo link do spotify
 🔥 !𝙘𝙚𝙣𝙖 x - wysyła cene podanej rzeczy
 🔥 !𝙨𝙖𝙮 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
 💸 !𝙧𝙚𝙜𝙞𝙨𝙩𝙚𝙧 - po użyciu tej komendy możesz grać w kasyno
 💸 !𝙙𝙖𝙞𝙡𝙮 - daje codziennie darmowe dogecoins
 💸 !𝙩𝙤𝙥 - wysyła 3 graczy którzy mają najwięcej monet
-💸 !𝙗𝙖𝙡 - wysyła twoją liczbe dogecoinów
+💸 !𝙗𝙖𝙡 - wysyła twoją liczbę dogecoinów
 💸 !𝙗𝙚𝙩 x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
 💸 !𝙯𝙙𝙧𝙖𝙥𝙠𝙖 - koszt zdrapki to 5 dogów, można wygrać od 0 do 2500 dogecoinów 
-💸 !𝙩𝙞𝙥 x @oznaczenie_osoby - wysyłą x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
+💸 !𝙩𝙞𝙥 x @oznaczenie_osoby - wysyła x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
 💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩 - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
 💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩𝙗𝙪𝙮 x - kupuje x ticketów (jeden ticket = 1 dogecoin)
 💸 !𝙙𝙪𝙚𝙡 - gra duel, po więcej informacji napisz !duel
@@ -75,10 +81,10 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 💸 !𝙥𝙧𝙤𝙛𝙞𝙡 - wysyła twoje statystyki 
 💸 !𝙤𝙨𝙞𝙖𝙜𝙣𝙞𝙚𝙘𝙞𝙖 - wysyła twoje osiągnięcia
 💸 !𝙨𝙠𝙡𝙚𝙥 - sklep do kupowania różnych rzeczy za legendarne dogecoiny
-💸 !𝙨𝙡𝙤𝙩𝙨 - kasyno gra slots, koszt 5 dogow
+💸 !𝙨𝙡𝙤𝙩𝙨 - kasyno gra slots, koszt 5 dogów
 """
 
-LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisac na: https://www.facebook.com/dogsonjakub.nowak.7"
+LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisać na: https://www.facebook.com/dogsonjakub.nowak.7"
 
 SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬𝐳 𝐰𝐬𝐩𝐨𝐦𝐨𝐜 𝐩𝐫𝐚𝐜𝐞 𝐧𝐚𝐝 𝐛𝐨𝐭𝐞𝐦, 𝐦𝐨𝐳𝐞𝐬𝐳 𝐰𝐲𝐬𝐥𝐚𝐜 𝐝𝐨𝐧𝐞𝐣𝐭𝐚. 𝐙𝐚 𝐤𝐚𝐳𝐝𝐚 𝐩𝐨𝐦𝐨𝐜 𝐰𝐢𝐞𝐥𝐤𝐢𝐞 𝐝𝐳𝐢𝐞𝐤𝐢 💎💰🧧!
 💴 𝙋𝙖𝙮𝙥𝙖𝙡: paypal.me/DogsonPL
@@ -86,23 +92,36 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.0 + 12.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.1 + 12.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 Ograniczona ilość wysyłanych wiadomości
+🆕 !flagi
 🆕 !slots
 🆕 !sklep
-🆕 !tablica
 """
 
 download_tiktok = page_parsing.DownloadTiktok()
 
-MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Niezłe gastro, zjadł/a całą lodówke i zamówił/a dwie duże pizze",
+MARIJUANA_MESSAGES = ["Nie zjarany/a", "Po kilku buszkach", "Niezłe gastro, zjadł/a całą lodówkę i zamówił/a dwie duże pizze",
                       "Pierdoli coś o kosmitach", "Słodko śpi", "Badtrip :(", "Spierdala przed policją",
                       "Jara właśnie", "Gotuje wesołe ciasteczka", "Mati *kaszle* widać po *kaszle* mnie?",
                       "Mocno wyjebało, nie ma kontaktu", "Jest w swoim świecie", "xDDDDDDDDDDDDDDD", "JD - jest z nim/nią dobrze",
                       "Wali wiadro", "Wesoły", "Najwyższy/a w pokoju", "Mówi że lubi jeździć na rowerze samochodem",
                       "*kaszlnięcie*, *kaszlnięcie*, *kaszlnięcie*", "Kometa wpadła do buzi, poterzny bul"]
+
+
+@dataclass
+class FlagsGame:
+    time: datetime.date
+    answer: Union[str, list]
+    message_id: str
+
+
+with open("Bot/data/flags.json", "r") as file:
+    FLAGS = json.load(file)
+
+flags_game = {}
 
 
 class Commands(BotActions):
@@ -143,7 +162,7 @@ class Commands(BotActions):
     async def send_weather(self, event: fbchat.MessageEvent):
         city = " ".join(event.message.text.split()[1:])
         if not city:
-            message = "🚫 Po !pogoda podaj miejscowość z której chcesz mieć pogode, np !pogoda warszawa"
+            message = "🚫 Po !pogoda podaj miejscowość z której chcesz mieć pogodę, np !pogoda warszawa"
         else:
             message = await self.get_weather(city)
         await self.send_text_message(event, message)
@@ -229,7 +248,7 @@ class Commands(BotActions):
             try:
                 converted_currency = float(currency_converter.convert(from_, to, 1))
             except RatesNotAvailableError:
-                message = f"🚫 Podano niepoprawną walute"
+                message = f"🚫 Podano niepoprawną walutę"
             else:
                 new_amount = "%.2f" % (converted_currency*amount)
                 message = f"💲 {'%.2f' % amount} {from_} to {new_amount} {to}"
@@ -276,13 +295,13 @@ class Commands(BotActions):
             text = " ".join(event.message.text.split()[1:])
 
         if not text or len(text) > 3000:
-            translated_text = """💡 Po !tlumacz napisz co chcesz przetlumaczyc, np !tlumacz siema. Tekst może mieć maksymalnie 3000 znaków
+            translated_text = """💡 Po !tlumacz napisz co chcesz przetłumaczyć, np !tlumacz siema. Tekst może mieć maksymalnie 3000 znaków
 Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlumacz --english siema"""
         else:
             try:
                 translated_text = GoogleTranslator("auto", to).translate(text)
             except LanguageNotSupportedException:
-                translated_text = f"🚫 {to} - nie moge znaleźć takiego języka, spróbuj wpisać pełną nazwe języka"
+                translated_text = f"🚫 {to} - nie moge znaleźć takiego języka, spróbuj wpisać pełną nazwę języka"
             except NotValidPayload:
                 translated_text = "🚫 Nie można przetłumaczyć tego tekstu"
 
@@ -416,6 +435,11 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         await self.send_text_message(event, registration_number_info)
 
     @logger
+    async def send_play_flags_message(self, event: fbchat.MessageEvent):
+        message, reply_to = await play_flags(event)
+        await self.send_text_message(event, message, reply_to_id=reply_to)
+
+    @logger
     async def make_disco(self, event: fbchat.MessageEvent):
         thread_id = event.thread.id
         if thread_id in self.chats_where_making_disco:
@@ -438,3 +462,27 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
     async def ukraine(self, event: fbchat.MessageEvent):
         message = await page_parsing.ukraine()
         await self.send_text_message(event, message)
+
+
+async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]:
+    answer = flags_game.get(event.thread.id)
+    if answer and answer.time + timedelta(minutes=10) > datetime.now():
+        country = event.message.text[6:]
+        if not country:
+            return "💡 Po !flagi podaj nazwę kraju, do którego należy ta flaga", answer.message_id
+
+        if country.lower().strip() == answer.answer:
+            user_points = await handling_group_sql.get_user_flags_wins(event.author.id)
+            try:
+                user_points += 1
+            except TypeError:
+                return "💡 Użyj polecenia !register żeby móc się bawić w kasyno. Wszystkie dogecoiny są sztuczne", event.message.id
+            else:
+                await handling_group_sql.set_user_flags_wins(event.author.id, user_points)
+                del flags_game[event.thread.id]
+                return f"👍 Dobra odpowiedź! Posiadasz już {user_points} dobrych opdowiedzi", event.message.id
+        else:
+            return "👎 Zła odpowiedź", event.message.id
+    flag, answer = rd.choice(list(FLAGS.items()))
+    flags_game[event.thread.id] = FlagsGame(datetime.now(), answer, event.message.id)
+    return f"Flaga do odgadnięcia {flag}\nNapisz !flagi nazwa_państwa", None
