@@ -467,11 +467,20 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
 async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]:
     answer = flags_game.get(event.thread.id)
     if answer and answer.time + timedelta(minutes=10) > datetime.now():
-        country = event.message.text[6:]
+        country = event.message.text[6:].lower().strip()
         if not country:
             return "💡 Po !flagi podaj nazwę kraju, do którego należy ta flaga", answer.message_id
 
-        if country.lower().strip() == answer.answer:
+        good_answer = False
+        if isinstance(answer.answer, str):
+            if country == answer.answer:
+                good_answer = True
+            else:
+                for i in answer.answer:
+                    if i == country:
+                        good_answer = True
+                        break
+        if good_answer:
             user_points = await handling_group_sql.get_user_flags_wins(event.author.id)
             try:
                 user_points += 1
