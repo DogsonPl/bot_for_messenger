@@ -475,11 +475,11 @@ async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]
         if isinstance(answer.answer, str):
             if country == answer.answer:
                 good_answer = True
-            else:
-                for i in answer.answer:
-                    if i == country:
-                        good_answer = True
-                        break
+        else:
+            for i in answer.answer:
+                if i == country:
+                    good_answer = True
+                    break
         if good_answer:
             user_points = await handling_group_sql.get_user_flags_wins(event.author.id)
             try:
@@ -489,7 +489,7 @@ async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]
             else:
                 await handling_group_sql.set_user_flags_wins(event.author.id, user_points)
                 del flags_game[event.thread.id]
-                return f"👍 Dobra odpowiedź! Posiadasz już {user_points} dobrych opdowiedzi", event.message.id
+                return f"👍 Dobra odpowiedź! Posiadasz już {user_points} dobrych odpowiedzi", event.message.id
         else:
             return "👎 Zła odpowiedź", event.message.id
     flag, answer = rd.choice(list(FLAGS.items()))
