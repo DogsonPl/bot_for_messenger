@@ -1,6 +1,7 @@
 import random as rd
 import requests
 from decimal import Decimal, getcontext
+from dataclasses import dataclass
 from typing import Tuple, List, Union
 
 import fbchat
@@ -41,7 +42,7 @@ async def make_bet(event: fbchat.MessageEvent) -> str:
 async def make_tip(event: fbchat.MessageEvent) -> str:
     try:
         mention = event.message.mentions[0]
-        money_to_give = abs(float(event.message.text.split()[1].replace(",", ".")))
+        money_to_give = abs(Decimal(event.message.text.split()[1].replace(",", ".")))
     except (IndexError, ValueError, TypeError):
         return "🚫 Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
 
@@ -54,12 +55,12 @@ async def make_tip(event: fbchat.MessageEvent) -> str:
 
     receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
     try:
-        receiver_money += Decimal(money_to_give)
+        receiver_money += money_to_give
     except TypeError:
         return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy !register"
-    sender_money -= Decimal(money_to_give)
+    sender_money -= money_to_give
     await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
-    await handling_casino_sql.insert_into_user_money(int(mention.thread_id), receiver_money)
+    await handling_casino_sql.insert_into_user_money(mention.thread_id, receiver_money)
     return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
 
 
@@ -75,16 +76,24 @@ async def buy_jackpot_ticket(event: fbchat.MessageEvent) -> str:
     return response["message"]
 
 
-async def jackpot_info(event: fbchat.MessageEvent):
+@dataclass
+class JackpotInfo:
+    ticket_number: int
+    user_tickets: int
+    last_prize: int
+    last_winner: str
+
+
+async def jackpot_info(event: fbchat.MessageEvent) -> JackpotInfo:
     ticket_number = await handling_casino_sql.fetch_tickets_number()
     user_tickets = await handling_casino_sql.fetch_user_tickets(event.author.id)
-    return ticket_number, user_tickets, last_jackpot_data.last_prize, last_jackpot_data.last_winner
+    return JackpotInfo(ticket_number, user_tickets, last_jackpot_data.last_prize, last_jackpot_data.last_winner)
 
 
-async def make_new_duel(duel_creator: str, wage: float, opponent: str) -> str:
+async def make_new_duel(duel_creator: str, wage: Decimal, opponent: str) -> str:
     duel_creator_money = await handling_casino_sql.fetch_user_money(duel_creator)
     try:
-        duel_creator_money = float(duel_creator_money)
+        duel_creator_money = Decimal(duel_creator_money)
     except ValueError:
         return duel_creator_money
     if duel_creator_money < wage:
@@ -92,16 +101,16 @@ async def make_new_duel(duel_creator: str, wage: float, opponent: str) -> str:
     else:
         message, created = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
         if created:
-            duel_creator_money -= float(wage)
+            duel_creator_money -= wage
             await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
     return message
 
 
-async def play_duel(accepting_person_fb_id: str) -> Tuple[str, Union[List[fbchat.Mention]], None]:
+async def play_duel(accepting_person_fb_id: str) -> Tuple[str, Union[List[fbchat.Mention], None]]:
     mention = None
     accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
     try:
-        accepting_person_fb_id_money = float(accepting_person_fb_id_money)
+        accepting_person_fb_id_money = Decimal(accepting_person_fb_id_money)
     except ValueError:
         return accepting_person_fb_id_money, mention
     duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
@@ -137,7 +146,8 @@ async def buy_scratch_card(event: fbchat.MessageEvent) -> str:
 
 async def shop(event: fbchat.MessageEvent, item_id: str) -> str:
     response = requests.post("http://127.0.0.1:8000/casino/shop_fb",
-                             data={"user_fb_id": event.author.id, "django_password": django_password, "item_id": item_id})
+                             data={"user_fb_id": event.author.id, "django_password": django_password,
+                                   "item_id": item_id})
     message = response.json()
     return message["message"]
 

@@ -3,7 +3,7 @@ import asyncio
 import aiofiles
 import fbchat
 
-ADD_TO_EVERY_MESSAGE: str = f"""\n🇺🇦 #StandWithUkraine (komenda !ukraina)
+ADD_TO_EVERY_MESSAGE: str = f"""\n🇺🇦 #StandWithUkraine
 Wprowadzono limit na ilość wysyłanych wiadomości przez bota, jeśli nie odpowiada należy poczekać minute (nawet jak bot nie wyśle wiadomości, bety są wykonywane)"""
 
 

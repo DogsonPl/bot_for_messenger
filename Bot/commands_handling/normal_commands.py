@@ -39,7 +39,6 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 ⚙ !𝙥𝙤𝙜𝙤𝙙𝙖 x - wysyła pogode w danym miejscu (wpisz np: !pogoda Warszawa)
 ⚙ !𝙣𝙞𝙘𝙠 x - zmienia twój nick na x (np '!nick coś' ustawi twój nick na 'coś')
 ⚙ !𝙚𝙫𝙚𝙧𝙮𝙤𝙣𝙚 - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobę ale tak naprawdę oznaczony jest każdy)
-⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙧𝙤𝙘𝙡𝙖𝙬 - pisze utrudnienia w komunikacji miejskiej we Wrocławiu (ostatnie dwa posty MPK Wrocław)
 ⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙖𝙬𝙖 - pisze utrudnienia w komunikacji miejskiej w Warszawie
 ⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙡𝙤𝙙𝙯 - pisze utrudnienia w komunikacji miejskiej w Łodzi
 ⚙ !𝙢𝙤𝙣𝙚𝙩𝙖 - bot rzuca monete (orzeł lub reszka)
@@ -92,7 +91,7 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.1 + 12.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.2 + 12.1 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 Ograniczona ilość wysyłanych wiadomości
@@ -181,11 +180,6 @@ class Commands(BotActions):
     async def send_public_transport_difficulties_in_warsaw(self, event: fbchat.MessageEvent):
         difficulties_in_warsaw = await page_parsing.get_public_transport_difficulties_in_warsaw()
         await self.send_text_message(event, difficulties_in_warsaw)
-
-    @logger
-    async def send_public_transport_difficulties_in_wroclaw(self, event: fbchat.MessageEvent):
-        difficulties_in_wroclaw = await page_parsing.get_public_transport_difficulties_in_wroclaw()
-        await self.send_text_message(event, difficulties_in_wroclaw)
 
     @logger
     async def send_public_transport_difficulties_in_lodz(self, event: fbchat.MessageEvent):
@@ -457,11 +451,6 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
             await event.thread.set_nickname(user_id=event.author.id, nickname=" ".join(event.message.text.split()[1:]))
         except fbchat.InvalidParameters:
             await self.send_text_message(event, "🚫 Wpisano za długi nick", reply_to_id=event.message.id)
-
-    @logger
-    async def ukraine(self, event: fbchat.MessageEvent):
-        message = await page_parsing.ukraine()
-        await self.send_text_message(event, message)
 
 
 async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]:

@@ -10,12 +10,10 @@ import emoji
 MEMES_DIR: str = "Bot//media//memes"
 FILMS_DIR: str = "Bot//media//films"
 MONEY_FLIP_DIR: str = "Bot//media//orzel_reszka"
-
 MEMES_FILES: List[str] = [os.path.join(MEMES_DIR, i) for i in os.listdir(MEMES_DIR)]
 FILMS_FILES: List[str] = [os.path.join(FILMS_DIR, i) for i in os.listdir(FILMS_DIR)]
 COIN_FLIP_FILES: List[str] = [os.path.join(MONEY_FLIP_DIR, i) for i in os.listdir(MONEY_FLIP_DIR)]
 FONT = ImageFont.truetype("Bot//media//fonts/FallingSkySemibold-Bn7B.otf", 15)
-
 EMOJI_LIST = emoji.UNICODE_EMOJI_ENGLISH
 
 

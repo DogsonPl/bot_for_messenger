@@ -1,5 +1,6 @@
 from math import floor
 import asyncio
+from decimal import Decimal, getcontext
 
 import fbchat
 
@@ -9,6 +10,7 @@ from .. import casino_actions
 from ..sql import handling_casino_sql
 from ..sending_emails import smpt_connection, get_confirmation_code
 
+getcontext().prec = 20
 MEDALS = ["🥇", "🥈", "🥉"]
 DUEL_HELP_MESSAGE = """💡 Użycie komendy:
 !duel x @oznaczenie - wyzywasz na pojedynek oznaczoną osobę o x monet 
@@ -83,10 +85,10 @@ Dogi można kupić pisząc do twórcy (komenda !tworca)"""
 
     @logger
     async def send_jackpot_info(self, event: fbchat.MessageEvent):
-        ticket_number, user_tickets, last_prize, last_winner = await casino_actions.jackpot_info(event)
-        message = f"""🎫 Ogólna liczba kupionych biletów: {ticket_number}
-🎫 Twoja liczba biletów: {user_tickets}
-🎟 Ostatnio {last_prize} dogecoinów wygrał {last_winner}
+        jackpot_info = await casino_actions.jackpot_info(event)
+        message = f"""🎫 Ogólna liczba kupionych biletów: {jackpot_info.ticket_number}
+🎫 Twoja liczba biletów: {jackpot_info.user_tickets}
+🎟 Ostatnio {jackpot_info.last_prize} dogecoinów wygrał {jackpot_info.last_winner}
 
 📑 Zasady:
 -każdy bilet kosztuje 1 dogecoin
@@ -144,7 +146,7 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
                 message = await casino_actions.discard_duel(event.author.id)
             else:
                 try:
-                    wage = abs(float(args[0]))
+                    wage = abs(Decimal(args[0]))
                     opponent = event.message.mentions[0].thread_id
                 except(ValueError, IndexError):
                     message = DUEL_HELP_MESSAGE

@@ -22,16 +22,18 @@ class SmptConnection:
         await self.smpt_connection.ehlo()
         await self.smpt_connection.login(SMTP_CONFIG.mail, SMTP_CONFIG.password)
 
-    async def send_mail(self, receiver: str, message: MIMEMultipart) -> str:
+    async def send_mail(self, receiver: str, message: MIMEMultipart, reset: bool = False) -> str:
         try:
             await self.smpt_connection.send_message(message)
             return f"✅ Wysłano email z kodem do {receiver}"
         except aiosmtplib.errors.SMTPRecipientsRefused:
             return "🚫 Nie udało się wysłać emaila. Czy na pewno podałeś poprawny email?"
         except aiosmtplib.errors.SMTPServerDisconnected:
-            await self.connect()
-            await self.send_mail(receiver, message)
-            return f"✅ Wysłano email z kodem do {receiver}"
+            if not reset:
+                await self.connect()
+                await self.send_mail(receiver, message, True)
+            else:
+                return "🚫 Nie można wysłać maila, napisz do !tworca"
 
     @staticmethod
     async def create_message(receiver: str, code: int) -> MIMEMultipart:

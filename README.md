@@ -35,7 +35,6 @@ Bot only answers if you have bot in friends**
 **!pogoda x** - (pogoda = weather) sends weather from x (for example !pogoda London)\
 **!nick x** - changes your nick in group to x (for example !nick friend change your nick in group to friend)\
 **!everyone** - mentions everyone on group\
-**!utrudnieniawroclaw** - sends difficulties in public transport in Wroclaw (Wrocław is Polish city)\
 **!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is Polish city)\
 **!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is Polish city)\
 **!moneta** - (moneta = coin) bot makes coin flip\

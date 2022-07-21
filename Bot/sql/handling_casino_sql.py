@@ -159,7 +159,7 @@ async def fetch_user_profil_data(user_fb_id) -> UserProfile:
     return UserProfile(*data)
 
 
-async def create_duel(duel_creator: str, wage: float, opponent: str) -> Tuple[str, bool]:
+async def create_duel(duel_creator: str, wage: Decimal, opponent: str) -> Tuple[str, bool]:
     try:
         await cursor.execute("""INSERT INTO duels(wage, duel_creator, opponent)
                                 VALUES(%s, %s, %s);""", (wage, duel_creator, opponent))

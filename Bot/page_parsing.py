@@ -134,18 +134,6 @@ async def get_public_transport_difficulties_in_warsaw() -> str:
     return message
 
 
-async def get_public_transport_difficulties_in_wroclaw() -> str:
-    # todo make parsing compatible with newer version of facebook
-    async with aiohttp.ClientSession() as session:
-        html = await session.get(DIFFICULTIES_IN_WROCLAW_URL)
-        soup = BeautifulSoup(await html.text(), "html.parser")
-
-    message = "🚋 Dane z fb MPK Wrocław\n"
-    for i in soup.find_all("p"):
-        message += i.text + "\n"
-    return message
-
-
 async def get_public_transport_difficulties_in_lodz() -> str:
     async with aiohttp.ClientSession() as session:
         html = await session.get(DIFFICULTIES_IN_LODZ_URL)
@@ -182,10 +170,7 @@ def download_yt_video(link: str) -> Tuple[Union[BytesIO, str], Union[str, None]]
 
 
 async def get_info_from_wikipedia(thing_to_search: str, restart: bool = True, polish: bool = True) -> str:
-    if polish:
-        link = f"https://pl.wikipedia.org/wiki/{thing_to_search}"
-    else:
-        link = f"https://wikipedia.org/wiki/{thing_to_search}"
+    link = f"https://pl.wikipedia.org/wiki/{thing_to_search}" if polish else f"https://wikipedia.org/wiki/{thing_to_search}"
     async with aiohttp.ClientSession() as session:
         html = await session.get(link)
         soup = BeautifulSoup(await html.text(), "html.parser")
@@ -277,19 +262,6 @@ class DownloadTiktok:
         cookies = {"session_data": response.cookies["session_data"]}
         return post_data, cookies
 
-    @staticmethod
-    async def _get_tiktok_download_url_deprecated(url: str) -> str:
-        """
-        depercated function, page has been banned
-        """
-        link = False
-        async with aiohttp.ClientSession() as session:
-            response = await session.get(f"https://hamod.ga/api/tiktokWithoutWaterMark.php?u={url}")
-            if 'link' in await response.text():
-                link = await response.json(content_type=None)
-                link = link["link"]
-        return link
-
 
 async def get_google_image(search_query: str) -> Union[BytesIO, str]:
     link = f"https://google.com/search?q={search_query}&tbm=isch"
@@ -316,7 +288,7 @@ def download_spotify_song(song_name: str) -> Union[BytesIO, str]:
             os.mkdir(output_dir)
             os.system(f"spotdl {song_name} -o ./{output_dir}")
             os.remove(os.path.join(output_dir, ".spotdl-cache"))
-            os.listdir(output_dir)[0]  # check if song has been downloaded, if not this line raise IndexError
+            os.listdir(output_dir)[0]  # checks if the song has been downloaded, if not this line will raise a IndexError
         except (FileNotFoundError, IndexError):
             shutil.rmtree(output_dir)
             message = "🚫 Nie odnaleziono piosenki, pamiętaj że wielkość liter ma znaczenie (powinna być taka sama jak się wyświetla w spotify). Możliwe jest też to że pobieranie piosenki jest zablokowane"
@@ -403,18 +375,3 @@ async def get_vehicle_registration_number_info(registration_num: str) -> str:
         if len(vehicle_registration_number_info) > 1000:
             break
     return vehicle_registration_number_info
-
-
-
-
-ukraine_link = "https://www.rp.pl/swiat/art36435301-wojna-rosji-z-ukraina"
-
-async def ukraine():
-    response = requests.get(ukraine_link)
-    soup = BeautifulSoup(response.text, "html.parser")
-    message = ""
-    for i in soup.find_all("div", class_="liveHeader live--header"):
-        message += i.text.strip().replace("\n", " ") + "\n"
-        if len(message) > 3500:
-            break
-    return message

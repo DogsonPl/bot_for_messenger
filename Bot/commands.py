@@ -1,5 +1,6 @@
 import threading
 import time
+from asyncio import AbstractEventLoop
 
 import fbchat
 
@@ -9,7 +10,7 @@ from .commands_handling.normal_commands import Commands
 
 
 class BotCommands(CasinoCommands, GroupCommands, Commands):
-    def __init__(self, loop, bot_id: str, client: fbchat.Client, threads: list):
+    def __init__(self, loop: AbstractEventLoop, bot_id: str, client: fbchat.Client, threads: list):
         super().__init__(client, bot_id, loop)
         self.sent_messages_in_thread = {}
         for i in threads:

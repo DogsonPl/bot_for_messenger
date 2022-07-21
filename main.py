@@ -76,7 +76,6 @@ class Listener(BotCore):
                          "koronawirus": self.bot_commands.send_covid_info,
                          "koronawiruspl": self.bot_commands.send_covid_pl_info,
                          "utrudnieniawawa": self.bot_commands.send_public_transport_difficulties_in_warsaw,
-                         "utrudnieniawroclaw": self.bot_commands.send_public_transport_difficulties_in_wroclaw,
                          "utrudnienialodz": self.bot_commands.send_public_transport_difficulties_in_lodz,
                          "disco": self.bot_commands.make_disco,
                          "moneta": self.bot_commands.send_random_coin_side,
@@ -121,8 +120,7 @@ class Listener(BotCore):
                          "powitanie": self.bot_commands.set_welcome_message,
                          "everyone": self.bot_commands.mention_everyone,
                          "kocha": self.bot_commands.send_love_message,
-                         "flagi": self.bot_commands.send_play_flags_message,
-                         "ukraina": self.bot_commands.ukraine}
+                         "flagi": self.bot_commands.send_play_flags_message}
 
     async def init_listening(self):
         try:
@@ -170,9 +168,9 @@ class Listener(BotCore):
                     return
                 if "https://vm.tiktok.com/" in event.message.text:
                     MAIN_LOOP.create_task(self.bot_commands.send_tiktok(event))
-
             except (AttributeError, KeyError):
-                # attribute error happens when someone sends photo and message doesn't have text
+                # attribute error happens when someone sends photo and message doesn't have any text
+                # key error happens when message starts with "!", but it is not a command
                 pass
 
 
