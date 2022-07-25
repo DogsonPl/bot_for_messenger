@@ -165,3 +165,10 @@ async def register(event: fbchat.MessageEvent, user: fbchat.UserData) -> str:
                                    "django_password": django_password})
     message = response.json()["message"]
     return message
+
+
+async def connect_mail(event: fbchat.MessageEvent, email: str) -> str:
+    response = requests.post("http://127.0.0.1:8000/casino/connect_mail_with_fb",
+                             data={"django_password": django_password, "user_fb_id": event.author.id, "email": email})
+    message = response.json()["message"]
+    return message

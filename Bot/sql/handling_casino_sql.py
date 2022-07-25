@@ -37,33 +37,15 @@ async def get_user_email(user_fb_id: str) -> Union[str, bool]:
     return email
 
 
-async def check_email_confirmation(user_fb_id: str, code: int) -> str:
+async def check_email_confirmation(user_fb_id: str, code: int) -> Union[str, bool]:
     data = await cursor.fetch_data("""SELECT user_fb_id, email, confirmation_code FROM pending_emails_confirmations
                                       WHERE (user_fb_id=%s) AND (confirmation_code=%s);""", (user_fb_id, code))
     if len(data) == 1:
-        try:
-            await cursor.execute("""UPDATE casino_players
-                                    INNER JOIN pending_emails_confirmations 
-                                    ON casino_players.user_fb_id = pending_emails_confirmations.user_fb_id
-                                    SET casino_players.email = pending_emails_confirmations.email
-                                    WHERE (casino_players.user_fb_id = %s) AND (pending_emails_confirmations.confirmation_code = %s)
-                                    ;""", (user_fb_id, code))
-            return "✅ Twój nowy email został ustawiony (jeśli wcześniej użyłeś komendy !register)"
-        except pymysql.err.IntegrityError:
-            email = data[0][1]
-            old_player, = await cursor.fetch_data("""SELECT fb_name FROM casino_players WHERE user_fb_id=%s;""", (user_fb_id,))
-            user_fb_name, = old_player
-            await cursor.execute("""UPDATE casino_players SET user_fb_id = NULL, money = 0 
-                                    WHERE user_fb_id=%s;""", (user_fb_id,))
-            await cursor.execute("""UPDATE casino_players SET user_fb_id = %s, fb_name = %s
-                                    WHERE email = %s;""", (user_fb_id, user_fb_name, email))
-            return "✅ Połączono się z twoim kontem na stronie"
-        finally:
-            await cursor.execute("""DELETE FROM pending_emails_confirmations
-                                    WHERE user_fb_id=%s;""", (user_fb_id,))
-
+        await cursor.execute("""DELETE FROM pending_emails_confirmations
+                                WHERE user_fb_id=%s;""", (user_fb_id,))
+        return data[0][1]  # return: email
     else:
-        return "🚫 Podano niepoprawny kod"
+        return False
 
 
 async def fetch_top_three_players() -> Tuple[List, List]:

@@ -128,9 +128,14 @@ Jeśli jeszcze tego nie zrobiłeś, możesz połączyć swoje dane z kasyna ze s
     async def send_email_verification_code_message(self, event: fbchat.MessageEvent):
         try:
             code = event.message.text.split()[1]
-            message = await handling_casino_sql.check_email_confirmation(event.author.id, code)
+            confirmed = await handling_casino_sql.check_email_confirmation(event.author.id, code)
         except IndexError:
             message = "🚫 Po !kod napisz kod którego dostałeś na maila"
+        else:
+            if confirmed:
+                message = await casino_actions.connect_mail(event, confirmed)
+            else:
+                message = "🚫 Podano niepoprawny kod"
         await self.send_text_message(event, message)
 
     @logger
