@@ -120,6 +120,7 @@ class Listener(BotCore):
                          "powitanie": self.bot_commands.set_welcome_message,
                          "everyone": self.bot_commands.mention_everyone,
                          "kocha": self.bot_commands.send_love_message,
+                         "essa": self.bot_commands.send_essa_message,
                          "flagi": self.bot_commands.send_play_flags_message}
 
     async def init_listening(self):

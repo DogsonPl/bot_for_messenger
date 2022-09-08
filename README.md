@@ -74,4 +74,5 @@ Bot only answers if you have bot in friends**
 **!tablica vehicle_registration_number** - sends info about vehicle with given registration number \
 **!sklep** - opens casino shop \
 **!slots** - slots casino game \
-**!flagi** (flagi = flags) - play in guess the flag
+**!flagi** (flagi = flags) - play in guess the flag \
+**!essa** - sends your essa 

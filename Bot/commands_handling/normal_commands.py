@@ -49,6 +49,7 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 ⚙ !𝙨𝙩𝙖𝙣 @nick - wysyła twój stan albo oznaczonej osoby
 ⚙ !𝙩𝙖𝙗𝙡𝙞𝙘𝙖 x  - wysyła informacje o podanym numerze rejestracyjnym pojazdu
 ⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie
+⚙ !𝙚𝙨𝙨𝙖 - wysyła twoją esse
 ⚙ !𝙛𝙡𝙖𝙜𝙞 - wysyła flagę i trzeba zgadnąć kraj. Gdy na grupie jest nieodgadnięta flaga napisz !flagi nazwa_kraju\n
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
 🔥 !𝙨𝙯𝙪𝙠𝙖𝙟 x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
@@ -91,10 +92,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.2 + 12.1 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.3 + 12.1 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 Ograniczona ilość wysyłanych wiadomości
+🆕 !essa
 🆕 !flagi
 🆕 !slots
 🆕 !sklep
@@ -432,6 +434,17 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
     async def send_play_flags_message(self, event: fbchat.MessageEvent):
         message, reply_to = await play_flags(event)
         await self.send_text_message(event, message, reply_to_id=reply_to)
+
+    @logger
+    async def send_essa_message(self, event: fbchat.MessageEvent):
+        mentioned_person = event.message.mentions
+        essa_percent = rd.randint(0, 100)
+        if mentioned_person:
+            mentioned_person_name = event.message.text[7:event.message.mentions[0].length + 6]
+            message = f"{mentioned_person_name} ma {essa_percent}% essy"
+        else:
+            message = f"Masz  {essa_percent}% essy"
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
     async def make_disco(self, event: fbchat.MessageEvent):
