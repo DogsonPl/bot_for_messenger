@@ -282,6 +282,7 @@ async def get_google_image(search_query: str) -> Union[BytesIO, str]:
 
 
 def download_spotify_song(song_name: str) -> Union[BytesIO, str]:
+    song_name = song_name.replace('&utm_source=copy-link', '')
     output_dir = os.path.join("Bot/media/music/", song_name.replace('/', ''))
     if not os.path.exists(output_dir):
         try:
