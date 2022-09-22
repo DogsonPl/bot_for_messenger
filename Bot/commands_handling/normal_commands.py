@@ -63,7 +63,8 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 🔥 !𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 - wysyła regulamin grupy
 🔥 !𝙯𝙙𝙟𝙚𝙘𝙞𝙚 x - wysyła zdjęcie x
 🔥 !𝙥𝙡𝙖𝙮 x - bot wysyła piosenkę, można wpisać nazwę piosenki albo link do spotify
-🔥 !𝙘𝙚𝙣𝙖 x - wysyła cene podanej rzeczy
+🔥 !𝙘𝙚𝙣𝙖 x - wysyła cenę podanej rzeczy
+🔥 !𝙨𝙨𝙩𝙖𝙩𝙨 - sends your spotify stats
 🔥 !𝙨𝙖𝙮 'wiadomosc'- ivona mówi to co się napisze po !say\n
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
 💸 !𝙧𝙚𝙜𝙞𝙨𝙩𝙚𝙧 - po użyciu tej komendy możesz grać w kasyno
@@ -92,10 +93,11 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.3 + 12.1 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.3 + 13.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 Ograniczona ilość wysyłanych wiadomości
+🆕 !sstats
 🆕 !essa
 🆕 !flagi
 🆕 !slots
@@ -441,9 +443,9 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         essa_percent = rd.randint(0, 100)
         if mentioned_person:
             mentioned_person_name = event.message.text[7:event.message.mentions[0].length + 6]
-            message = f"{mentioned_person_name} ma {essa_percent}% essy"
+            message = f"{mentioned_person_name} ma {essa_percent}% essy 🤙"
         else:
-            message = f"Masz  {essa_percent}% essy"
+            message = f"Masz  {essa_percent}% essy 🤙"
         await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger

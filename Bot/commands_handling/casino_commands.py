@@ -219,6 +219,11 @@ Twoje punkty: {i[2]} (Poziom osiągnięcia: {i[3]})\n\n"""
         message = await casino_actions.make_slots_game(event)
         await self.send_text_message(event, message, reply_to_id=event.message.id)
 
+    @logger
+    async def send_spotify_stats(self, event: fbchat.MessageEvent):
+        message = await casino_actions.get_spotify_data(event)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
+
 
 async def send_confirmation_email(event: fbchat.MessageEvent):
     try:

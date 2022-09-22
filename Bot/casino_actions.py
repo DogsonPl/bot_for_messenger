@@ -172,3 +172,10 @@ async def connect_mail(event: fbchat.MessageEvent, email: str) -> str:
                              data={"django_password": django_password, "user_fb_id": event.author.id, "email": email})
     message = response.json()["message"]
     return message
+
+
+async def get_spotify_data(event: fbchat.MessageEvent) -> str:
+    response = requests.post("http://127.0.0.1:8000/casino/get_spotify_data",
+                             data={"django_password": django_password, "user_fb_id": event.author.id})
+    message = response.json()["message"]
+    return message

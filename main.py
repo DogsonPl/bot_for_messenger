@@ -121,7 +121,8 @@ class Listener(BotCore):
                          "everyone": self.bot_commands.mention_everyone,
                          "kocha": self.bot_commands.send_love_message,
                          "essa": self.bot_commands.send_essa_message,
-                         "flagi": self.bot_commands.send_play_flags_message}
+                         "flagi": self.bot_commands.send_play_flags_message,
+                         "sstats": self.bot_commands.send_spotify_stats}
 
     async def init_listening(self):
         try:

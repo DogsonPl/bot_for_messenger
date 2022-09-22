@@ -75,4 +75,5 @@ Bot only answers if you have bot in friends**
 **!sklep** - opens casino shop \
 **!slots** - slots casino game \
 **!flagi** (flagi = flags) - play in guess the flag \
-**!essa** - sends your essa 
+**!essa** - sends your essa \
+**sstats** - sends your spotify stats
