@@ -25,64 +25,11 @@ with open("Bot/data/questions.txt") as file:
 
 
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
-⚙ !𝙝𝙚𝙡𝙥 - wysyła komendy
-⚙ !𝙨𝙩𝙧𝙤𝙣𝙖- wysyła link do strony, jest to obecnie wersja beta, niedługo będzie możliwość synchronizowania dogecoinów
-⚙ !𝙬𝙚𝙧𝙨𝙟𝙖 - wysyła wersje bota + to co ostatnio dodano do bota
-⚙ !𝙬𝙨𝙥𝙖𝙧𝙘𝙞𝙚 - jeśli chcesz wesprzeć powstawanie bota, wyślij pieniądze na ten adres. Bot jest darmowy, ale za serwer ja muszę płacić :/ Wielkie dzięki za każdą wpłatę i pomoc!
-⚙ !𝙩𝙬𝙤𝙧𝙘𝙖 - wysyła link do mnie (twórcy bota) Możesz śmiało do pisać :)
-⚙ !𝙞𝙙 - wysyła twoje id
-⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨 - wysyła informacje o koronawirusie na świecie
-⚙ !𝙠𝙤𝙧𝙤𝙣𝙖𝙬𝙞𝙧𝙪𝙨𝙥𝙡 - wysyła informacje o koronawirusie w polsce
-⚙ !𝙢𝙚𝙢 - wysyła losowego mema
-⚙ !𝙡𝙪𝙘𝙠𝙮𝙢𝙚𝙢𝙗𝙚𝙧 - losuje losowego członka grupy
-⚙ !𝙧𝙪𝙡𝙚𝙩𝙠𝙖 - usuwa losowego członka grupy (bot musi mieć admina)
-⚙ !𝙥𝙤𝙜𝙤𝙙𝙖 x - wysyła pogode w danym miejscu (wpisz np: !pogoda Warszawa)
-⚙ !𝙣𝙞𝙘𝙠 x - zmienia twój nick na x (np '!nick coś' ustawi twój nick na 'coś')
-⚙ !𝙚𝙫𝙚𝙧𝙮𝙤𝙣𝙚 - oznacza wszystkich ludzi na grupie (jest napisane że oznacza jedną osobę ale tak naprawdę oznaczony jest każdy)
-⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙬𝙖𝙬𝙖 - pisze utrudnienia w komunikacji miejskiej w Warszawie
-⚙ !𝙪𝙩𝙧𝙪𝙙𝙣𝙞𝙚𝙣𝙞𝙖𝙡𝙤𝙙𝙯 - pisze utrudnienia w komunikacji miejskiej w Łodzi
-⚙ !𝙢𝙤𝙣𝙚𝙩𝙖 - bot rzuca monete (orzeł lub reszka)
-⚙ !𝙬𝙖𝙡𝙪𝙩𝙖 ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów
-⚙ !𝙠𝙤𝙘𝙝𝙖 @nick1 @nick2 - wysyła wiadomość jak bardzo pierwsza oznaczona osoba kocha drugą oznaczoną osobę
-⚙ !𝙗𝙖𝙣𝙖𝙣 @nick - wysyła wiadomość jak dużego masz banana (albo osoba oznaczona gdy zostanie ktoś oznaczony)
-⚙ !𝙩𝙚𝙠𝙨𝙩 tytuł piosenki; twórca (opcjonalnie) - wysyła tekst piosenki
-⚙ !𝙨𝙩𝙖𝙣 @nick - wysyła twój stan albo oznaczonej osoby
-⚙ !𝙩𝙖𝙗𝙡𝙞𝙘𝙖 x  - wysyła informacje o podanym numerze rejestracyjnym pojazdu
-⚙ !𝙥𝙮𝙩𝙖𝙣𝙞𝙚 - wysyła losowe pytanie
-⚙ !𝙚𝙨𝙨𝙖 - wysyła twoją esse
-⚙ !𝙛𝙡𝙖𝙜𝙞 - wysyła flagę i trzeba zgadnąć kraj. Gdy na grupie jest nieodgadnięta flaga napisz !flagi nazwa_kraju\n
+!help, !strona, !wersja, !wsparcie, !tworca, !id, !koronawirus, !koronawiruspl, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
-🔥 !𝙨𝙯𝙪𝙠𝙖𝙟 x - wyszukuje informacje o rzeczy x w internecie np !szukaj python
-🔥 !𝙩𝙡𝙪𝙢𝙖𝙘𝙯 --jezyk x - tłumaczy tekst na podany język (normalnie na polski), np !tlumacz --english Привет lub !tlumacz Привет
-🔥 !𝙢𝙞𝙚𝙟𝙨𝙠𝙞 x - wyszukuje podane słowo na stronie miejski
-🔥 !𝙛𝙞𝙡𝙢 - wysyła losowy śmieszny film
-🔥 !𝙩𝙫𝙥𝙞𝙨 x- tworzy pasek z tvpis z napisem który zostanie podany po komendzie (np !tvpis jebać pis")
-🔥 !𝙙𝙞𝙨𝙘𝙤 - robi dyskotekę
-🔥 !𝙥𝙤𝙬𝙞𝙩𝙖𝙣𝙞𝙚 'treść' - ustawia powitanie na grupie nowego członka
-🔥 !𝙣𝙤𝙬𝙮𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 'treść' - ustawia regulamin grupy
-🔥 !𝙧𝙚𝙜𝙪𝙡𝙖𝙢𝙞𝙣 - wysyła regulamin grupy
-🔥 !𝙯𝙙𝙟𝙚𝙘𝙞𝙚 x - wysyła zdjęcie x
-🔥 !𝙥𝙡𝙖𝙮 x - bot wysyła piosenkę, można wpisać nazwę piosenki albo link do spotify
-🔥 !𝙘𝙚𝙣𝙖 x - wysyła cenę podanej rzeczy
-🔥 !𝙨𝙨𝙩𝙖𝙩𝙨 - sends your spotify stats
-🔥 !𝙨𝙖𝙮 'wiadomosc'- ivona mówi to co się napisze po !say\n
+!szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
-💸 !𝙧𝙚𝙜𝙞𝙨𝙩𝙚𝙧 - po użyciu tej komendy możesz grać w kasyno
-💸 !𝙙𝙖𝙞𝙡𝙮 - daje codziennie darmowe dogecoins
-💸 !𝙩𝙤𝙥 - wysyła 3 graczy którzy mają najwięcej monet
-💸 !𝙗𝙖𝙡 - wysyła twoją liczbę dogecoinów
-💸 !𝙗𝙚𝙩 x y - obstawiasz swoje dogecoiny (np !bet 10 50 obstawia 10 dogecoinów i masz 50% na wygraną)
-💸 !𝙯𝙙𝙧𝙖𝙥𝙠𝙖 - koszt zdrapki to 5 dogów, można wygrać od 0 do 2500 dogecoinów 
-💸 !𝙩𝙞𝙥 x @oznaczenie_osoby - wysyła x twoich dogecoinów do oznaczonej osoby np !tip 10 @imie
-💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩 - wysyła informacje o tym jak działa jackpot, ile masz biletów i o tym ile w sumie zostało ich kupionych
-💸 !𝙟𝙖𝙘𝙠𝙥𝙤𝙩𝙗𝙪𝙮 x - kupuje x ticketów (jeden ticket = 1 dogecoin)
-💸 !𝙙𝙪𝙚𝙡 - gra duel, po więcej informacji napisz !duel
-💸 !𝙚𝙢𝙖𝙞𝙡 x - ustaw swój email jako x
-💸 !𝙠𝙤𝙙 x - wpisz kod potwierdzający którego otrzymano na email
-💸 !𝙥𝙧𝙤𝙛𝙞𝙡 - wysyła twoje statystyki 
-💸 !𝙤𝙨𝙞𝙖𝙜𝙣𝙞𝙚𝙘𝙞𝙖 - wysyła twoje osiągnięcia
-💸 !𝙨𝙠𝙡𝙚𝙥 - sklep do kupowania różnych rzeczy za legendarne dogecoiny
-💸 !𝙨𝙡𝙤𝙩𝙨 - kasyno gra slots, koszt 5 dogów
+!register, !daily, !top, !bal, !bet, !zdrapka, !tip, !jackpot, !jackpotbuy, !duel, !email, !kod, !profil, !osiagniecia, !sklep, !slots
 """
 
 LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisać na: https://www.facebook.com/dogsonjakub.nowak.7"
@@ -93,15 +40,14 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.3 + 13.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.4 + 13.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 Ograniczona ilość wysyłanych wiadomości
+🆕 mniejszy rozmiar wiadomości
 🆕 !sstats
 🆕 !essa
 🆕 !flagi
-🆕 !slots
-🆕 !sklep
 """
 
 download_tiktok = page_parsing.DownloadTiktok()
