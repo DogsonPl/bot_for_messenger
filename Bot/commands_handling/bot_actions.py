@@ -3,8 +3,7 @@ import asyncio
 import aiofiles
 import fbchat
 
-ADD_TO_EVERY_MESSAGE: str = f"""\n🇺🇦 #StandWithUkraine
-Wprowadzono limit na ilość wysyłanych wiadomości przez bota, jeśli nie odpowiada należy poczekać minute (nawet jak bot nie wyśle wiadomości, bety są wykonywane)"""
+ADD_TO_EVERY_MESSAGE: str = f"""\n🇺🇦 #StandWithUkraine"""
 
 
 def check_sent_messages_in_thread(function):
@@ -34,6 +33,8 @@ class BotActions:
     async def send_text_message(self, event: fbchat.MessageEvent, message_text: str,
                                 mentions=None, reply_to_id: str = None):
         message_text += ADD_TO_EVERY_MESSAGE
+        if self.sent_messages_in_thread[event.thread.id] == 19:
+            message_text += "\nWprowadzono limit na ilość wysyłanych wiadomości przez bota, jeśli nie odpowiada należy poczekać minute (nawet jak bot nie wyśle wiadomości, bety są wykonywane)"
         await event.thread.send_text(message_text, mentions=mentions, reply_to_id=reply_to_id)
 
     @check_sent_messages_in_thread
