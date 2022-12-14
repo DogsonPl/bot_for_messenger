@@ -264,13 +264,16 @@ class DownloadTiktok:
 
 
 async def get_google_image(search_query: str) -> Union[BytesIO, str]:
-    link = f"https://google.com/search?q={search_query}&tbm=isch"
+    link = f"https://images.search.yahoo.com/search/images;?p={search_query}"
     response = requests.get(link)
     soup = BeautifulSoup(response.text, "html.parser")
     links = []
     images = soup.find_all("img")
-    for i in images[1:]:  # ignore first google image
-        links.append(i["src"])
+    for i in images:
+        if i.get("src"):
+            temp = i["src"]
+            if "&w=" in temp and "&h=" in temp:
+                links.append(temp)
     try:
         download_link = choice(links)
         response = requests.get(download_link)

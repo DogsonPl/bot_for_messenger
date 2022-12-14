@@ -32,7 +32,7 @@ HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 !register, !daily, !top, !bal, !bet, !zdrapka, !tip, !jackpot, !jackpotbuy, !duel, !email, !kod, !profil, !osiagniecia, !sklep, !slots
 """
 
-LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisać na: https://www.facebook.com/dogsonjakub.nowak.7"
+LINK_TO_MY_FB_ACCOUNT_MESSAGE = "👨‍💻 Możesz do mnie (twórcy) napisać na: https://www.facebook.com/dogson420"
 
 SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬𝐳 𝐰𝐬𝐩𝐨𝐦𝐨𝐜 𝐩𝐫𝐚𝐜𝐞 𝐧𝐚𝐝 𝐛𝐨𝐭𝐞𝐦, 𝐦𝐨𝐳𝐞𝐬𝐳 𝐰𝐲𝐬𝐥𝐚𝐜 𝐝𝐨𝐧𝐞𝐣𝐭𝐚. 𝐙𝐚 𝐤𝐚𝐳𝐝𝐚 𝐩𝐨𝐦𝐨𝐜 𝐰𝐢𝐞𝐥𝐤𝐢𝐞 𝐝𝐳𝐢𝐞𝐤𝐢 💎💰🧧!
 💴 𝙋𝙖𝙮𝙥𝙖𝙡: paypal.me/DogsonPL
