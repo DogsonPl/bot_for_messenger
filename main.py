@@ -73,8 +73,6 @@ class Listener(BotCore):
                          "nick": self.bot_commands.change_nick,
                          "strona": self.bot_commands.send_webpage_link,
                          "id": self.bot_commands.send_user_id,
-                         "koronawirus": self.bot_commands.send_covid_info,
-                         "koronawiruspl": self.bot_commands.send_covid_pl_info,
                          "utrudnieniawawa": self.bot_commands.send_public_transport_difficulties_in_warsaw,
                          "utrudnienialodz": self.bot_commands.send_public_transport_difficulties_in_lodz,
                          "disco": self.bot_commands.make_disco,

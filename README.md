@@ -27,8 +27,6 @@ Bot only answers if you have bot in friends**
 **!wsparcie** - (wsparcie = support) sends a link to paypal and bank account for people who want support bot\
 **!tworca** - (tworca = developer) sends FB profile of the person who created the bot\
 **id** - sends your facebook id\
-**!koronawirus** - (koronawirus = coronavirus) sends info about coronavirus in the world (total cases, total deaths, total recovered, current cases)\
-**!koronawiruspl** - (koronawirus = coronavirus) sends info about coronavirus in Poland (total cases, today cases, total deaths, recovered, current cases, cases per million, number of tests, tests per million)\
 **!mem** - sends random meme\
 **!luckymember** - draws and mention a random group member\
 **!ruletka** - (ruletka = roulette) removes a random person from group (bot must be an admin)\

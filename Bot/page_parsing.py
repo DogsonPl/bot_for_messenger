@@ -17,13 +17,9 @@ from Bot.parse_config import weather_api_key
 
 
 WEATHER_API_URL = f"http://api.openweathermap.org/data/2.5/weather?appid={weather_api_key}&lang=pl&units=metric&q="
-COVID_IN_WORLD_URL = "https://coronavirus-19-api.herokuapp.com/all"
-COVID_IN_POLAND_URL = "https://coronavirus-19-api.herokuapp.com/countries/poland"
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
 DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
-
-API_ERROR_MESSAGE = "😭 Błąd API. Spróbuj ponownie za kilka minut"
 
 
 class GetWeather:
@@ -76,43 +72,6 @@ class GetWeather:
             return "🥵"
         else:
             return "🌡"
-
-
-async def get_coronavirus_info() -> str:
-    async with aiohttp.ClientSession() as session:
-        html = await session.get(COVID_IN_WORLD_URL)
-    data = await html.json()
-
-    try:
-        return f"""🦠 Koronawirus na świecie 🦠
-
-🤒 Potwierdzonych: {format(data['cases'], ',d')}
-☠ Śmierci: {format(data['deaths'], ',d')}
-🩺 Uleczonych: {format(data['recovered'], ',d')}
-😷 Chore osoby w tej chwili: {format(data['cases'] - data['deaths'] - data['recovered'], ',d')}"""
-    except KeyError:
-        return API_ERROR_MESSAGE
-
-
-async def get_coronavirus_pl_info() -> str:
-    async with aiohttp.ClientSession() as session:
-        html = await session.get(COVID_IN_POLAND_URL)
-    data = await html.json()
-
-    try:
-        return f"""🦠 Koronawirus w Polsce 🦠
-
-🤒 Potwierdzonych: {format(data['cases'], ',d')}
-🤒 Dzisiaj potwierdzono: {format(data['todayCases'], ',d')}
-☠ Śmierci: {format(data['deaths'], ',d')}
-🩺 Uleczonych: {format(data['recovered'], ',d')}
-😷 Chore osoby w tej chwili: {format(data['active'], ',d')}
-😷 Liczba chorych na milion osób: {format(data['casesPerOneMillion'], ',d')}
-☠ Śmiertelne przypadki na milion osób: {format(data['deathsPerOneMillion'], ',d')}
-🧬 Liczba zrobionych testów: {format(data['totalTests'], ',d')}
-🧬 Liczba testów na milion osób: {format(data['testsPerOneMillion'], ',d')}"""
-    except KeyError:
-        return API_ERROR_MESSAGE
 
 
 async def get_public_transport_difficulties_in_warsaw() -> str:

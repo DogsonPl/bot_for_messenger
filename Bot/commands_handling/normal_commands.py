@@ -40,9 +40,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.4 + 13.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.5 + 13.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 usunięto !koronawirus i !koronawiruspl
 Ograniczona ilość wysyłanych wiadomości
 🆕 mniejszy rozmiar wiadomości
 🆕 !sstats
@@ -115,16 +116,6 @@ class Commands(BotActions):
         else:
             message = await self.get_weather(city)
         await self.send_text_message(event, message)
-
-    @logger
-    async def send_covid_info(self, event: fbchat.MessageEvent):
-        covid_info = await page_parsing.get_coronavirus_info()
-        await self.send_text_message(event, covid_info)
-
-    @logger
-    async def send_covid_pl_info(self, event: fbchat.MessageEvent):
-        covid_pl_info = await page_parsing.get_coronavirus_pl_info()
-        await self.send_text_message(event, covid_pl_info)
 
     @logger
     async def send_public_transport_difficulties_in_warsaw(self, event: fbchat.MessageEvent):
