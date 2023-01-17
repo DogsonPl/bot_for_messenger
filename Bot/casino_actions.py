@@ -121,7 +121,8 @@ async def play_duel(accepting_person_fb_id: str) -> Tuple[str, Union[List[fbchat
         if accepting_person_fb_id_money < wage:
             message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {'%.2f' % accepting_person_fb_id_money} dogecoinów)"
         else:
-            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id, accepting_person_fb_id_money-wage)
+            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id,
+                                                             accepting_person_fb_id_money-Decimal(wage))
             winner = rd.choice([duel_creator, opponent])
             winner_money = await handling_casino_sql.fetch_user_money(winner)
             winner_money += Decimal(wage*2)
