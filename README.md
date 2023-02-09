@@ -74,4 +74,5 @@ Bot only answers if you have bot in friends**
 **!slots** - slots casino game \
 **!flagi** (flagi = flags) - play in guess the flag \
 **!essa** - sends your essa \
-**sstats** - sends your spotify stats
+**!sstats** - sends your spotify stats \
+**!kiedy** - sends when will be given date (!kiedy 1 styczen 2024)

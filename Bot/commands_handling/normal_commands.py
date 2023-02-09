@@ -25,7 +25,7 @@ with open("Bot/data/questions.txt") as file:
 
 
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
-!help, !strona, !wersja, !wsparcie, !tworca, !id, !koronawirus, !koronawiruspl, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi
+!help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
 !szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
@@ -40,14 +40,12 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.5 + 13.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.7 + 13.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
-🆕 usunięto !koronawirus i !koronawiruspl
 Ograniczona ilość wysyłanych wiadomości
+🆕 !kiedy
 🆕 mniejszy rozmiar wiadomości
-🆕 !sstats
-🆕 !essa
 🆕 !flagi
 """
 
@@ -386,6 +384,11 @@ Możesz tekst przetłumaczyć na inny język używająć --nazwa_jezyka, np !tlu
         await self.send_text_message(event, message, reply_to_id=event.message.id)
 
     @logger
+    async def send_when_date(self, event: fbchat.MessageEvent):
+        message = await calculate_days(event.message.text)
+        await self.send_text_message(event, message, reply_to_id=event.message.id)
+
+    @logger
     async def make_disco(self, event: fbchat.MessageEvent):
         thread_id = event.thread.id
         if thread_id in self.chats_where_making_disco:
@@ -436,3 +439,42 @@ async def play_flags(event: fbchat.MessageEvent) -> Tuple[str, Union[str, None]]
     flag, answer = rd.choice(list(FLAGS.items()))
     flags_game[event.thread.id] = FlagsGame(datetime.now(), answer, event.message.id)
     return f"Flaga do odgadnięcia {flag}\nNapisz !flagi nazwa_państwa", None
+
+months = {
+    "styczeń": 1,
+    "styczen": 1,
+    "luty": 2,
+    "marzec": 3,
+    "kwieceń": 4,
+    "kwiecen": 4,
+    "maj": 5,
+    "czerwiec": 6,
+    "lipiec": 7,
+    "sierpień": 8,
+    "sierpien": 8,
+    "wrzesień": 9,
+    "wrzesien": 9,
+    "październik": 10,
+    "pazdziernik": 10,
+    "listopad": 11,
+    "grudzień": 12,
+    "grudzien": 12
+}
+
+async def calculate_days(date: str) -> str:
+    now = datetime.today()
+    try:
+        date = date.split()
+        month = months[date[2]]
+        day = int(date[1])
+        year = int(date[3])
+        date = datetime(year, month, day)
+    except (ValueError, KeyError, IndexError):
+        return "💡 Zła data. Data powinna mieć format: !kiedy 1 styczeń/luty/marzec... 2023/2024 (słowa typu stycznia nie są akceptowane)"
+    days = (date - now).days + 1
+    if days < 0:
+        return f"Podana data była {abs(days)} dni temu"
+    elif days > 0:
+        return f"Podana data będzie za {days} dni"
+    else:
+        return "To dzisiejsza data"
