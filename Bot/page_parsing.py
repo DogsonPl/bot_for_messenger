@@ -269,18 +269,20 @@ def download_spotify_song(song_name: str) -> Union[BytesIO, str]:
 
 
 async def check_item_price(item: str) -> str:
-    link = f"https://www.skapiec.pl/szukaj/w_calym_serwisie/{item}"
+    link = f"https://www.skapiec.pl/szukaj?query={item}"
     async with aiohttp.ClientSession() as session:
         html = await session.get(link)
         soup = BeautifulSoup(await html.text(), "html.parser")
 
     message = ""
-    for i, tag in enumerate(soup.find_all("a", class_="box")):
-        product_name = tag.find("h2", class_="title")
-        price = tag.find("strong", class_="price")
+    i = 0
+    for item in soup.find_all("div", class_="product-item"):
+        product_name = item.find("a", class_="product-box-narrow__title")
+        price = item.find("span", class_="price")
         message += product_name.text.strip() + "\n" + price.text.strip() + "\n\n"
         if i == 4:  # show only first five items
             break
+        i += 1
     return message
 
 
