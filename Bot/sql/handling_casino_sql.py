@@ -1,10 +1,14 @@
 from decimal import Decimal
 from typing import Union, List, Tuple
 from dataclasses import dataclass
+import asyncio
 
 import pymysql
 
 from .database import cursor
+
+
+lock = asyncio.Lock()
 
 
 async def insert_into_user_money(user_fb_id: str, money: Decimal):
@@ -161,12 +165,14 @@ async def fetch_duel_info(opponent: str):
 
 
 async def delete_duels(fb_id: str, give_money_back=False):
-    if give_money_back:
-        await cursor.execute("""UPDATE casino_players
-                                INNER JOIN duels wage ON casino_players.user_fb_id = duel_creator
-                                SET money = money+wage;""")
-    await cursor.execute("""DELETE FROM duels
-                            WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))
+    if not lock.locked():
+        async with lock:
+            if give_money_back:
+                await cursor.execute("""UPDATE casino_players
+                                        INNER JOIN duels ON casino_players.user_fb_id = duel_creator
+                                        SET money = money+wage;""")
+            await cursor.execute("""DELETE FROM duels
+                                    WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))
 
 
 async def fetch_user_achievements(user_fb_id):
