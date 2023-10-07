@@ -71,7 +71,7 @@ leosia_quotes = [
     "I tak wiеcznie na życiowym zakręcie",
     "Odpalam się przy litrze, odpalam się przy setce",
     "Na mojej ulicy to nie ja się wożę Mercem",
-    "Chociaż pewnie siana stąd na kontach mam najwięcej"
+    "Chociaż pewnie siana stąd na kontach mam najwięcej",
     "Dlatego chodzę jak młoda boss",
     "W sercu mam ziomali i jak Deemz mam sauce",
     "Lay low, zawsze, lay low, lay low, lej to",
@@ -193,30 +193,30 @@ leosia_quotes = [
     "Gdzie stolicą Hawana",
     "Daj mi tylko czas",
     "Tak dużo wysp na mapach",
-    "Bez supermocy jak Batman (Batman)"
-    "Całe życie to szach-mat (szach-mat)"
-    "Tutaj każda porażka (-rażka)"
-    "Robi z ciebie giganta (giganta)"
-    "Choć nie jestem jak Badman"
-    "Wersy hot jak Jamajka"
-    "Czasem czuję się rasta"
-    "Lecz już z tego wyrastam (yeah, yeah!)"
-    "Postawię wszystko to na jedną kartę"
-    "Mam dwadzieścia jeden lat, moje życie to blackjack"
-    "Wygrywam tu każdą partię"
-    "Obliczam ten profit, tak szybko jak bankier"
-    "Nie wiem, czy to wygrywanie jeszcze ma znaczenie"
-    "Bo jest mi tu tak dobrze, kiedy jestem obok ciebie"
-    "Będę dziś pracować dłużej, no bo dalej wierzę"
-    "Że za jakiś czas kupimy sobie dom z basenem"
-    "Nigdy nie obstawiłam losu na aukcji"
-    "Od dawna gotowa na to życie w branży"
-    "Mordko, tu nie ma niczego bez pracy"
-    "Trenuję tę muzykę już od pierwszej klasy"
-    "Prognozuję mocny wzrost swoich akcji"
-    "Hej, kochanie, jeszcze będziemy bogaci"
-    "Obiecuję sobie ślub na Hawaii"
-    "Staniemy się wielcy, chociaż kochamy się mali"
+    "Bez supermocy jak Batman (Batman)",
+    "Całe życie to szach-mat (szach-mat)",
+    "Tutaj każda porażka (-rażka)",
+    "Robi z ciebie giganta (giganta)",
+    "Choć nie jestem jak Badman",
+    "Wersy hot jak Jamajka",
+    "Czasem czuję się rasta",
+    "Lecz już z tego wyrastam (yeah, yeah!)",
+    "Postawię wszystko to na jedną kartę",
+    "Mam dwadzieścia jeden lat, moje życie to blackjack",
+    "Wygrywam tu każdą partię",
+    "Obliczam ten profit, tak szybko jak bankier",
+    "Nie wiem, czy to wygrywanie jeszcze ma znaczenie",
+    "Bo jest mi tu tak dobrze, kiedy jestem obok ciebie",
+    "Będę dziś pracować dłużej, no bo dalej wierzę",
+    "Że za jakiś czas kupimy sobie dom z basenem",
+    "Nigdy nie obstawiłam losu na aukcji",
+    "Od dawna gotowa na to życie w branży",
+    "Mordko, tu nie ma niczego bez pracy",
+    "Trenuję tę muzykę już od pierwszej klasy",
+    "Prognozuję mocny wzrost swoich akcji",
+    "Hej, kochanie, jeszcze będziemy bogaci",
+    "Obiecuję sobie ślub na Hawaii",
+    "Staniemy się wielcy, chociaż kochamy się mali",
     "Jungle Girl, moje kwiaty z Cali",
     "Amsterdamu i Hiszpanii",
     "Szczyty Eiffla jak te w Paris",
@@ -464,7 +464,7 @@ class Commands(BotActions):
     @logger
     async def send_leosia_message(self, event: fbchat.MessageEvent):
         message = rd.choice(leosia_quotes)
-        await self.send_text_message(event, message)
+        await self.send_text_message(event, f"Przekaz od królowej 😄\n{message}\n")
 
     @logger
     async def send_link_to_creator_account(self, event: fbchat.MessageEvent):
