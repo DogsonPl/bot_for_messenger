@@ -75,4 +75,5 @@ Bot only answers if you have bot in friends**
 **!flagi** (flagi = flags) - play in guess the flag \
 **!essa** - sends your essa \
 **!sstats** - sends your spotify stats \
-**!kiedy** - sends when will be given date (!kiedy 1 styczen 2024)
+**!kiedy** - sends when will be given date (!kiedy 1 styczen 2024) \
+**!leosia** - sends young leosia quote
