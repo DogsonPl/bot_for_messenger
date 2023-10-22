@@ -288,28 +288,27 @@ async def check_item_price(item: str) -> str:
 
 async def get_lyrics(creator: str, song_name: str) -> str:
     lyrics = ""
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36'}) as session:
         link = f"https://tekstowo.pl/szukaj,wykonawca,{creator},tytul,{song_name}"
         response = await session.get(link)
         soup = BeautifulSoup(await response.text(), "html.parser")
-    try:
-        songs_links = soup.find("div", "card mb-4")
-    except AttributeError:
-        return lyrics
+        try:
+            songs_links = soup.find("div", "card mb-4")
+        except AttributeError:
+            return lyrics
 
-    try:
-        song_link = songs_links.find("a", class_="title")["href"]
-    except (KeyError, AttributeError):
-        pass
-    else:
-        async with aiohttp.ClientSession() as session:
+        try:
+            song_link = songs_links.find("a", class_="title")["href"]
+        except (KeyError, AttributeError):
+            pass
+        else:
             response = await session.get(f"https://tekstowo.pl{song_link}")
             soup = BeautifulSoup(await response.text(), "html.parser")
-        try:
-            lyrics = soup.find("div", class_="inner-text").text
-        except AttributeError:
-            # song was not found
-            pass
+            try:
+                lyrics = soup.find("div", class_="inner-text").text
+            except AttributeError:
+                # song was not found
+                pass
     return lyrics
 
 
