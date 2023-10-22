@@ -97,9 +97,8 @@ leosia_quotes = [
     "Rejon Wyspy Punta Cana, już za dużo opalania",
     "Już za dużo swagowania, zaraz wybuchnie mi bania",
     "Nie mam więcej do jarania, nie mam więcej do gadania (puff, puff)",
-
     "Gram sety gorące jak Diplo, cały kraj się jara moją ksywką",
-    "Cały kraj jara się moją bibką, kiedy za stołem miksuję ten hip-hop"
+    "Cały kraj jara się moją bibką, kiedy za stołem miksuję ten hip-hop",
     "Miksuję ten hip-hop, wszystko, co zrobiłam to było dopiero intro",
     "Z dancehallem miksuję ten hip-hop (bomboclaat)",
     "Skaczesz na parkiecie, a zrobiło się już widno",
@@ -495,7 +494,20 @@ leosia_quotes = [
     "Dirty Diana, ma Ciebie dziś w planach",
     "Otwieraj garaż, tu wszystko jest w oparach",
     "Carlos Santana, szybszy niż jego gitara",
-    "Jebie benzyną, ryk Jaguara"
+    "Jebie benzyną, ryk Jaguara",
+    "Nie wiem jak nauczyć kogoś kochać, ale wiem jak dobrze żyć",
+    "Lubię się zgubić w imprezowych nocach, lubię się zgubić tam gdzie Ty",
+    "Mam patenty na szczęście, przepis na uśmiech",
+    "Klucz do dobrej zabawy",
+    "Będę lekiem na serce, lecz zniknę, gdy uśniesz",
+    "Czemu jesteśmy tacy sami?",
+    "Co myśmy zrobili, że nie toniemy już w morzu tequili",
+    "Co myśmy zrobili, że nie spędzamy razem ani chwili",
+    "Dalej pragniemy życia, normalnych ludzi",
+    "To poszło za daleko i już nie jest takie łatwe",
+    "Lecz wszystko jest puste i kiedyś nas zgubi",
+    "Myślę, że było tego warte",
+    "Boję się kochać"
 ]
 
 
