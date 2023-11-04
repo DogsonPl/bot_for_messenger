@@ -46,7 +46,10 @@ class BotActions:
     @check_sent_messages_in_thread
     async def send_bytes_file(self, event: fbchat.MessageEvent, file, filetype: str):
         try:
-            files = await self.client.upload([("image.jpeg", file.getvalue(), filetype)])
+            if type(file) == list:
+                files = await self.client.upload([("image.jpeg", i.getvalue(), filetype) for i in file])
+            else:
+                files = await self.client.upload([("image.jpeg", file.getvalue(), filetype)])
             await event.thread.send_files(files)
         except AttributeError:
             await self.send_text_message(event, file, reply_to_id=event.message.id)

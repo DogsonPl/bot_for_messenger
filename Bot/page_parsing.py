@@ -174,21 +174,30 @@ async def get_info_from_miejski(thing_to_search: str) -> str:
 
 
 class DownloadTiktok:
-    async def download_tiktok(self, tiktok_link: str) -> Union[BytesIO, str]:
+    async def download_tiktok(self, tiktok_link: str) -> Tuple[Union[BytesIO, list], str]:
         scraper = cloudscraper.create_scraper()
         download_url = await self.get_tiktok_download_url(tiktok_link, scraper)
         if download_url and download_url != "https://musicallydown.page.link/app":
             try:
-                response = scraper.get(download_url)
-                bytes_object = BytesIO()
-                bytes_object.write(response.content)
-                return bytes_object
+                if type(download_url) == str:
+                    response = scraper.get(download_url)
+                    bytes_object = BytesIO()
+                    bytes_object.write(response.content)
+                    return bytes_object, "video/mp4"
+                else:
+                    photos = []
+                    for i in download_url:
+                        response = scraper.get(i)
+                        bytes_object = BytesIO()
+                        bytes_object.write(response.content)
+                        photos.append(bytes_object)
+                    return photos, "image/png"
             except MissingSchema:
                 return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać"
         return "🚫 Najprawdopodobniej podano niepoprawny link"
 
-    async def get_tiktok_download_url(self, tiktok_link: str, scraper: cloudscraper.CloudScraper) -> str:
-        link = ""
+    async def get_tiktok_download_url(self, tiktok_link: str, scraper: cloudscraper.CloudScraper) -> Union[str, list]:
+        links = []
         post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
         response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
@@ -197,9 +206,12 @@ class DownloadTiktok:
                 link = i["href"]
             except KeyError:
                 continue
-            if link.startswith("https://"):
-                break
-        return link
+            if link.startswith("https://") and "type=mp3" not in link:
+                if "type=mp4" in link:
+                    return link
+                elif "type=photo" in link:
+                    links.append(link)
+        return links
 
     @staticmethod
     async def get_required_post_data(tiktok_link: str, scraper: cloudscraper.CloudScraper) -> Tuple[dict, dict]:
