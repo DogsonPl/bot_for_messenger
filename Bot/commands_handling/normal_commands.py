@@ -651,7 +651,15 @@ leosia_quotes = [
     "W koło tyle uśmiechniętych twarzy, zakochane pary",
     "Wszyscy chcą się bawić, a ja ciągle szukam tu Nirvany",
     "Chociaż wszystko mamy, wszystko mamy",
-    "Te-te-te-te-te numery mówią za mnie, mówią za mnie (Bonjour Francis, Deemz, ma ten sauce), mówią za mnie"
+    "Te-te-te-te-te numery mówią za mnie, mówią za mnie (Bonjour Francis, Deemz, ma ten sauce), mówią za mnie",
+    "Hokus-Pokus, czary mary, obezwładnia ich mój czar",
+    "Potem mają koszmary i znowu nie mogą spać",
+    "Femme fatale, parę złamanych serc i parę otwartych ran",
+    "I chyba nie chcę już tak (O-o-o-o)",
+    "Może tym razem inaczej, niech nikt już przy mnie nie płacze",
+    "I zamiast tańczyć jak debil, zamknę się z Tobą na chacie",
+    "Po co nam gadki? Zapiszę uczuciami wszystkie tracki",
+    "Kochaj mnie zawsze i jebać już te wzloty, upadki"
 ]
 
 
