@@ -47,10 +47,14 @@ class BotActions:
     async def send_bytes_file(self, event: fbchat.MessageEvent, file, filetype: str):
         try:
             if type(file) == list:
-                files = await self.client.upload([("image.jpeg", i.getvalue(), filetype) for i in file])
+                #files = await self.client.upload([("image.jpeg", i.getvalue(), filetype) for i in file])
+                for i in file:
+                    files = await self.client.upload([("image.jpeg", i.getvalue(), filetype)])
+                    await event.thread.send_files(files)
             else:
                 files = await self.client.upload([("image.jpeg", file.getvalue(), filetype)])
-            await event.thread.send_files(files)
+                await event.thread.send_files(files)
+            #await event.thread.send_files(files)
         except AttributeError:
             await self.send_text_message(event, file, reply_to_id=event.message.id)
 
