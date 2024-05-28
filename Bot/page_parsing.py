@@ -17,6 +17,7 @@ from Bot.parse_config import weather_api_key
 
 
 WEATHER_API_URL = f"http://api.openweathermap.org/data/2.5/weather?appid={weather_api_key}&lang=pl&units=metric&q="
+WEATHER_API_URL_FORECAST = f"http://api.openweathermap.org/data/2.5/forecast?appid={weather_api_key}&lang=pl&units=metric&q="
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
 DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
@@ -33,6 +34,28 @@ class GetWeather:
                       "11d": "⛈", "11n": "⛈",
                       "13d": "🌨", "13n": "🌨",
                       "50d": "🌫", "50n": "🌫"}
+
+    async def get_forecast(self, city: str) -> str:
+        async with aiohttp.ClientSession() as session:
+            html = await session.get(WEATHER_API_URL_FORECAST + city)
+            json_data = await html.json()
+        try:
+            city_name = json_data["city"]["name"]
+            message = f"🌐 Prognoza pogody w {city_name} 🌐\n"
+            for i in json_data["list"][0:12]:
+                temp_min_emoji = await self.check_temperature_emoji(i["main"]["temp_min"])
+                temp_max_emoji = await self.check_temperature_emoji(i["main"]["temp_max"])
+                wind_speed = i["wind"]["speed"] * 3.6 # *3.6 converts ms/s to km/h
+                message += f"""
+{i["dt_txt"].replace("0", "𝟬").replace("1", "𝟭").replace("2", "𝟮").replace("3", "𝟯").replace("4", "𝟰").replace("5", "𝟱").replace("6", "𝟲").replace("7", "𝟳").replace("8", "𝟴").replace("9", "𝟵").replace("-", "-").replace(":", ":")}
+🔰 Najniższa temperatura: {temp_min_emoji} {int(i["main"]["temp_min"])}
+🔰 Najwyższa temperatura: {temp_max_emoji} {int(i["main"]["temp_max"])}
+🔰 Atmosfera: {self.icons[i["weather"][0]["icon"]]} {i["weather"][0]["description"].capitalize()}
+🔰 Prędkość wiatru: {'%.2f' % wind_speed } km/h
+"""
+            return message
+        except KeyError:
+            return "🚫 Nie znaleziono takiej miejscowości"
 
     async def get_weather(self, city: str) -> str:
         async with aiohttp.ClientSession() as session:
@@ -60,7 +83,9 @@ class GetWeather:
 🔰 Atmosfera: {weather_emoji} {weather_description.capitalize()} 
 🔰 Ciśnienie: {pressure} hPa
 🔰 Wilgotność: {humidity} %
-🔰 Prędkość wiatru: {'%.2f' % wind_speed} km/h"""
+🔰 Prędkość wiatru: {'%.2f' % wind_speed} km/h
+
+Jeśli chcesz pogodę na kilka dni, napisz !pogoda -f {city_name}\n"""
         except KeyError:
             return "🚫 Nie znaleziono takiej miejscowości"
 

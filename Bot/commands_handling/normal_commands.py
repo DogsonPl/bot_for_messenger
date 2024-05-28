@@ -40,9 +40,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.8 + 13.0 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.8 + 13.1 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 !pogoda -f
 🆕 !leosia
 Ograniczona ilość wysyłanych wiadomości
 🆕 !kiedy
@@ -678,7 +679,7 @@ flags_game = {}
 
 class Commands(BotActions):
     def __init__(self, client: fbchat.Client, bot_id: str, loop: asyncio.AbstractEventLoop):
-        self.get_weather = page_parsing.GetWeather().get_weather
+        self.get_weather = page_parsing.GetWeather()
         self.downloading_videos = 0
         self.sending_say_messages = 0
         self.chats_where_making_disco = []
@@ -721,7 +722,10 @@ class Commands(BotActions):
         if not city:
             message = "🚫 Po !pogoda podaj miejscowość z której chcesz mieć pogodę, np !pogoda warszawa"
         else:
-            message = await self.get_weather(city)
+            if "-f" in city:
+                message = await self.get_weather.get_forecast(" ".join(city.split()[1:]))
+            else:
+                message = await self.get_weather.get_weather(city)
         await self.send_text_message(event, message)
 
     @logger
