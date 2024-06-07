@@ -232,7 +232,7 @@ class DownloadTiktok:
             except KeyError:
                 continue
             if link.startswith("https://") and "type=mp3" not in link:
-                if link.endswith("=="):
+                if link.startswith("https://") and "type=mp3" not in link:
                     return link
                 elif "type=photo" in link:
                     links.append(link)
