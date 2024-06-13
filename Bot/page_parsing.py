@@ -227,15 +227,16 @@ class DownloadTiktok:
         response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("a"):
+            if "MP3" in i.text:
+                continue
             try:
                 link = i["href"]
             except KeyError:
                 continue
-            if link.startswith("https://") and "type=mp3" not in link:
-                if link.startswith("https://") and "type=mp3" not in link:
-                    return link
-                elif "type=photo" in link:
-                    links.append(link)
+            if link.startswith("https://") and "type=photo" not in link and "fastdl" in link:
+                return link
+            elif "type=photo" in link:
+                links.append(link)
         return links
 
     @staticmethod
