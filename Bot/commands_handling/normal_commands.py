@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from typing import Union, Tuple
 
 import fbchat
-from forex_python.converter import CurrencyRates, RatesNotAvailableError
+from currency_converter import CurrencyConverter
 from deep_translator import GoogleTranslator
 from deep_translator.exceptions import LanguageNotSupportedException, NotValidPayload
 from dataclasses import dataclass
@@ -17,7 +17,7 @@ from ..sql import handling_group_sql
 
 
 SETABLE_COLORS = fbchat._threads.SETABLE_COLORS
-currency_converter = CurrencyRates()
+currency_converter = CurrencyConverter()
 questions = []
 with open("Bot/data/questions.txt") as file:
     for i in file.readlines():
@@ -792,8 +792,8 @@ class Commands(BotActions):
             message = "💡 Użycie komendy: !waluta ilość z do - np !waluta 10 PLN USD zamienia 10 złoty na 10 dolarów (x musi być liczbą całkowitą)"
         else:
             try:
-                converted_currency = float(currency_converter.convert(from_, to, 1))
-            except RatesNotAvailableError:
+                converted_currency = float(currency_converter.convert(1, from_, to))
+            except ValueError:
                 message = f"🚫 Podano niepoprawną walutę"
             else:
                 new_amount = "%.2f" % (converted_currency*amount)

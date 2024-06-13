@@ -11,7 +11,7 @@ aiomysql
 pexpect
 aiosmtplib
 bs4
-forex-python
+CurrencyConverter
 emoji
 deep-translator
 spotdl
