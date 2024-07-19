@@ -687,7 +687,21 @@ leosia_quotes = [
     "kręci złotą aureolą",
     "trochę zakazany owoc",
     "chyba dawno nie jest sobą",
-    "A ja w swoich snach, a czuję się bosko"
+    "A ja w swoich snach, a czuję się bosko",
+    "Uważaj na węże — tak mówiła mama i tata",
+    "Seriale o branży, piosenki gangsterów",
+    "Chłopaków z ulicy i dobrych ziomali, co nie ma ich z nami",
+    "Wymieniam się z nimi mailami, gdy grożą pozwami, sądami, a niby to prawo jebali",
+    "A potem na trackach Ci mówią — że są raperami",
+    "W worku z zasadami tylko deszcz pieniędzy",
+    "Już nie upadnę, uważam na sępy",
+    "Na takich jak ja, to zjedliby zęby",
+    "Dlatego zrobię takeover na mainstream",
+    "Chcieli mi dać wilczy bilet, ja to alfa w stadzie",
+    "Wasz potencjał gnije, koniec lisów w mojej bazie",
+    "Każdy tu przyjaciel, póki wszystko dajesz",
+    "Chciałam oddać serce — teraz mają tylko palec",
+    "Deszcz pieniędzy"
 ]
 
 
