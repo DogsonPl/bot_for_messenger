@@ -25,7 +25,7 @@ with open("Bot/data/questions.txt") as file:
 
 
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
-!help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy, !leosia
+!help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !utrudnieniapoznan, !utrudnieniatroj, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy, !leosia
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
 !szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
@@ -40,13 +40,12 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.8 + 13.1 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.9 + 13.2 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 !utrudnieniatroj, utrudnieniapoznan
 🆕 !pogoda -f
-🆕 !leosia
 Ograniczona ilość wysyłanych wiadomości
-🆕 !kiedy
 """
 
 download_tiktok = page_parsing.DownloadTiktok()
@@ -137,6 +136,16 @@ class Commands(BotActions):
     async def send_public_transport_difficulties_in_lodz(self, event: fbchat.MessageEvent):
         difficulties_in_lodz = await page_parsing.get_public_transport_difficulties_in_lodz()
         await self.send_text_message(event, difficulties_in_lodz)
+
+    @logger
+    async def send_public_transport_difficulties_in_poznan(self, event: fbchat.MessageEvent):
+        difficulties_in_poznan = await page_parsing.get_public_transport_difficulties_in_poznan()
+        await self.send_text_message(event, difficulties_in_poznan)
+
+    @logger
+    async def send_public_transport_difficulties_in_trojmiasto(self, event: fbchat.MessageEvent):
+        difficulties_in_trojmiasto = await page_parsing.get_public_transport_difficulties_in_trojmiasto()
+        await self.send_text_message(event, difficulties_in_trojmiasto)
 
     @logger
     async def send_random_meme(self, event: fbchat.MessageEvent):

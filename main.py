@@ -75,6 +75,8 @@ class Listener(BotCore):
                          "id": self.bot_commands.send_user_id,
                          "utrudnieniawawa": self.bot_commands.send_public_transport_difficulties_in_warsaw,
                          "utrudnienialodz": self.bot_commands.send_public_transport_difficulties_in_lodz,
+                         "utrudnieniapoznan": self.bot_commands.send_public_transport_difficulties_in_poznan,
+                         "utrudnieniatroj": self.bot_commands.send_public_transport_difficulties_in_trojmiasto,
                          "disco": self.bot_commands.make_disco,
                          "moneta": self.bot_commands.send_random_coin_side,
                          "tworca": self.bot_commands.send_link_to_creator_account,

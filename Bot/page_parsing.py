@@ -21,6 +21,8 @@ WEATHER_API_URL_FORECAST = f"http://api.openweathermap.org/data/2.5/forecast?app
 DIFFICULTIES_IN_WARSAW_URL = "https://www.wtp.waw.pl/feed/?post_type=impediment"
 DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
+DIFFICULTIES_IN_POZNAN_URL = "https://czynaczas.pl/api/poznan/alerts"
+DIFFICULTIES_IN_TROJMIASTO_URL = "https://czynaczas.pl/api/trojmiasto/alerts"
 
 
 class GetWeather:
@@ -131,6 +133,28 @@ async def get_public_transport_difficulties_in_lodz() -> str:
             break
         else:
             message += i.text + "\n"
+    return message
+
+async def get_public_transport_difficulties_in_poznan() -> str:
+    scraper = cloudscraper.create_scraper()
+    data = scraper.get(DIFFICULTIES_IN_POZNAN_URL).json()
+    message = ""
+    for i in data["alerts"]:
+        if "IMPEDIMENT" in i["alert_id"]:
+            message += i["art_title"] + "\n"
+    if message == "":
+        message = "🎉🎉 Brak utrudnień w Poznaniu :)"
+    return message
+
+async def get_public_transport_difficulties_in_trojmiasto() -> str:
+    scraper = cloudscraper.create_scraper()
+    data = scraper.get(DIFFICULTIES_IN_TROJMIASTO_URL).json()
+    message = ""
+    for i in data["alerts"]:
+        if "IMPEDIMENT" in i["alert_id"]:
+            message += i["art_title"] + "\n"
+    if message == "":
+        message = "🎉🎉 Brak utrudnień w trójmieście :)"
     return message
 
 

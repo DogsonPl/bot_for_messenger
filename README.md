@@ -35,6 +35,7 @@ Bot only answers if you have bot in friends**
 **!everyone** - mentions everyone on group\
 **!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is Polish city)\
 **!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is Polish city)\
+**!utrudnieniapoznan** - sends difficulties in public transport in Poznan (Poznan is Polish city)\
 **!moneta** - (moneta = coin) bot makes coin flip\
 **!waluta amount from to** - (waluta = currency) bot converts given currency (for example !waluta 10 PLN USD) converts 10 PLN to USD
 **!film**- sends random funny film\
