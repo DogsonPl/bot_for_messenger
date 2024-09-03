@@ -141,7 +141,8 @@ async def get_public_transport_difficulties_in_poznan() -> str:
     message = ""
     for i in data["alerts"]:
         if "IMPEDIMENT" in i["alert_id"]:
-            message += i["art_title"] + "\n"
+            lines = ", ".join([l[0] for l in i["affected_lines"]])
+            message += f"🚌 Utrudnienia w komunikacji: {lines}\n {i['art_title']} \n"
     if message == "":
         message = "🎉🎉 Brak utrudnień w Poznaniu :)"
     return message
@@ -152,7 +153,8 @@ async def get_public_transport_difficulties_in_trojmiasto() -> str:
     message = ""
     for i in data["alerts"]:
         if "IMPEDIMENT" in i["alert_id"]:
-            message += i["art_title"] + "\n"
+            lines = ", ".join([l[0] for l in i["affected_lines"]])
+            message += f"🚌 Utrudnienia w komunikacji: {lines}\n {i['art_title']} \n"
     if message == "":
         message = "🎉🎉 Brak utrudnień w trójmieście :)"
     return message
