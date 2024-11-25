@@ -5,7 +5,7 @@
 ## To run this bot version on your machine, you have to configure this website:  https://github.com/DogsonPl/bot_for_messenger_website_django <br> If you want to run this bot without configuring django website, check this bot version: https://github.com/DogsonPl/bot_for_messenger/tree/without_connection_with_webpage  
 
 ## Important note 1: Bot works only on Linux 
-## Important Note 2: Bot is in Polish language. Sorry about that, but I created this bot to polish groups on messenger
+## Important note 2: Bot is in Polish language. Sorry about that, but I created this bot to polish groups on messenger
 ### Clone the repo:
    ```
    git clone https://github.com/DogsonPl/bot_for_messenger.git
@@ -32,7 +32,7 @@ Bot only answers if you have bot in friends**
 **!ruletka** - (ruletka = roulette) removes a random person from group (bot must be an admin)\
 **!pogoda x** - (pogoda = weather) sends weather from x (for example !pogoda London)\
 **!nick x** - changes your nick in group to x (for example !nick friend change your nick in group to friend)\
-**!everyone** - mentions everyone on group\
+**!everyone** - mentions everyone in the group\
 **!utrudnieniawawa** - sends difficulties in public transport in Warsaw (Warsaw is Polish city)\
 **!utrudnienialodz** - sends difficulties in public transport in Łódź (Łódź is Polish city)\
 **!utrudnieniapoznan** - sends difficulties in public transport in Poznan (Poznan is Polish city)\
@@ -46,7 +46,7 @@ Bot only answers if you have bot in friends**
 **!regulamin** - (regulamin = regulations) sends group regulations\
 **!say x** - sends voice message (for example !say hello sends voice message where bot says hello)\
 **!daily** - give you daily free casino money\
-**!top** - sends tree persons which have the biggest amount of casino money\
+**!top** - sends three persons which have the biggest amount of casino money\
 **!bal** - sends your casino balance\
 **!bet x y** - you can bet casino coins(x is how much coins you bet and y is how many % to win you have, for example !bet 10 80)\
 **!tip x @mention** - you can send virtual money to your friend (for example !tip 10 @nick)\
