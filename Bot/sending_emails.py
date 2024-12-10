@@ -28,7 +28,7 @@ class SmptConnection:
             return f"✅ Wysłano email z kodem do {receiver}"
         except aiosmtplib.errors.SMTPRecipientsRefused:
             return "🚫 Nie udało się wysłać emaila. Czy na pewno podałeś poprawny email?"
-        except aiosmtplib.errors.SMTPServerDisconnected:
+        except (aiosmtplib.errors.SMTPServerDisconnected, aiosmtplib.errors.SMTPSenderRefused):
             if not reset:
                 await self.connect()
                 await self.send_mail(receiver, message, True)
