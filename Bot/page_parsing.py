@@ -259,9 +259,9 @@ class DownloadTiktok:
                 link = i["href"]
             except KeyError:
                 continue
-            if link.startswith("https://") and "type=photo" not in link and "fastdl" in link:
+            if link.startswith("https://") and "photo" not in link and "fastdl" in link:
                 return link
-            elif "type=photo" in link:
+            elif "photo" in link:
                 links.append(link)
         return links
 
