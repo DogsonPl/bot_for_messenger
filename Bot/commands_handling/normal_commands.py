@@ -120,11 +120,11 @@ class Commands(BotActions):
     async def send_ai(self, event: fbchat.MessageEvent):
         prompt = " ".join(event.message.text.split()[1:])
         if not prompt:
-            await self.send_text_message(event, "🚫 Po !ai zadaj pytanie, np ile to 1+1")
+            await self.send_text_message(event, "🚫 Po !ai zadaj pytanie, np ile to 1+1", reply_to_id=event.message.id)
         else:
-            response = await page_parsing.ai(prompt)
+            response = await self.loop.run_in_executor(None, page_parsing.ai, prompt)
             for i in range(0, len(response), 2000):
-                await self.send_text_message(event, response[i:i+2000])
+                await self.send_text_message(event, response[i:i+2000], reply_to_id=event.message.id)
 
 
     @logger

@@ -406,6 +406,6 @@ async def get_vehicle_registration_number_info(registration_num: str) -> str:
             break
     return vehicle_registration_number_info
 
-async def ai(prompt: str) -> str:
+def ai(prompt: str) -> str:
     response = AI_CLIENT.models.generate_content(model="gemini-2.0-flash", contents=prompt)
     return response.text
