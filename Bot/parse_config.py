@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 from dataclasses import dataclass
+from multiprocessing.pool import ExceptionWithTraceback
 
 
 @dataclass
@@ -66,3 +67,7 @@ if django_password == "":
 weather_api_key = config_parser.get("weather", "key")
 if weather_api_key == "":
     raise Exception("You have to configure your weather api key on https://openweathermap.org/api")
+
+gemini_api_key = config_parser.get("gemini", "key")
+if gemini_api_key == "":
+    raise Exception("You have to configure your gemini api key on https://ai.google.dev/gemini-api/docs")

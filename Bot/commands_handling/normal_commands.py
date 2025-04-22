@@ -27,7 +27,7 @@ with open("Bot/data/questions.txt") as file:
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
 !help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !utrudnieniapoznan, !utrudnieniatroj, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy, !leosia
 💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
-!szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say
+!szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say, !ai
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
 !register, !daily, !top, !bal, !bet, !zdrapka, !tip, !jackpot, !jackpotbuy, !duel, !email, !kod, !profil, !osiagniecia, !sklep, !slots
 """
@@ -40,9 +40,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.9 + 13.2 pro 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.9 + 14.0 pro 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 !ai
 🆕 !utrudnieniatroj, utrudnieniapoznan
 🆕 !pogoda -f
 Ograniczona ilość wysyłanych wiadomości
@@ -114,6 +115,17 @@ class Commands(BotActions):
         await self.send_text_message(event, """🔗 Link do strony www: https://dogson.ovh
 
 Żeby połączyć swoje dane z kasynem że stroną, ustaw w  bocie email za pomocą komendy !email, a potem załóż konto na stronie bota na ten sam email""")
+
+    @logger
+    async def send_ai(self, event: fbchat.MessageEvent):
+        prompt = " ".join(event.message.text.split()[1:])
+        if not prompt:
+            await self.send_text_message(event, "🚫 Po !ai zadaj pytanie, np ile to 1+1")
+        else:
+            response = await page_parsing.ai(prompt)
+            for i in range(0, len(response), 2000):
+                await self.send_text_message(event, response[i:i+2000])
+
 
     @logger
     async def send_weather(self, event: fbchat.MessageEvent):

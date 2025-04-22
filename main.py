@@ -124,7 +124,8 @@ class Listener(BotCore):
                          "flagi": self.bot_commands.send_play_flags_message,
                          "sstats": self.bot_commands.send_spotify_stats,
                          "kiedy": self.bot_commands.send_when_date,
-                         "leosia": self.bot_commands.send_leosia_message}
+                         "leosia": self.bot_commands.send_leosia_message,
+                         "ai": self.bot_commands.send_ai}
 
     async def init_listening(self):
         try:

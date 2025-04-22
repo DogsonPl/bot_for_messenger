@@ -12,8 +12,9 @@ import aiohttp
 from bs4 import BeautifulSoup
 import pytube
 import cloudscraper
+from google import genai
 
-from Bot.parse_config import weather_api_key
+from Bot.parse_config import weather_api_key, gemini_api_key
 
 
 WEATHER_API_URL = f"http://api.openweathermap.org/data/2.5/weather?appid={weather_api_key}&lang=pl&units=metric&q="
@@ -23,6 +24,7 @@ DIFFICULTIES_IN_LODZ_URL = "http://www.mpk.lodz.pl/rozklady/utrudnienia.jsp"
 DIFFICULTIES_IN_WROCLAW_URL = "https://www.facebook.com/mpkwroc/"
 DIFFICULTIES_IN_POZNAN_URL = "https://czynaczas.pl/api/poznan/alerts"
 DIFFICULTIES_IN_TROJMIASTO_URL = "https://czynaczas.pl/api/trojmiasto/alerts"
+AI_CLIENT = genai.Client(api_key=gemini_api_key)
 
 
 class GetWeather:
@@ -403,3 +405,7 @@ async def get_vehicle_registration_number_info(registration_num: str) -> str:
         if len(vehicle_registration_number_info) > 1000:
             break
     return vehicle_registration_number_info
+
+async def ai(prompt: str) -> str:
+    response = AI_CLIENT.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+    return response.text

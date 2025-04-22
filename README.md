@@ -77,4 +77,5 @@ Bot only answers if you have bot in friends**
 **!essa** - sends your essa \
 **!sstats** - sends your spotify stats \
 **!kiedy** - sends when will be given date (!kiedy 1 styczen 2024) \
-**!leosia** - sends young leosia quote
+**!leosia** - sends young leosia quote \
+**!ai x** - speak with gemini
