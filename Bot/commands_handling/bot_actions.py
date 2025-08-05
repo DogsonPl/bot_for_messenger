@@ -3,7 +3,7 @@ import asyncio
 import aiofiles
 import fbchat
 
-ADD_TO_EVERY_MESSAGE: str = f"""\n🇺🇦 #StandWithUkraine"""
+ADD_TO_EVERY_MESSAGE: str = f"""\n🇵🇱🇺🇦️‍🏳️‍🌈🇪🇺🇵🇱 #JebacPis"""
 
 
 def check_sent_messages_in_thread(function):

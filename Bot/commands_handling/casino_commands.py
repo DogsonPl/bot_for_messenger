@@ -55,9 +55,7 @@ Wszystkie przedmioty w sklepie:\n\n"""
 
 💡 Co miesiąc (pierwszego dnia każdego miesiąca) wszystkie dogi powyżej 100 są zamieniane w legendarne dogi, codziennie traci się 1% dogów
 
-🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona
-
-Dogi można kupić pisząc do twórcy (komenda !tworca)"""
+🔗 coordinated by: https://dogson.ovh, więcej informacji po użyciu komendy !strona"""
         except TypeError:
             message = user_money
         await self.send_text_message(event, message, reply_to_id=event.message.id)

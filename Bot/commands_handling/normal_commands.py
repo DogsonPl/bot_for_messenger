@@ -25,9 +25,7 @@ with open("Bot/data/questions.txt") as file:
 
 
 HELP_MESSAGE = """🎉 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 🎉
-!help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !utrudnieniapoznan, !utrudnieniatroj, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy, !leosia
-💎 𝐃𝐎𝐃𝐀𝐓𝐊𝐎𝐖𝐄 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎 💎
-!szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say, !ai
+!help, !strona, !wersja, !wsparcie, !tworca, !id, !mem, !luckymember, !ruletka, !pogoda, !nick, !everyone, !utrudnieniawawa, !utrudnienialodz, !utrudnieniapoznan, !utrudnieniatroj, !moneta, !waluta, !kocha, !banan, !tekst , !stan , !tablica, !pytanie, !essa, !flagi, !kiedy, !leosia, !szukaj, !tlumacz, !miejski, !film, !tvpis, !disco, !powitanie, !nowyregulamin, !regulamin, !zdjecie, !play, !cena, !sstats, !say, !ai
 💰 𝐊𝐎𝐌𝐄𝐍𝐃𝐘 𝐃𝐎 𝐆𝐑𝐘 𝐊𝐀𝐒𝐘𝐍𝐎 (𝐝𝐨𝐠𝐞𝐜𝐨𝐢𝐧𝐬𝐲 𝐧𝐢𝐞 𝐬𝐚 𝐩𝐫𝐚𝐰𝐝𝐳𝐢𝐰𝐞 𝐢 𝐧𝐢𝐞 𝐝𝐚 𝐬𝐢𝐞 𝐢𝐜𝐡 𝐰𝐲𝐩ł𝐚𝐜𝐢𝐜)💰 
 !register, !daily, !top, !bal, !bet, !zdrapka, !tip, !jackpot, !jackpotbuy, !duel, !email, !kod, !profil, !osiagniecia, !sklep, !slots
 """
