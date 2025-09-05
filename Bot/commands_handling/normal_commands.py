@@ -37,8 +37,8 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙆𝙤𝙣𝙩𝙤 𝙗𝙖𝙣𝙠𝙤𝙬𝙚: nr konta 22 1140 2004 0000 3002 7878 9413, Jakub Nowakowski
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
-BOT_VERSION_MESSAGE = """❤𝐃𝐙𝐈𝐄𝐊𝐔𝐉𝐄 𝐙𝐀 𝐙𝐀𝐊𝐔𝐏 𝐖𝐄𝐑𝐒𝐉𝐈 𝐏𝐑𝐎!❤
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 9.9 + 14.0 pro 🤖
+BOT_VERSION_MESSAGE = """
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 10.1 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
 🆕 !ai

@@ -252,7 +252,7 @@ class DownloadTiktok:
     async def get_tiktok_download_url(self, tiktok_link: str, scraper: cloudscraper.CloudScraper) -> Union[str, list]:
         links = []
         post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
-        response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
+        response = scraper.post("https://musidown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("a"):
             if "MP3" in i.text:
@@ -272,7 +272,7 @@ class DownloadTiktok:
         url_name = ""
         key_name = ""
         key = ""
-        response = scraper.get("https://musicaldown.com/")
+        response = scraper.get("https://musidown.com/")
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("form"):
             for j in i.find_all('input'):
