@@ -230,7 +230,7 @@ class DownloadTiktok:
     async def download_tiktok(self, tiktok_link: str) -> Tuple[Union[BytesIO, list], str]:
         scraper = cloudscraper.create_scraper()
         download_url = await self.get_tiktok_download_url(tiktok_link, scraper)
-        if download_url and download_url != "https://musicallydown.page.link/app":
+        if download_url and download_url != "https://musicaldown.page.link/app":
             try:
                 if type(download_url) == str:
                     response = scraper.get(download_url)
@@ -246,13 +246,13 @@ class DownloadTiktok:
                         photos.append(bytes_object)
                     return photos, "image/png"
             except MissingSchema:
-                return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać"
-        return "🚫 Najprawdopodobniej podano niepoprawny link"
+                return "🚫 Znaleziono tiktoka, ale najprawdopodobniej jest to prywatny film i nie można go pobrać", ""
+        return "🚫 Najprawdopodobniej podano niepoprawny link", ""
 
     async def get_tiktok_download_url(self, tiktok_link: str, scraper: cloudscraper.CloudScraper) -> Union[str, list]:
         links = []
         post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
-        response = scraper.post("https://musidown.com/download", data=post_data, cookies=cookies)
+        response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
         for i in soup.find_all("a"):
             if "MP3" in i.text:
