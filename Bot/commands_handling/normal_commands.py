@@ -38,10 +38,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 10.1 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 10.2 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
-🆕 !ai
+🆕 !ai zostalo ulepszone!
 🆕 !utrudnieniatroj, utrudnieniapoznan
 🆕 !pogoda -f
 Ograniczona ilość wysyłanych wiadomości

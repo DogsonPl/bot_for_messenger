@@ -407,5 +407,6 @@ async def get_vehicle_registration_number_info(registration_num: str) -> str:
     return vehicle_registration_number_info
 
 def ai(prompt: str) -> str:
+    prompt = f"Odpowiedz na te pytanie powinna byc dosc krotka. Badz bezposredni i sarkastyczny, nawet niemily {prompt}"
     response = AI_CLIENT.models.generate_content(model="gemini-2.5-flash-lite", contents=prompt)
     return response.text
