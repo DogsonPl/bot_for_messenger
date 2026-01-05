@@ -254,6 +254,9 @@ class DownloadTiktok:
         post_data, cookies = await self.get_required_post_data(tiktok_link, scraper)
         response = scraper.post("https://musicaldown.com/download", data=post_data, cookies=cookies)
         soup = BeautifulSoup(response.text, "html.parser")
+        photos = False
+        if "download photos" in soup.text.lower():
+            photos = True
         for i in soup.find_all("a"):
             if "MP3" in i.text:
                 continue
@@ -263,7 +266,7 @@ class DownloadTiktok:
                 continue
             if link.startswith("https://") and "fastdl" in link:
                 links.append(link)
-        if len(links) == 3 and links[0] == links[2]:
+        if not photos:
             links = links[0]
         return links
 
