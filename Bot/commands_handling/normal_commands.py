@@ -38,9 +38,10 @@ SUPPORT_INFO_MESSAGE = """🧧💰💎 𝐉𝐞𝐬𝐥𝐢 𝐜𝐡𝐜𝐞𝐬
 💴 𝙋𝙨𝙘: wyślij kod na pv do !tworca"""
 
 BOT_VERSION_MESSAGE = """
-🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 10.2 🤖
+🤖 𝐖𝐞𝐫𝐬𝐣𝐚 𝐛𝐨𝐭𝐚: 10.3 🤖
 
 🧾 𝐎𝐬𝐭𝐚𝐭𝐧𝐢𝐨 𝐝𝐨 𝐛𝐨𝐭𝐚 𝐝𝐨𝐝𝐚𝐧𝐨:
+🆕 Dzialanie komendy: !tip liczba_monet.\nFacebook namieszal w swoim api, wiec teraz trzeba odpowiedziec na wiadomosc osoby, ktora chce sie obdarowac dogami
 🆕 !ai zostalo ulepszone!
 🆕 !utrudnieniatroj, utrudnieniapoznan
 🆕 !pogoda -f

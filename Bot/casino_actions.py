@@ -41,10 +41,11 @@ async def make_bet(event: fbchat.MessageEvent) -> str:
 
 async def make_tip(event: fbchat.MessageEvent) -> str:
     try:
-        mention = event.message.mentions[0]
+        # todo messenger changed api, and no longer return mentions
+        mention = event.replied_to
         money_to_give = abs(Decimal(event.message.text.split()[1].replace(",", ".")))
-    except (IndexError, ValueError, TypeError):
-        return "🚫 Wygląd komendy: !tip liczba_monet oznaczenie_osoby"
+    except Exception as e:
+        return "🚫 Dzialanie komendy: !tip liczba_monet.\nFacebook namieszal w swoim api, wiec teraz trzeba odpowiedziec na wiadomosc osoby, ktora chce sie obdarowac dogami"
 
     sender_money = await handling_casino_sql.fetch_user_money(event.author.id)
     try:
@@ -53,14 +54,14 @@ async def make_tip(event: fbchat.MessageEvent) -> str:
     except TypeError:
         return sender_money
 
-    receiver_money = await handling_casino_sql.fetch_user_money(mention.thread_id)
+    receiver_money = await handling_casino_sql.fetch_user_money(mention.author)
     try:
         receiver_money += money_to_give
     except TypeError:
         return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy !register"
     sender_money -= money_to_give
     await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
-    await handling_casino_sql.insert_into_user_money(mention.thread_id, receiver_money)
+    await handling_casino_sql.insert_into_user_money(mention.author, receiver_money)
     return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
 
 
