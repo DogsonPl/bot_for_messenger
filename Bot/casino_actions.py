@@ -49,7 +49,7 @@ async def make_tip(event: fbchat.MessageEvent) -> str:
 
     sender_money = await handling_casino_sql.fetch_user_money(event.author.id)
     try:
-        if sender_money < money_to_give:
+        if sender_money < money_to_give or event.author.id == mention.author:
             return "🚫 Nie masz wystarczająco pieniędzy"
     except TypeError:
         return sender_money
