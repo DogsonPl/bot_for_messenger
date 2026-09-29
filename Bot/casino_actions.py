@@ -1,6 +1,6 @@
 import random as rd
 import requests
-from decimal import Decimal, getcontext
+from decimal import Decimal, getcontext, ROUND_DOWN
 from dataclasses import dataclass
 from typing import Tuple, List, Union
 
@@ -42,27 +42,18 @@ async def make_bet(event: fbchat.MessageEvent) -> str:
 async def make_tip(event: fbchat.MessageEvent) -> str:
     try:
         # todo messenger changed api, and no longer return mentions
-        mention = event.replied_to
+        receiver_id = event.replied_to.author
         money_to_give = abs(Decimal(event.message.text.split()[1].replace(",", ".")))
-    except Exception as e:
+        money_to_give = money_to_give.quantize(Decimal("0.01"), rounding=ROUND_DOWN)
+        if money_to_give <= 0:
+            raise ValueError
+    except Exception:
         return "🚫 Dzialanie komendy: !tip liczba_monet.\nFacebook namieszal w swoim api, wiec teraz trzeba odpowiedziec na wiadomosc osoby, ktora chce sie obdarowac dogami"
 
-    sender_money = await handling_casino_sql.fetch_user_money(event.author.id)
-    try:
-        if sender_money < money_to_give or event.author.id == mention.author:
-            return "🚫 Nie masz wystarczająco pieniędzy"
-    except TypeError:
-        return sender_money
-
-    receiver_money = await handling_casino_sql.fetch_user_money(mention.author)
-    try:
-        receiver_money += money_to_give
-    except TypeError:
-        return "🚫 Osoba której chcesz dać dogi nie użyła nigdy komendy !register"
-    sender_money -= money_to_give
-    await handling_casino_sql.insert_into_user_money(event.author.id, sender_money)
-    await handling_casino_sql.insert_into_user_money(mention.author, receiver_money)
-    return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
+    if await handling_casino_sql.transfer_money(event.author.id, receiver_id, money_to_give):
+        return f"✅ Wysłano {money_to_give} do drugiej osoby :)"
+    return ("🚫 Nie masz wystarczająco pieniędzy, nie jesteś zarejestrowany, "
+            "albo osoba której chcesz dać dogi nie użyła nigdy komendy !register")
 
 
 async def buy_jackpot_ticket(event: fbchat.MessageEvent) -> str:
@@ -92,45 +83,33 @@ async def jackpot_info(event: fbchat.MessageEvent) -> JackpotInfo:
 
 
 async def make_new_duel(duel_creator: str, wage: Decimal, opponent: str) -> str:
-    duel_creator_money = await handling_casino_sql.fetch_user_money(duel_creator)
     try:
-        duel_creator_money = Decimal(duel_creator_money)
-    except ValueError:
-        return duel_creator_money
-    if duel_creator_money < wage:
-        message = f"🚫 Nie masz wystarczająco monet (Posiadasz ich: {'%.2f' % duel_creator_money})"
-    else:
-        message, created = await handling_casino_sql.create_duel(duel_creator, wage, opponent)
-        if created:
-            duel_creator_money -= wage
-            await handling_casino_sql.insert_into_user_money(duel_creator, duel_creator_money)
-    return message
+        wage = Decimal(wage).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
+        if wage <= 0:
+            raise ValueError
+    except Exception:
+        return "🚫 Stawka musi być dodatnią liczbą"
+
+    status = await handling_casino_sql.create_duel_paid(duel_creator, wage, opponent)
+    if status == "ok":
+        return "🕛 Oczekiwanie na akceptacje gry... (twój przeciwnik musi wpisać !duel akceptuj)"
+    if status == "no_money":
+        return "🚫 Nie masz wystarczająco monet albo nie jesteś zarejestrowany (użyj !register)"
+    return """🚫 Możesz tworzyć jedną grę jednocześnie, jeśli chcesz ją anulować napisz !duel odrzuć. 
+Również osoba z która chcesz grać nie może mieć żadnych gier w trakcie"""
 
 
 async def play_duel(accepting_person_fb_id: str) -> Tuple[str, Union[List[fbchat.Mention], None]]:
-    mention = None
-    accepting_person_fb_id_money = await handling_casino_sql.fetch_user_money(accepting_person_fb_id)
-    try:
-        accepting_person_fb_id_money = Decimal(accepting_person_fb_id_money)
-    except ValueError:
-        return accepting_person_fb_id_money, mention
-    duel_data = await handling_casino_sql.fetch_duel_info(accepting_person_fb_id)
-    if len(duel_data) == 0:
-        message = "🚫 Nie masz żadnych zaproszeń do gry"
-    else:
-        wage, duel_creator, opponent = duel_data[0]
-        if accepting_person_fb_id_money < wage:
-            message = f"🚫 Nie masz wystarczająco pieniędzy (Stawka: {wage}, ty posiadasz {'%.2f' % accepting_person_fb_id_money} dogecoinów)"
-        else:
-            await handling_casino_sql.insert_into_user_money(accepting_person_fb_id,
-                                                             accepting_person_fb_id_money-Decimal(wage))
-            winner = rd.choice([duel_creator, opponent])
-            winner_money = await handling_casino_sql.fetch_user_money(winner)
-            winner_money += Decimal(wage*2)
-            await handling_casino_sql.insert_into_user_money(winner, winner_money)
-            message = f"✨ Osoba która wygrała {'%.2f' % float(wage*2)} dogecoinów"
-            mention = [fbchat.Mention(thread_id=winner, offset=0, length=45)]
-            await handling_casino_sql.delete_duels(duel_creator)
+    status, wage, winner = await handling_casino_sql.settle_duel(
+        accepting_person_fb_id, lambda creator, opponent: rd.choice([creator, opponent]))
+
+    if status == "no_duel":
+        return "🚫 Nie masz żadnych zaproszeń do gry", None
+    if status == "no_money":
+        return f"🚫 Nie masz wystarczająco pieniędzy albo nie jesteś zarejestrowany (Stawka: {wage})", None
+
+    message = f"✨ Osoba która wygrała {'%.2f' % float(wage * 2)} dogecoinów"
+    mention = [fbchat.Mention(thread_id=winner, offset=0, length=45)]
     return message, mention
 
 

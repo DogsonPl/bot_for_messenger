@@ -1,4 +1,5 @@
 import asyncio
+from contextlib import asynccontextmanager
 
 import aiomysql
 import pymysql
@@ -51,21 +52,47 @@ class Database:
                                 );""")
 
 
+class Transaction:
+
+    def __init__(self, cur):
+        self._cur = cur
+
+    async def fetch_data(self, query, args=None):
+        await self._cur.execute(query, args)
+        return await self._cur.fetchall()
+
+    async def execute(self, query, args=None) -> int:
+        await self._cur.execute(query, args)
+        return self._cur.rowcount
+
+
 class Cursor(Database):
     def __init__(self):
         super().__init__()
 
     async def fetch_data(self, query, args=None):
         async with self.pool_connection.acquire() as connection:
-            cursor_ = await connection.cursor()
-            await cursor_.execute(query, args)
-            data = await cursor_.fetchall()
-        return data
+            async with connection.cursor() as cur:
+                await cur.execute(query, args)
+                return await cur.fetchall()
 
-    async def execute(self, query, args=None):
+    async def execute(self, query, args=None) -> int:
         async with self.pool_connection.acquire() as connection:
-            cur = await connection.cursor()
-            await cur.execute(query, args)
+            async with connection.cursor() as cur:
+                await cur.execute(query, args)
+                return cur.rowcount
+
+    @asynccontextmanager
+    async def transaction(self):
+        async with self.pool_connection.acquire() as connection:
+            await connection.begin()
+            try:
+                async with connection.cursor() as cur:
+                    yield Transaction(cur)
+                await connection.commit()
+            except BaseException:
+                await connection.rollback()
+                raise
 
 
 loop = asyncio.get_event_loop()

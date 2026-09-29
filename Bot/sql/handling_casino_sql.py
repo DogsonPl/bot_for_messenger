@@ -1,20 +1,52 @@
 from decimal import Decimal
-from typing import Union, List, Tuple
+from typing import Union, List, Tuple, Callable, Optional
 from dataclasses import dataclass
-import asyncio
 
 import pymysql
 
 from .database import cursor
 
 
-lock = asyncio.Lock()
+class _NotEnoughMoney(Exception):
+    pass
+
+
+def to_money(value) -> Decimal:
+    return Decimal(str(value)).quantize(Decimal("0.01"))
 
 
 async def insert_into_user_money(user_fb_id: str, money: Decimal):
     await cursor.execute("""UPDATE casino_players 
                             SET money = %s
                             WHERE user_fb_id = %s;""", (money, user_fb_id))
+
+
+
+
+async def transfer_money(sender: str, receiver: str, amount: Decimal) -> bool:
+    rows = await cursor.execute("""UPDATE casino_players s
+                                   JOIN casino_players r ON r.user_fb_id = %s
+                                   SET s.money = s.money - %s,
+                                       r.money = r.money + %s
+                                   WHERE s.user_fb_id = %s
+                                     AND s.user_fb_id <> r.user_fb_id
+                                     AND s.money >= %s;""",
+                                (receiver, amount, amount, sender, amount))
+    return rows == 1
+
+
+async def try_charge(user_fb_id: str, amount: Decimal) -> bool:
+    rows = await cursor.execute("""UPDATE casino_players
+                                   SET money = money - %s
+                                   WHERE user_fb_id = %s AND money >= %s;""",
+                                (amount, user_fb_id, amount))
+    return rows == 1
+
+
+async def add_money(user_fb_id: str, amount: Decimal):
+    await cursor.execute("""UPDATE casino_players
+                            SET money = money + %s
+                            WHERE user_fb_id = %s;""", (amount, user_fb_id))
 
 
 async def reset_old_confirmations_emails():
@@ -145,17 +177,49 @@ async def fetch_user_profil_data(user_fb_id) -> UserProfile:
     return UserProfile(*data)
 
 
-async def create_duel(duel_creator: str, wage: Decimal, opponent: str) -> Tuple[str, bool]:
+
+async def create_duel_paid(creator: str, wage: Decimal, opponent: str) -> str:
     try:
-        await cursor.execute("""INSERT INTO duels(wage, duel_creator, opponent)
-                                VALUES(%s, %s, %s);""", (wage, duel_creator, opponent))
-        message = "🕛 Oczekiwanie na akceptacje gry... (twój przeciwnik musi wpisać !duel akceptuj)"
-        created = True
+        async with cursor.transaction() as tx:
+            await tx.execute("""INSERT INTO duels(wage, duel_creator, opponent)
+                                VALUES(%s, %s, %s);""", (wage, creator, opponent))
+            stored = await tx.fetch_data("""SELECT wage FROM duels
+                                            WHERE duel_creator = %s;""", (creator,))
+            real_wage = to_money(stored[0][0])
+            charged = await tx.execute("""UPDATE casino_players
+                                          SET money = money - %s
+                                          WHERE user_fb_id = %s AND money >= %s;""",
+                                       (real_wage, creator, real_wage))
+            if charged != 1:
+                raise _NotEnoughMoney
+            return "ok"
+    except _NotEnoughMoney:
+        return "no_money"
     except pymysql.IntegrityError:
-        message = """🚫 Możesz tworzyć jedną grę jednocześnie, jeśli chcesz ją anulować napisz !duel odrzuć. 
-Również osoba z która chcesz grać nie może mieć żadnych gier w trakcie"""
-        created = False
-    return message, created
+        return "exists"
+
+
+async def settle_duel(acceptor: str,
+                      pick_winner: Callable[[str, str], str]) -> Tuple[str, Optional[Decimal], Optional[str]]:
+    async with cursor.transaction() as tx:
+        duels = await tx.fetch_data("""SELECT wage, duel_creator, opponent FROM duels
+                                       WHERE opponent = %s FOR UPDATE;""", (acceptor,))
+        if not duels:
+            return "no_duel", None, None
+        wage, creator, opponent = duels[0]
+        wage = to_money(wage)
+
+        charged = await tx.execute("""UPDATE casino_players SET money = money - %s
+                                      WHERE user_fb_id = %s AND money >= %s;""",
+                                   (wage, acceptor, wage))
+        if charged != 1:
+            return "no_money", wage, None
+
+        await tx.execute("DELETE FROM duels WHERE duel_creator = %s;", (creator,))
+        winner = pick_winner(creator, opponent)
+        await tx.execute("""UPDATE casino_players SET money = money + %s
+                            WHERE user_fb_id = %s;""", (wage * 2, winner))
+        return "ok", wage, winner
 
 
 async def fetch_duel_info(opponent: str):
@@ -165,14 +229,14 @@ async def fetch_duel_info(opponent: str):
 
 
 async def delete_duels(fb_id: str, give_money_back=False):
-    if not lock.locked():
-        async with lock:
-            if give_money_back:
-                await cursor.execute("""UPDATE casino_players
-                                        INNER JOIN duels ON casino_players.user_fb_id = duel_creator
-                                        SET money = money+wage;""")
-            await cursor.execute("""DELETE FROM duels
-                                    WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))
+    async with cursor.transaction() as tx:
+        rows = await tx.fetch_data("""SELECT wage FROM duels
+                                      WHERE duel_creator = %s FOR UPDATE;""", (fb_id,))
+        if give_money_back and rows:
+            await tx.execute("""UPDATE casino_players SET money = money + %s
+                                WHERE user_fb_id = %s;""", (to_money(rows[0][0]), fb_id))
+        await tx.execute("""DELETE FROM duels
+                            WHERE duel_creator = %s OR opponent = %s;""", (fb_id, fb_id))
 
 
 async def fetch_user_achievements(user_fb_id):
